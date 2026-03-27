@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { supabase } from '../lib/supabase.client';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  standalone: true,
+  template: `<h1>Controlla console 👀</h1>`
 })
-export class App {
-  protected readonly title = signal('frontend');
+export class App implements OnInit {
+
+  async ngOnInit() {
+    const { data, error } = await supabase
+      .from('spese')
+      .select('*');
+
+    console.log('DATA:', data);
+    console.log('ERROR:', error);
+  }
 }
