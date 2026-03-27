@@ -3,22 +3,28 @@
     <h1>💰 Spese Famiglia</h1>
     <p>Accedi per continuare</p>
 
+    @if (error) {
+      <div class="error-banner">{{ error }}</div>
+    }
+
     <input
       type="email"
+      name="email"
       placeholder="Email"
       [(ngModel)]="email"
     />
 
     <input
       type="password"
+      name="password"
       placeholder="Password"
       [(ngModel)]="password"
     />
 
-    <button (click)="login()" [disabled]="loading">
+    <button 
+      (click)="login()" 
+      [disabled]="email.length === 0 || password.length === 0 || loading">
       {{ loading ? 'Accesso...' : 'Login' }}
     </button>
-
-    <p class="error" *ngIf="error">{{ error }}</p>
   </div>
 </div>

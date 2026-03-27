@@ -40,22 +40,35 @@ input:focus {
   border-color: #3b82f6;
 }
 
+/* Stile per il bottone normale (quando è attivo) */
 button {
   padding: 10px;
   border: none;
   border-radius: 10px;
-  background: #3b82f6;
+  background: #3b82f6; /* Blu acceso */
   color: white;
   cursor: pointer;
   font-weight: bold;
+  transition: all 0.3s ease; /* Aggiunge una bella animazione fluida */
 }
 
+/* Stile per il bottone quando è DISABILITATO */
 button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  background: #cbd5e1; /* Grigio chiaro per far capire che è spento */
+  color: #94a3b8;      /* Testo grigio scuro */
+  cursor: not-allowed; /* Mostra il cursore col divieto */
+  opacity: 1;          /* Rimuoviamo l'opacity precedente per usare i colori solidi */
+  transform: none;     /* Evita che sembri cliccabile */
 }
 
-.error {
-  color: red;
-  font-size: 12px;
+
+.error-banner {
+  background-color: #fee2e2; /* Sfondo rosso chiaro */
+  color: #991b1b;            /* Testo rosso scuro */
+  padding: 10px;
+  border: 1px solid #f87171; /* Bordino per far risaltare il banner */
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
 }
