@@ -1,0 +1,49 @@
+<div class="container">
+
+  <h2>💰 Spese</h2>
+
+  <!-- FORM -->
+  <div class="card form">
+    <input type="number" placeholder="Importo" [(ngModel)]="importo">
+
+    <input type="date" [(ngModel)]="data">
+    
+    <input type="text" placeholder="Descrizione" [(ngModel)]="descrizione">
+
+    <select [(ngModel)]="categoria_id">
+      <option *ngFor="let c of categorie" [value]="c.id">
+        {{ c.nome }}
+      </option>
+    </select>
+
+    <button (click)="add()">➕ Aggiungi</button>
+  </div>
+
+  <!-- LISTA -->
+  <div class="list">
+    <div class="card item" *ngFor="let s of spese">
+
+      <div class="row">
+        <div>
+          <b>{{ s.importo }}€</b>
+          <div class="desc">{{ s.descrizione }}</div>
+        </div>
+
+        <div class="right">
+          <span
+            class="badge"
+            [style.background]="s.categorie?.colore || '#ccc'"
+          >
+            {{ s.categorie?.nome }}
+          </span>
+
+          <button class="delete" (click)="delete(s.id)">
+            ✕
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

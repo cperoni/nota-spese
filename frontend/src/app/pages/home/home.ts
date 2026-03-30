@@ -2,10 +2,12 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 // NOTA: Assicurati che il percorso di importazione sia corretto per la tua struttura delle cartelle
 import { AuthService } from '../../service/auth.service';
+import { Spese } from '../../components/spese/spese';
 
 @Component({
   selector: 'app-home',
-  imports: [], // Qui potrai aggiungere altri moduli o componenti se ti serviranno in futuro
+  standalone: true,
+  imports: [Spese], // Qui potrai aggiungere altri moduli o componenti se ti serviranno in futuro
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
