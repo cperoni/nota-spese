@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategorieService, Categoria } from '../../service/categorie.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-categorie',
@@ -10,13 +12,29 @@ import { CategorieService, Categoria } from '../../service/categorie.service';
   templateUrl: './categorie.html',
   styleUrls: ['./categorie.scss'],
 })
-export class Categorie {
+export class Categorie implements OnInit, OnDestroy {
   categorie: Categoria[] = [];
   model: Categoria = { nome: '', colore: '#000000' } as Categoria;
   editingId: string | null = null;
+  private sub: Subscription | null = null;
 
-  constructor(private cs: CategorieService) {
-    this.load();
+  constructor(private cs: CategorieService, private route: ActivatedRoute) {
+  }
+
+  ngOnInit(): void {
+    const resolved = this.route.snapshot.data?.['categorie'] as Categoria[] | undefined;
+    if (resolved && resolved.length) {
+      this.categorie = resolved;
+    } else {
+      this.load();
+    }
+    this.sub = this.cs.refresh.subscribe(() => {
+      this.load();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 
   async load() {
