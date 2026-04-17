@@ -23,6 +23,18 @@ h2 {
   margin-bottom: 20px;
 }
 
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.secondary {
+  background: #e5e7eb;
+  color: #111;
+}
+
 input, select {
   width: 100%;
   box-sizing: border-box;
@@ -103,6 +115,33 @@ button {
 .empty {
   text-align: center;
   color: #666;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.spese-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spese-table th, .spese-table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.spese-row { cursor: pointer; }
+.spese-row:hover { background: #fafafa; }
+
+button.danger {
+  background: #d9534f;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
 }
 
 @media (max-width: 768px) {

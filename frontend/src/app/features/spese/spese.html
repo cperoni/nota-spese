@@ -3,37 +3,37 @@
   <h2>💰 Inserisci spesa</h2>
 
   <!-- FORM -->
-  <div class="card form">
+  <form (ngSubmit)="save()" class="card form">
     <input
       type="text"
       inputmode="decimal"
       placeholder="Importo spesa in euro (es. 12,50)"
+      name="importo"
       [(ngModel)]="importoStr"
       (ngModelChange)="onImportoChange($event)"
       (blur)="onImportoBlur()"
-    >
+    />
     <div class="error" *ngIf="importoError">{{ importoError }}</div>
 
-    <input type="date" [(ngModel)]="data">
-    
-    <input type="text" placeholder="Descrizione" [(ngModel)]="descrizione">
+    <input type="date" name="data" [(ngModel)]="data" />
 
-    <select [(ngModel)]="categoria_id">
+    <input type="text" name="descrizione" placeholder="Descrizione" [(ngModel)]="descrizione" />
+
+    <select name="categoria_id" [(ngModel)]="categoria_id">
       <option *ngFor="let c of categorie" [value]="c.id">
         {{ c.nome }}
       </option>
     </select>
 
-    <button (click)="add()">➕ Aggiungi</button>
-  </div>
+    <div class="form-actions">
+      <button type="submit">{{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}</button>
+      <button type="button" class="secondary" *ngIf="editingId" (click)="resetForm()">Annulla</button>
+    </div>
+  </form>
 
   <div class="filter-bar">
     <label for="filtroPeriodo">Mostra:</label>
-    <select
-      id="filtroPeriodo"
-      [(ngModel)]="filtroPeriodo"
-      (ngModelChange)="onFiltroPeriodoChange()"
-    >
+    <select id="filtroPeriodo" [(ngModel)]="filtroPeriodo" (ngModelChange)="onFiltroPeriodoChange()">
       <option value="ultimi_7_giorni">Ultimi 7 giorni</option>
       <option value="ultimo_mese">Ultimo mese</option>
       <option value="ultimi_2_mesi">Ultimi 2 mesi</option>
@@ -45,36 +45,38 @@
 
   <h3>🧾 Ultime spese</h3>
 
-  <!-- LISTA -->
-  <div class="list">
-    <div class="card item" *ngFor="let s of spese">
-
-      <div class="row">
-        <div>
-          <b>{{ s.importo }}€</b>
-          <div class="desc">{{ s.descrizione }}</div>
-          <div class="date">{{ s.data | date: 'dd/MM/yyyy' }}</div>
-        </div>
-
-        <div class="right">
-          <span
-            class="badge"
-            [style.background]="s.categorie?.colore || '#ccc'"
-          >
-            {{ s.categorie?.nome }}
-          </span>
-
-          <button class="delete" (click)="delete(s.id)">
-            ✕
-          </button>
-        </div>
-      </div>
-
+  <section class="list-section">
+    <div class="table-wrap">
+      <table class="spese-table">
+        <thead>
+          <tr>
+            <th>Importo</th>
+            <th>Descrizione</th>
+            <th>Data</th>
+            <th>Categoria</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of spese" (click)="select(s)" class="spese-row">
+            <td>{{ s.importo }}€</td>
+            <td>{{ s.descrizione }}</td>
+            <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">{{ s.categorie?.nome }}</span>
+            </td>
+            <td>
+              <button class="danger" (click)="confirmDelete(s); $event.stopPropagation()">Elimina</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="card empty" *ngIf="spese.length === 0">
       Nessuna spesa trovata per il filtro selezionato.
     </div>
-  </div>
+  </section>
 
 </div>
+

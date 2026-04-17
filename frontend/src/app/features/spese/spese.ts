@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../../core/supabase.client';
@@ -17,14 +18,17 @@ type PeriodoFiltro =
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './spese.html',
-  styleUrl: './spese.css',
+  styleUrls: ['./spese.css'],
 })
 export class Spese implements OnInit {
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
 
   spese: any[] = [];
   categorie: any[] = [];
   filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
+
+  // Id del record in modifica (null = modalità inserimento)
+  editingId: string | null = null;
 
   importo: number | null = null;
   // Input visuale per l'importo: usa la virgola come separatore decimale (es. 12,50)
@@ -40,7 +44,15 @@ export class Spese implements OnInit {
 
     this.data = new Date().toISOString().substring(0, 10);
     await this.loadCategorie();
-    await this.loadSpese();
+
+    const hasResolved = Object.prototype.hasOwnProperty.call(this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {}, 'spese');
+    if (hasResolved) {
+      this.spese = this.route.snapshot.data['spese'] || [];
+      this.cdr.detectChanges();
+    } else {
+      // fallback: se il resolver non è stato eseguito, carica comunque le spese
+      await this.loadSpese();
+    }
   }
 
   async loadCategorie() {
@@ -66,6 +78,7 @@ export class Spese implements OnInit {
         importo,
         descrizione,
         data,
+        categoria_id,
         categorie ( nome, colore )
       `)
       .order('data', { ascending: false });
@@ -83,33 +96,28 @@ export class Spese implements OnInit {
     this.cdr.detectChanges();
   }
 
-  async add() {
-    // Controlla categoria
+  // Salva nuova spesa o aggiorna quella in modifica
+  async save() {
     if (!this.categoria_id) return;
 
-    // Validazione importo: formato con virgola e due decimali, es: 12,34
-    if (!this.validateImporto()) {
-      return;
-    }
+    if (!this.validateImporto()) return;
 
-    // Converti in numero usando il punto decimale per il DB
     this.importo = parseFloat(this.importoStr.replace(',', '.')) || 0;
 
-    await supabase.from('spese').insert([
-      {
-        importo: this.importo,
-        descrizione: this.descrizione,
-        categoria_id: this.categoria_id,
-        data: this.data || new Date().toISOString().split('T')[0], // Usa la data selezionata o quella odierna se non è stata selezionata
-      },
-    ]);
+    const payload = {
+      importo: this.importo,
+      descrizione: this.descrizione,
+      categoria_id: this.categoria_id,
+      data: this.data || new Date().toISOString().split('T')[0],
+    };
 
-    this.importo = null;
-    this.importoStr = '';
-    this.importoError = '';
-    this.descrizione = '';
-    this.data = '';
+    if (this.editingId) {
+      await supabase.from('spese').update(payload).eq('id', this.editingId);
+    } else {
+      await supabase.from('spese').insert([payload]);
+    }
 
+    this.resetForm();
     await this.loadSpese();
   }
 
@@ -118,6 +126,38 @@ export class Spese implements OnInit {
     this.importoStr = value;
     // Aggiorna controllo di validità in tempo reale
     this.validateImporto();
+  }
+
+  // Seleziona una spesa dalla lista per modificarla
+  select(s: any) {
+    this.editingId = s.id || null;
+    this.importo = s.importo;
+    this.importoStr = (s.importo || 0).toFixed(2).replace('.', ',');
+    this.descrizione = s.descrizione || '';
+    this.categoria_id = s.categoria_id || this.categoria_id;
+    this.data = s.data ? s.data.slice(0, 10) : this.formatDate(new Date());
+    this.cdr.detectChanges();
+
+    // Porta il form in vista e mette il focus sul campo importo per modificare rapidamente
+    setTimeout(() => {
+      const el = document.querySelector('form.card.form input[name="importo"]') as HTMLElement | null;
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        try { el.focus(); } catch (e) { /* ignore */ }
+      }
+    }, 50);
+  }
+
+  // Ripristina la form in modalità inserimento
+  resetForm() {
+    this.editingId = null;
+    this.importo = null;
+    this.importoStr = '';
+    this.importoError = '';
+    this.descrizione = '';
+    this.categoria_id = this.categorie.length > 0 ? this.categorie[0].id : '';
+    this.data = this.formatDate(new Date());
+    this.cdr.detectChanges();
   }
 
   // Restituisce true se `importoStr` rispetta il formato richiesto
@@ -161,6 +201,13 @@ export class Spese implements OnInit {
   async delete(id: string) {
     await supabase.from('spese').delete().eq('id', id);
     await this.loadSpese();
+  }
+
+  async confirmDelete(s: any) {
+    const ok = confirm(`Sei sicuro di cancellare la spesa "${s.descrizione || ''}" (${s.importo}€)?`);
+    if (!ok) return;
+    if (!s.id) return;
+    await this.delete(s.id);
   }
 
   async onFiltroPeriodoChange() {
