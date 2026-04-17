@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../../core/supabase.client';
@@ -20,6 +20,7 @@ type PeriodoFiltro =
   styleUrl: './spese.css',
 })
 export class Spese implements OnInit {
+  constructor(private cdr: ChangeDetectorRef) {}
 
   spese: any[] = [];
   categorie: any[] = [];
@@ -48,6 +49,7 @@ export class Spese implements OnInit {
     if (this.categorie.length > 0) {
       this.categoria_id = this.categorie[0].id;
     }
+    this.cdr.detectChanges();
   }
 
   async loadSpese() {
@@ -73,6 +75,7 @@ export class Spese implements OnInit {
 
     const { data } = await query;
     this.spese = data ?? [];
+    this.cdr.detectChanges();
   }
 
   async add() {

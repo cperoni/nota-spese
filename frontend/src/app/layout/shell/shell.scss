@@ -3,7 +3,7 @@
 }
 
 mat-sidenav {
-  width: 250px;
+  width: 150px;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -19,6 +19,21 @@ mat-sidenav {
 mat-sidenav a,
 .logout {
   justify-content: flex-start;
+}
+
+/* Stile per disporre gli elementi del menu uno sotto l'altro */
+mat-sidenav a,
+mat-sidenav button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+mat-sidenav a {
+  text-decoration: none;
 }
 
 a.active {

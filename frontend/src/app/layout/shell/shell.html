@@ -1,8 +1,9 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav
+  <mat-sidenav #sidenav #sidenavEl
     [mode]="sidenavMode"
     [opened]="sidenavOpened"
     (openedChange)="sidenavOpened = $event"
+    (backdropClick)="sidenavOpened = false"
   >
     <div class="brand">Nota Spese</div>
 
@@ -24,9 +25,7 @@
       Analisi
     </a>
 
-    <button mat-button class="logout" (click)="eseguiLogout(); onMenuNavigation()">
-      Logout
-    </button>
+    <button mat-button class="logout" (click)="eseguiLogout(); onMenuNavigation()">Logout</button>
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -37,7 +36,8 @@
       <span>Nota Spese</span>
     </mat-toolbar>
 
-    <router-outlet></router-outlet>
+    <div (click)="onSidenavContentClick($event)">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
-
 </mat-sidenav-container>

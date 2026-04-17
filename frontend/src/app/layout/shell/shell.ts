@@ -1,12 +1,12 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, ViewChild, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -30,8 +30,13 @@ export class Shell implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   isMobile = false;
-  sidenavOpened = true;
+  sidenavOpened = false;
   sidenavMode: 'side' | 'over' = 'side';
+
+  firstNavigation = true;
+
+  @ViewChild('sidenavEl', { read: ElementRef }) sidenavEl?: ElementRef;
+  @ViewChild('sidenav') sidenavComp?: MatSidenav;
 
   ngOnInit() {
     this.breakpointObserver
@@ -40,16 +45,68 @@ export class Shell implements OnInit {
       .subscribe(result => {
         this.isMobile = result.matches;
         this.sidenavMode = this.isMobile ? 'over' : 'side';
-        this.sidenavOpened = !this.isMobile;
+        // keep responsive behavior but do not force-open on app entry
+        if (!this.firstNavigation) {
+          this.sidenavOpened = !this.isMobile;
+        }
+      });
+
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          if (this.firstNavigation) {
+            // ensure menu is closed when entering the app
+            this.sidenavOpened = false;
+            this.firstNavigation = false;
+            return;
+          }
+
+          if (this.isMobile || this.sidenavMode === 'over') {
+            this.sidenavOpened = false;
+          }
+        }
       });
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.sidenavOpened) return;
+
+    const target = event.target as HTMLElement;
+
+    const clickedInside = this.sidenavEl?.nativeElement.contains(target);
+    const clickedToggle = !!target.closest('button[aria-label="Apri menu"]');
+
+    if (!clickedInside && !clickedToggle && this.sidenavMode === 'over') {
+      this.sidenavComp?.close();
+    }
+  }
+
+  onSidenavContentClick(event: MouseEvent) {
+    if (!this.sidenavOpened) return;
+
+    const target = event.target as HTMLElement;
+    const clickedToggle = !!target.closest('button[aria-label="Apri menu"]');
+    const clickedInside = this.sidenavEl?.nativeElement.contains(target);
+
+    if (!clickedInside && !clickedToggle && this.sidenavMode === 'over') {
+      this.sidenavComp?.close();
+    }
+  }
+
   toggleSidenav() {
+    if (this.sidenavComp) {
+      this.sidenavComp.toggle();
+      return;
+    }
+
     this.sidenavOpened = !this.sidenavOpened;
   }
 
   onMenuNavigation() {
-    if (this.isMobile) {
+    if (this.isMobile || this.sidenavMode === 'over') {
+      this.sidenavComp?.close();
       this.sidenavOpened = false;
     }
   }
