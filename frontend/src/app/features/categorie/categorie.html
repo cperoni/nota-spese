@@ -1,4 +1,47 @@
-<div class="page">
+<div class="page container">
   <h2>Categorie</h2>
   <p>Qui potrai inserire, modificare ed eliminare le categorie di spesa.</p>
+
+  <section class="form-section">
+    <form (ngSubmit)="save()" class="categoria-form">
+      <label>
+        Nome categoria
+        <input type="text" name="nome" [(ngModel)]="model.nome" placeholder="Es: Trasporti" required />
+      </label>
+
+      <label>
+        Colore
+        <input type="color" name="colore" [(ngModel)]="model.colore" />
+      </label>
+
+      <div class="form-actions">
+        <button type="submit">{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</button>
+        <button type="button" class="secondary" (click)="resetForm()">Annulla</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="list-section">
+    <h3>Elenco categorie</h3>
+    <div class="table-wrap">
+      <table class="categorie-table">
+        <thead>
+          <tr>
+            <th>Colore</th>
+            <th>Nome</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of categorie" (click)="select(c)" class="categorie-row">
+            <td class="color-cell"><span class="dot" [style.background]="c.colore"></span></td>
+            <td>{{ c.nome }}</td>
+            <td>
+              <button class="danger" (click)="confirmDelete(c); $event.stopPropagation()">Elimina</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
