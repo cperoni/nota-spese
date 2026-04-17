@@ -67,6 +67,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .desc {
@@ -102,4 +103,30 @@ button {
 .empty {
   text-align: center;
   color: #666;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 6px 0 12px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .filter-bar select {
+    max-width: 100%;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .right {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

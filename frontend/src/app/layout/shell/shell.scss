@@ -1,13 +1,14 @@
 .container {
-  height: 100vh;
+  height: 100dvh;
 }
 
 mat-sidenav {
-  width: 220px;
+  width: 250px;
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  border-right: 1px solid #ececec;
 }
 
 .brand {
@@ -26,4 +27,25 @@ a.active {
 
 .logout {
   margin-top: auto;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 56px;
+  background: #ffffff;
+  border-bottom: 1px solid #ececec;
+  display: flex;
+  gap: 8px;
+}
+
+mat-sidenav-content {
+  background: #f7f8fb;
+}
+
+@media (max-width: 768px) {
+  mat-sidenav {
+    width: min(280px, 82vw);
+  }
 }
