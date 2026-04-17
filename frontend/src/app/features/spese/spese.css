@@ -1,7 +1,7 @@
 .container {
-  max-width: 500px;
+  max-width: 720px;
   margin: auto;
-  padding: 16px;
+  padding: 8px 16px 16px;
   font-family: system-ui;
 }
 
@@ -24,6 +24,8 @@ h2 {
 }
 
 input, select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -45,6 +47,17 @@ button {
   gap: 10px;
 }
 
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.filter-bar select {
+  max-width: 280px;
+}
+
 .item {
   display: flex;
   flex-direction: column;
@@ -59,6 +72,12 @@ button {
 .desc {
   font-size: 12px;
   color: #666;
+}
+
+.date {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
 }
 
 .right {
@@ -78,4 +97,9 @@ button {
   background: transparent;
   color: #ef4444;
   font-size: 16px;
+}
+
+.empty {
+  text-align: center;
+  color: #666;
 }

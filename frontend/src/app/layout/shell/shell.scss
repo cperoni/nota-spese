@@ -5,6 +5,9 @@
 mat-sidenav {
   width: 220px;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .brand {
@@ -12,6 +15,15 @@ mat-sidenav {
   margin-bottom: 16px;
 }
 
+mat-sidenav a,
+.logout {
+  justify-content: flex-start;
+}
+
 a.active {
   font-weight: 600;
+}
+
+.logout {
+  margin-top: auto;
 }

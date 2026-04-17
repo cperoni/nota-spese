@@ -6,13 +6,18 @@ type MenuItem = {
 
 export const menuItems: MenuItem[] = [
   {
-    label: "Elenco Spese",
-    route: "/spese",
+    label: "Home",
+    route: "/",
     icon: "receipt"
   },
   {
     label: "Categorie",
     route: "/categorie",
     icon: "category"
+  },
+  {
+    label: "Analisi",
+    route: "/analisi",
+    icon: "bar_chart"
   }
 ];
