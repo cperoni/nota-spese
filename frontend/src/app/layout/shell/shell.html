@@ -3,13 +3,21 @@
   <mat-sidenav mode="side" opened>
     <div class="brand">Nota Spese</div>
 
-    <a mat-button routerLink="/spese" routerLinkActive="active">
-      Spese
+    <a mat-button routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+      Home
     </a>
 
     <a mat-button routerLink="/categorie" routerLinkActive="active">
       Categorie
     </a>
+
+    <a mat-button routerLink="/analisi" routerLinkActive="active">
+      Analisi
+    </a>
+
+    <button mat-button class="logout" (click)="eseguiLogout()">
+      Logout
+    </button>
   </mat-sidenav>
 
   <mat-sidenav-content>
