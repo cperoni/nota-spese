@@ -1,0 +1,38 @@
+.home-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 16px;
+  font-family: system-ui;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* BOTTONI BASE */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* VARIANTI */
+.btn.primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn.danger {
+  background: transparent;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.btn.danger:hover {
+  opacity: 1;
+}

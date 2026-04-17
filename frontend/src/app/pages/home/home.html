@@ -1,6 +1,11 @@
 <div class="home-container">
-  <h1>Benvenuto nella tua area Spese Familiari!</h1>
-  <button (click)="eseguiLogout()">Esci (Logout)</button>
+
+  <div class="header">
+    <h1>💰 Spese Familiari</h1>
+    <button class="btn danger" (click)="eseguiLogout()">
+      Esci
+    </button>
+  </div>
 
   <app-spese></app-spese>
 
