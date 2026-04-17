@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 // NOTA: Assicurati che il percorso di importazione sia corretto per la tua struttura delle cartelle
 import { AuthService } from '../../service/auth.service';
-import { Spese } from '../../components/spese/spese';
+import { Spese } from '../spese/spese';
 
 @Component({
   selector: 'app-home',

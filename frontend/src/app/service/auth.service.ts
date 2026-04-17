@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { supabase } from '../../lib/supabase.client';
+import { supabase } from '../core/supabase.client';
 import type { Session, User } from '@supabase/supabase-js';
 
 @Injectable({

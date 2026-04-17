@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { supabase } from '../../../lib/supabase.client';
+import { supabase } from '../../core/supabase.client';
 
 @Component({
   selector: 'app-spese',
