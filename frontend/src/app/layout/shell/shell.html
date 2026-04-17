@@ -1,18 +1,42 @@
 <mat-sidenav-container class="container">
-
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav
+    [mode]="sidenavMode"
+    [opened]="sidenavOpened"
+    (openedChange)="sidenavOpened = $event"
+  >
     <div class="brand">Nota Spese</div>
 
-    <a mat-button routerLink="/spese" routerLinkActive="active">
-      Spese
+    <a
+      mat-button
+      routerLink="/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="active"
+      (click)="onMenuNavigation()"
+    >
+      Home
     </a>
 
-    <a mat-button routerLink="/categorie" routerLinkActive="active">
+    <a mat-button routerLink="/categorie" routerLinkActive="active" (click)="onMenuNavigation()">
       Categorie
     </a>
+
+    <a mat-button routerLink="/analisi" routerLinkActive="active" (click)="onMenuNavigation()">
+      Analisi
+    </a>
+
+    <button mat-button class="logout" (click)="eseguiLogout(); onMenuNavigation()">
+      Logout
+    </button>
   </mat-sidenav>
 
   <mat-sidenav-content>
+    <mat-toolbar class="topbar">
+      <button mat-icon-button type="button" (click)="toggleSidenav()" aria-label="Apri menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Nota Spese</span>
+    </mat-toolbar>
+
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 

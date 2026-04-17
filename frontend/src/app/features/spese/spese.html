@@ -1,6 +1,6 @@
 <div class="container">
 
-  <h2>💰 Spese</h2>
+  <h2>💰 Inserisci spesa</h2>
 
   <!-- FORM -->
   <div class="card form">
@@ -19,6 +19,25 @@
     <button (click)="add()">➕ Aggiungi</button>
   </div>
 
+  <div class="filter-bar">
+    <label for="filtroPeriodo">Mostra:</label>
+    <select
+      id="filtroPeriodo"
+      [(ngModel)]="filtroPeriodo"
+      (ngModelChange)="onFiltroPeriodoChange()"
+    >
+      <option value="ultimi_7_giorni">Ultimi 7 giorni</option>
+      <option value="ultima_settimana">Ultima settimana</option>
+      <option value="ultimo_mese">Ultimo mese</option>
+      <option value="ultimi_2_mesi">Ultimi 2 mesi</option>
+      <option value="ultimi_6_mesi">Ultimi 6 mesi</option>
+      <option value="ultimo_anno">Ultimo anno</option>
+      <option value="tutte">Tutte le spese</option>
+    </select>
+  </div>
+
+  <h3>🧾 Ultime spese</h3>
+
   <!-- LISTA -->
   <div class="list">
     <div class="card item" *ngFor="let s of spese">
@@ -27,6 +46,7 @@
         <div>
           <b>{{ s.importo }}€</b>
           <div class="desc">{{ s.descrizione }}</div>
+          <div class="date">{{ s.data | date: 'dd/MM/yyyy' }}</div>
         </div>
 
         <div class="right">
@@ -43,6 +63,10 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="card empty" *ngIf="spese.length === 0">
+      Nessuna spesa trovata per il filtro selezionato.
     </div>
   </div>
 
