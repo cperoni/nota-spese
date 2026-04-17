@@ -26,7 +26,7 @@ export class Spese implements OnInit {
   categorie: any[] = [];
   filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
 
-  importo = 0;
+  importo: number | null = null;
   descrizione = '';
   categoria_id = '';
   data: string = '';
@@ -90,9 +90,9 @@ export class Spese implements OnInit {
       },
     ]);
 
-    this.importo = 0;
+    this.importo = null;
     this.descrizione = '';
-      this.data = '';
+    this.data = '';
 
     await this.loadSpese();
   }
