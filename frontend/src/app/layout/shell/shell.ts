@@ -105,10 +105,12 @@ export class Shell implements OnInit {
   }
 
   onMenuNavigation() {
-    if (this.isMobile || this.sidenavMode === 'over') {
-      this.sidenavComp?.close();
-      this.sidenavOpened = false;
+    // Chiudi il sidenav quando si naviga dal menu.
+    // Forziamo la chiusura indipendentemente dalla viewport, come richiesto.
+    if (this.sidenavComp) {
+      this.sidenavComp.close();
     }
+    this.sidenavOpened = false;
   }
 
   async eseguiLogout() {
