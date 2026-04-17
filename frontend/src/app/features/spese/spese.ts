@@ -27,6 +27,11 @@ export class Spese implements OnInit {
   filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
 
   importo: number | null = null;
+  // Input visuale per l'importo: usa la virgola come separatore decimale (es. 12,50)
+  importoStr: string = '';
+  // Messaggio di errore per validazione importo (vuoto se valido)
+  importoError: string = '';
+
   descrizione = '';
   categoria_id = '';
   data: string = '';
@@ -79,7 +84,16 @@ export class Spese implements OnInit {
   }
 
   async add() {
-    if (!this.importo || !this.categoria_id) return;
+    // Controlla categoria
+    if (!this.categoria_id) return;
+
+    // Validazione importo: formato con virgola e due decimali, es: 12,34
+    if (!this.validateImporto()) {
+      return;
+    }
+
+    // Converti in numero usando il punto decimale per il DB
+    this.importo = parseFloat(this.importoStr.replace(',', '.')) || 0;
 
     await supabase.from('spese').insert([
       {
@@ -91,10 +105,57 @@ export class Spese implements OnInit {
     ]);
 
     this.importo = null;
+    this.importoStr = '';
+    this.importoError = '';
     this.descrizione = '';
     this.data = '';
 
     await this.loadSpese();
+  }
+
+  // Chiamata dall'input quando cambia il valore dell'importo
+  onImportoChange(value: string) {
+    this.importoStr = value;
+    // Aggiorna controllo di validità in tempo reale
+    this.validateImporto();
+  }
+
+  // Restituisce true se `importoStr` rispetta il formato richiesto
+  validateImporto(): boolean {
+    if (!this.importoStr || this.importoStr.trim() === '') {
+      this.importoError = 'L\'importo è obbligatorio.';
+      return false;
+    }
+    // Normalizza il separatore decimale per il parse
+    const normalized = this.importoStr.trim().replace(',', '.');
+    const num = parseFloat(normalized);
+    if (isNaN(num)) {
+      this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
+      return false;
+    }
+
+    this.importoError = '';
+    return true;
+  }
+
+  // Formatta l'input al perdere il focus: sempre con 2 decimali e separatore virgola
+  onImportoBlur() {
+    if (!this.importoStr || this.importoStr.trim() === '') {
+      this.importoError = 'L\'importo è obbligatorio.';
+      return;
+    }
+
+    const normalized = this.importoStr.trim().replace(',', '.');
+    const num = parseFloat(normalized);
+    if (isNaN(num)) {
+      this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
+      return;
+    }
+
+    // Format a due decimali e ripristina la virgola come separatore
+    this.importoStr = num.toFixed(2).replace('.', ',');
+    // Ricalcola validità
+    this.validateImporto();
   }
 
   async delete(id: string) {

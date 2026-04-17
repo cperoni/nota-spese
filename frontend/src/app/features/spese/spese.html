@@ -4,7 +4,15 @@
 
   <!-- FORM -->
   <div class="card form">
-    <input type="number" placeholder="Importo spesa in euro" [(ngModel)]="importo">
+    <input
+      type="text"
+      inputmode="decimal"
+      placeholder="Importo spesa in euro (es. 12,50)"
+      [(ngModel)]="importoStr"
+      (ngModelChange)="onImportoChange($event)"
+      (blur)="onImportoBlur()"
+    >
+    <div class="error" *ngIf="importoError">{{ importoError }}</div>
 
     <input type="date" [(ngModel)]="data">
     
