@@ -16,6 +16,13 @@ h2 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
+.card.empty {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-size: 14px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -57,6 +64,14 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.list-section h3 {
+  margin-bottom: 10px;
+}
+
+.table-wrap {
+  margin-top: 10px;
 }
 
 .filter-bar {
@@ -117,31 +132,39 @@ button {
   color: #666;
 }
 
-.table-wrap {
-  overflow-x: auto;
-  margin-bottom: 12px;
-}
-
 .spese-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.spese-table th, .spese-table td {
-  padding: 10px 8px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+.spese-table td:last-child,
+.spese-table th:last-child {
+  text-align: right;
+  width: 120px;
 }
 
-.spese-row { cursor: pointer; }
-.spese-row:hover { background: #fafafa; }
+
+.spese-row {
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.spese-row:hover {
+  background: #f5f7fa;
+  transform: scale(1.002);
+}
 
 button.danger {
-  background: #d9534f;
-  color: white;
+  background: transparent;
+  color: #d64545;
+  border: 1px solid #f1b5b5;
   padding: 6px 10px;
   border-radius: 6px;
-  border: none;
+  font-size: 12px;
+}
+
+button.danger:hover {
+  background: #ffecec;
 }
 
 @media (max-width: 768px) {
