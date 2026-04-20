@@ -3,11 +3,14 @@
   <p>Qui potrai inserire, modificare ed eliminare le categorie di spesa.</p>
 
   <section class="form-section">
-    <form (ngSubmit)="save()" class="categoria-form">
-      <label>
-        Nome categoria
-        <input type="text" name="nome" [(ngModel)]="model.nome" placeholder="Es: Trasporti" required />
-      </label>
+    <form (ngSubmit)="save()" class="card form">
+      <input
+        type="text"
+        name="nome"
+        [(ngModel)]="model.nome"
+        placeholder="Nome categoria (es: Trasporti)"
+        required
+      />
 
       <label>
         Colore
@@ -16,28 +19,34 @@
 
       <div class="form-actions">
         <button type="submit">{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</button>
-        <button type="button" class="secondary" (click)="resetForm()">Annulla</button>
+        <button *ngIf="editingId" type="button" class="secondary" (click)="resetForm()">
+          Annulla
+        </button>
       </div>
     </form>
   </section>
 
   <section class="list-section">
-    <h3>Elenco categorie</h3>
+    <h3>🏷️ Elenco categorie</h3>
     <div class="table-wrap">
-      <table class="categorie-table">
+      <table class="spese-table">
         <thead>
           <tr>
-            <th>Colore</th>
-            <th>Nome</th>
+            <th>Categoria</th>
             <th>Azioni</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let c of categorie" (click)="select(c)" class="categorie-row">
-            <td class="color-cell"><span class="dot" [style.background]="c.colore"></span></td>
-            <td>{{ c.nome }}</td>
+          <tr *ngFor="let c of categorie" (click)="select(c)" class="spese-row">
             <td>
-              <button class="danger" (click)="confirmDelete(c); $event.stopPropagation()">Elimina</button>
+              <span class="badge" [style.background]="c.colore || '#ccc'">
+                {{ c.nome }}
+              </span>
+            </td>
+            <td>
+              <button class="danger" (click)="confirmDelete(c); $event.stopPropagation()">
+                Elimina
+              </button>
             </td>
           </tr>
         </tbody>
