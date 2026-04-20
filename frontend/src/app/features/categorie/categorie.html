@@ -1,6 +1,5 @@
 <div class="page container">
-  <h2>Categorie</h2>
-  <p>Qui potrai inserire, modificare ed eliminare le categorie di spesa.</p>
+  <h2>🏷️ Gestione categorie</h2>
 
   <section class="form-section">
     <form (ngSubmit)="save()" class="card form">
@@ -8,17 +7,17 @@
         type="text"
         name="nome"
         [(ngModel)]="model.nome"
-        placeholder="Nome categoria (es: Trasporti)"
+        placeholder="Nome categoria (es. Trasporti)"
         required
       />
 
-      <label>
-        Colore
-        <input type="color" name="colore" [(ngModel)]="model.colore" />
-      </label>
+      <input type="color" name="colore" [(ngModel)]="model.colore" />
 
       <div class="form-actions">
-        <button type="submit">{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</button>
+        <button type="submit">
+          {{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}
+        </button>
+
         <button *ngIf="editingId" type="button" class="secondary" (click)="resetForm()">
           Annulla
         </button>
@@ -27,7 +26,8 @@
   </section>
 
   <section class="list-section">
-    <h3>🏷️ Elenco categorie</h3>
+    <h3>🧾 Categorie</h3>
+
     <div class="table-wrap">
       <table class="spese-table">
         <thead>
@@ -36,6 +36,7 @@
             <th>Azioni</th>
           </tr>
         </thead>
+
         <tbody>
           <tr *ngFor="let c of categorie" (click)="select(c)" class="spese-row">
             <td>
@@ -43,6 +44,7 @@
                 {{ c.nome }}
               </span>
             </td>
+
             <td>
               <button class="danger" (click)="confirmDelete(c); $event.stopPropagation()">
                 Elimina
@@ -52,5 +54,7 @@
         </tbody>
       </table>
     </div>
+
+    <div class="card empty" *ngIf="categorie.length === 0">Nessuna categoria presente.</div>
   </section>
 </div>
