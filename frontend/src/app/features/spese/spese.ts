@@ -18,7 +18,7 @@ type PeriodoFiltro =
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './spese.html',
-  styleUrls: ['./spese.css'],
+  styleUrls: ['./spese.scss'],
 })
 export class Spese implements OnInit {
   constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
