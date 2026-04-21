@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
-import { ConfirmationDialog } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { supabase } from '../../core/supabase.client';
 
 type PeriodoFiltro =

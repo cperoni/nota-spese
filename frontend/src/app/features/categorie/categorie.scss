@@ -1,8 +1,14 @@
 .container {
-  max-width: 720px;
-  margin: auto;
-  padding: 8px 16px 16px;
-  font-family: system-ui;
+  padding: 12px;
+
+  @include respond(tablet) {
+    padding: 24px;
+  }
+
+  @include respond(desktop) {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 h2 {

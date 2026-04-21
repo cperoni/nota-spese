@@ -1,3 +1,16 @@
+@use './styles/abstracts/variables';
+@use './styles/abstracts/breakpoints';
+@use './styles/abstracts/mixins';
+
+@use './styles/base/reset';
+@use './styles/base/typography';
+
+@use './styles/layout/container';
+@use './styles/layout/grid';
+
+@use './styles/components/button';
+@use './styles/components/card';
+
 // Include theming for Angular Material with `mat.theme()`.
 // This Sass mixin will define CSS variables that are used for styling Angular Material
 // components according to the Material 3 design spec.

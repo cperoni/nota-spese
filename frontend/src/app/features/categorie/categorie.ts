@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
-import { ConfirmationDialog } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-categorie',
