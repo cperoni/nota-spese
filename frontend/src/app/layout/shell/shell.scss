@@ -1,66 +1,38 @@
+@use '../../../styles/abstracts/breakpoints' as *;
+
 .container {
-  height: 100dvh;
+  height: 100vh;
 }
 
-mat-sidenav {
-  width: 150px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-right: 1px solid #ececec;
-}
-
-.brand {
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-
-mat-sidenav a,
-.logout {
-  justify-content: flex-start;
-}
-
-/* Stile per disporre gli elementi del menu uno sotto l'altro */
-mat-sidenav a,
-mat-sidenav button {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  text-align: left;
-  padding: 8px 12px;
-  box-sizing: border-box;
-}
-
-mat-sidenav a {
-  text-decoration: none;
-}
-
-a.active {
-  font-weight: 600;
-}
-
-.logout {
-  margin-top: auto;
+mat-sidenav-container {
+  height: 100%;
 }
 
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 2;
-  height: 56px;
-  background: #ffffff;
-  border-bottom: 1px solid #ececec;
-  display: flex;
-  gap: 8px;
+  z-index: 10;
 }
 
-mat-sidenav-content {
-  background: #f7f8fb;
+/* SIDEBAR */
+mat-sidenav {
+  width: 250px;
+  padding: 16px;
 }
 
-@media (max-width: 768px) {
-  mat-sidenav {
-    width: min(280px, 82vw);
+/* CONTENT */
+.content {
+  padding: 16px;
+}
+
+@include respond(tablet) {
+  .content {
+    padding: 24px;
+  }
+}
+
+@include respond(desktop) {
+  .content {
+    padding: 32px;
   }
 }

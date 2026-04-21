@@ -1,43 +1,38 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav #sidenavEl
-    [mode]="sidenavMode"
-    [opened]="sidenavOpened"
-    (openedChange)="sidenavOpened = $event"
-    (backdropClick)="sidenavOpened = false"
+
+  <mat-sidenav
+    #sidenav
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
   >
     <div class="brand">Nota Spese</div>
 
-    <a
-      mat-button
-      routerLink="/"
-      [routerLinkActiveOptions]="{ exact: true }"
-      routerLinkActive="active"
-      (click)="onMenuNavigation()"
-    >
-      Home
-    </a>
+    <a mat-button routerLink="/" routerLinkActive="active">Home</a>
+    <a mat-button routerLink="/categorie" routerLinkActive="active">Categorie</a>
+    <a mat-button routerLink="/analisi" routerLinkActive="active">Analisi</a>
 
-    <a mat-button routerLink="/categorie" routerLinkActive="active" (click)="onMenuNavigation()">
-      Categorie
-    </a>
-
-    <a mat-button routerLink="/analisi" routerLinkActive="active" (click)="onMenuNavigation()">
-      Analisi
-    </a>
-
-    <button mat-button class="logout" (click)="eseguiLogout(); onMenuNavigation()">Logout</button>
+    <button mat-button (click)="eseguiLogout()">Logout</button>
   </mat-sidenav>
 
   <mat-sidenav-content>
+
     <mat-toolbar class="topbar">
-      <button mat-icon-button type="button" (click)="toggleSidenav()" aria-label="Apri menu">
+      <!-- SOLO MOBILE -->
+      <button
+        *ngIf="isMobile"
+        mat-icon-button
+        (click)="sidenav.toggle()"
+      >
         <mat-icon>menu</mat-icon>
       </button>
+
       <span>💰 Nota Spese</span>
     </mat-toolbar>
 
-    <div (click)="onSidenavContentClick($event)">
+    <main class="content">
       <router-outlet></router-outlet>
-    </div>
+    </main>
+
   </mat-sidenav-content>
+
 </mat-sidenav-container>
