@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/service/auth.service';
+import { NgIf } from '@angular/common';
 @Component({
   standalone: true,
   imports: [
@@ -18,9 +19,10 @@ import { AuthService } from '../../core/service/auth.service';
     MatToolbarModule,
     RouterLink,
     RouterOutlet,
+    NgIf
   ],
   templateUrl: './shell.html',
-  styleUrl: './shell.scss',
+  styleUrls: ['./shell.scss'],
 })
 export class Shell implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
