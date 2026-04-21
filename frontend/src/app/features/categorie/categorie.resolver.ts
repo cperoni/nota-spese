@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { CategorieService, Categoria } from '../../service/categorie.service';
+import { CategorieService, Categoria } from '../../core/service/categorie.service';
 
 @Injectable({
   providedIn: 'root',
