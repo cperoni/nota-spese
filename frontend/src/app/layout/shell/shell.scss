@@ -18,6 +18,63 @@ mat-sidenav-container {
 mat-sidenav {
   width: 250px;
   padding: 16px;
+
+  /* Assicura che la lista di voci sia verticale */
+  nav,
+  .mat-nav-list,
+  .menu,
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Link / item full-width per allineamento verticale */
+  a,
+  .mat-list-item,
+  li {
+    display: block;
+    width: 100%;
+  }
+
+  /* Scope limitato alla sidebar per non toccare altri bottoni */
+  .sidebar-content {
+    .brand {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0;
+      margin: 0 0 12px 0;
+    }
+
+    /* Target specifico ai mat-button all'interno della sidebar */
+    a.mat-button,
+    button.mat-button,
+    .linkButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+      padding: 8px 12px;
+      text-align: center;
+      border-radius: 6px;
+    }
+
+    /* Hover uniforme per tutte le voci */
+    a.mat-button:hover,
+    button.mat-button:hover,
+    .linkButton:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
 }
 
 /* CONTENT */
