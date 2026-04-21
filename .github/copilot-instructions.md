@@ -1,3 +1,7 @@
+
+---
+
+# 🤖 Copilot Instructions — Nota Spese
 agisci come senior engenner.
 Sto costruendo un'applicazione per registrare le spese della mia famiglia.
 L'applicazione dovrà:
@@ -10,13 +14,210 @@ L'applicazione dovrà:
 - Dal punto di vista tecnico l'applicazione usa Angular 22 con Material sul Frontend. Come backend utilizzo Supabase che gestisce le chiamate e dove ho già creato il database che si chiama spese.
 - L'applicazione viene poi deploiata su netlify.
 - Il repository è github.
-L'applicazione deve seguire i pattern moderni di angular 22.
-Quando c'è la necessità si crea un componente condiviso. 
-La chiamata ai servizi va nei file service.
-Se devi scrivere dei commenti usa l'italiano.
-L'applicazione è in fase di sviluppo, quindi se c'è qualcosa che non è ancora stata implementata, puoi scrivere un commento TODO per ricordarti di implementarla in futuro.
-L'applicazione deve essere responsive, quindi deve funzionare bene sia su desktop che su mobile.
-Per gestire la responsività, utilizzo un mixin chiamato respond che accetta come parametro la dimensione dello schermo (mobile, tablet, desktop) e applica le regole di stile appropriate.
-Il mixin respond è definito in un file chiamato _responsive.scss che si trova nella cartella styles.
-Il mixin respond è già stato importato nei file scss dei componenti, quindi puoi usarlo direttamente nei file scss dei componenti per gestire la responsività.
+
+Queste linee guida definiscono **regole architetturali, stilistiche e di sviluppo** per garantire coerenza, scalabilità e qualità del codice.
+
+Devono essere seguite rigorosamente.
+
+---
+
+# 🔴 REGOLE VINCOLANTI (STRICT RULES)
+
+* Usare SEMPRE approccio **mobile-first**
+* NON usare mai CSS desktop-first
+* Usare SOLO **SCSS**, evitare file `.css`
+* NON usare stili inline
+* Usare SOLO **Angular standalone components**
+* NON usare NgModules
+* NON duplicare logica di layout nelle feature
+* Tutta la logica di layout deve stare in `/layout`
+* NON manipolare il DOM direttamente (no `ElementRef`, salvo casi eccezionali)
+* NON usare `!important`
+
+---
+
+# 🧱 ARCHITETTURA
+
+Struttura obbligatoria:
+
+```
+app/
+├── core/        # servizi globali, interceptor, guard
+├── shared/      # componenti riutilizzabili (UI)
+├── layout/      # shell, header, sidebar (responsiveness)
+├── features/    # logica applicativa
+├── models/      # tipi globali
+└── routes/      # routing
+```
+
+---
+
+# 🧩 STRUTTURA FEATURE
+
+Ogni feature deve seguire questo pattern:
+
+```
+features/nome-feature/
+  nome-feature.ts
+  nome-feature.html
+  nome-feature.scss
+  components/
+    sotto-componente/
+```
+
+### Regole:
+
+* Componenti piccoli e focalizzati
+* Nessuna logica di layout dentro le feature
+* Evitare componenti monolitici
+
+---
+
+# 📱 RESPONSIVE DESIGN
+
+## Regole
+
+* Mobile è il default (senza media query)
+* Usare i breakpoint centralizzati
+* NON definire breakpoint hardcoded nei componenti
+
+## Breakpoints
+
+```scss
+@include respond(tablet) { ... }
+@include respond(desktop) { ... }
+```
+
+---
+
+## ✅ Pattern corretto
+
+```scss
+.card {
+  width: 100%;
+
+  @include respond(tablet) {
+    width: 50%;
+  }
+
+  @include respond(desktop) {
+    width: 33%;
+  }
+}
+```
+
+---
+
+# 🧠 LAYOUT
+
+## Regole
+
+* Esiste un solo layout globale (`Shell`)
+* Header e Sidebar sono definiti SOLO in `/layout`
+* Le feature NON devono gestire layout
+* Tutte le pagine passano da `<router-outlet>`
+
+## Comportamento
+
+* Mobile:
+
+  * sidebar nascosta (overlay)
+  * attivata con hamburger menu
+* Desktop:
+
+  * sidebar visibile (side)
+* Padding contenuto:
+
+  * mobile: 16px
+  * tablet: 24px
+  * desktop: 32px
+
+---
+
+# 🎨 STILI (SCSS)
+
+## Struttura
+
+```
+styles/
+├── abstracts/   # variabili, mixin, breakpoints
+├── base/        # reset, typography
+├── layout/      # grid e container
+├── components/  # UI condivisa
+```
+
+---
+
+## Variabili (design tokens)
+
+```scss
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+
+$color-primary: #3b82f6;
+$color-bg: #f9fafb;
+$color-text: #111827;
+```
+
+---
+
+# ⚙️ ANGULAR PATTERNS
+
+* Usare `inject()` invece del constructor injection
+* Usare **signals** per stato locale
+* Usare servizi per stato condiviso
+* Evitare logica nei template
+* Usare `OnPush` (quando applicabile)
+
+---
+
+# ❌ ANTI-PATTERN (DA EVITARE)
+
+* CSS globale non controllato
+* Uso di `!important`
+* Breakpoint duplicati
+* Logica di layout dentro le feature
+* Accesso diretto al DOM
+* Componenti troppo grandi
+* Mixing CSS e SCSS
+
+---
+
+# 🎯 OBIETTIVO
+
+Il codice deve essere:
+
+* Scalabile
+* Leggibile
+* Coerente
+* Mobile-first
+* Facile da estendere
+
+---
+
+# 📌 NOTA
+
+Quando generi codice:
+
+* Segui SEMPRE queste regole
+* Preferisci semplicità e chiarezza
+* Mantieni coerenza con la struttura esistente
+
+---
+
+---
+
+## 🧠 Nota finale (importante)
+
+Questa versione è:
+
+* più **prescrittiva** (meno interpretazione)
+* più **utile per Copilot**
+* allineata a quello che hai già implementato (shell incluso)
+
+Se vuoi fare un ulteriore upgrade, il prossimo passo è:
+👉 aggiungere esempi reali del tuo codice (es. shell, una feature)
+
+Così Copilot smette completamente di “inventare”.
 
