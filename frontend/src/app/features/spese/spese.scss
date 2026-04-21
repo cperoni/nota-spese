@@ -70,10 +70,6 @@ button {
   margin-bottom: 10px;
 }
 
-.table-wrap {
-  margin-top: 10px;
-}
-
 .filter-bar {
   display: flex;
   align-items: center;
@@ -132,27 +128,55 @@ button {
   color: #666;
 }
 
+/* Table styles */
 .spese-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.spese-table td:last-child,
-.spese-table th:last-child {
-  text-align: right;
-  width: 120px;
+.table-wrap {
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
+.spese-table thead {
+  background: var(--hover);
+}
+
+.spese-table th {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+.spese-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+}
 
 .spese-row {
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background 0.15s ease;
 }
 
 .spese-row:hover {
-  background: #f5f7fa;
-  transform: scale(1.002);
+  background: var(--hover);
 }
+
+.spese-table th:last-child,
+.spese-table td:last-child {
+  text-align: right;
+  width: 120px;
+}
+/* fine table*/
 
 button.danger {
   background: transparent;
