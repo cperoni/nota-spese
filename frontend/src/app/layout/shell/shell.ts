@@ -1,13 +1,14 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, DestroyRef, ElementRef, HostListener, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {  RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../../core/service/auth.service';
 @Component({
   standalone: true,
   imports: [
@@ -16,25 +17,32 @@ import {  RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
     MatIconModule,
     MatToolbarModule,
     RouterLink,
-    RouterLinkActive,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: './shell.html',
-  styleUrl: './shell.scss'
+  styleUrl: './shell.scss',
 })
-
 export class Shell implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   private destroyRef = inject(DestroyRef);
-
+  private authService = inject(AuthService);
+  private router = inject(Router);
   isMobile = false;
 
   ngOnInit() {
     this.breakpointObserver
       .observe('(max-width: 768px)')
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(result => {
+      .subscribe((result) => {
         this.isMobile = result.matches;
       });
+  }
+  async eseguiLogout() {
+    const { error } = await this.authService.signOut();
+    if (error) {
+      console.error('Errore durante il logout:', error.message);
+      return;
+    }
+    this.router.navigate(['/login']);
   }
 }

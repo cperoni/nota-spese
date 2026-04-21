@@ -1,3 +1,5 @@
+@use 'styles/abstracts/breakpoints' as *;
+
 .container {
   max-width: 720px;
   margin: auto;
