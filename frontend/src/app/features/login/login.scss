@@ -1,3 +1,8 @@
+@use 'styles/abstracts/breakpoints' as *;
+@use 'styles/components/card' as *;
+@use 'styles/components/button' as *;
+@use 'styles/components/form' as *;
+
 .login-wrapper {
   height: 100vh;
   display: flex;
@@ -7,11 +12,11 @@
   font-family: system-ui;
 }
 
+/* login specific overrides: keep layout and stronger shadow */
 .card {
   width: 320px;
-  padding: 30px;
-  background: white;
-  border-radius: 16px;
+  padding: 30px; /* override base padding */
+  border-radius: 16px; /* slightly larger than base */
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
@@ -28,39 +33,6 @@ p {
   color: #666;
   font-size: 14px;
 }
-
-input {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  outline: none;
-}
-
-input:focus {
-  border-color: #3b82f6;
-}
-
-/* Stile per il bottone normale (quando è attivo) */
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #3b82f6; /* Blu acceso */
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease; /* Aggiunge una bella animazione fluida */
-}
-
-/* Stile per il bottone quando è DISABILITATO */
-button:disabled {
-  background: #cbd5e1; /* Grigio chiaro per far capire che è spento */
-  color: #94a3b8;      /* Testo grigio scuro */
-  cursor: not-allowed; /* Mostra il cursore col divieto */
-  opacity: 1;          /* Rimuoviamo l'opacity precedente per usare i colori solidi */
-  transform: none;     /* Evita che sembri cliccabile */
-}
-
 
 .error-banner {
   background-color: #fee2e2; /* Sfondo rosso chiaro */

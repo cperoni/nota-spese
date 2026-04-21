@@ -1,0 +1,23 @@
+@use 'styles/abstracts/breakpoints' as *;
+
+.container {
+	width: 100%;
+	padding: 16px;
+	box-sizing: border-box;
+
+	@include respond(tablet) {
+		padding: 24px;
+	}
+
+	@include respond(desktop) {
+		padding: 32px;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+}
+
+.container.narrow {
+	max-width: 720px;
+	margin: 0 auto;
+	padding: 8px 16px 16px;
+}

@@ -1,74 +1,13 @@
+
 @use 'styles/abstracts/breakpoints' as *;
-
-.container {
-  max-width: 720px;
-  margin: auto;
-  padding: 8px 16px 16px;
-  font-family: system-ui;
-
-    @include respond(tablet) {
-    padding: 24px;
-  }
-
-  @include respond(desktop) {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-}
+@use 'styles/layout/container' as *;
+@use 'styles/components/card' as *;
+@use 'styles/components/button' as *;
+@use 'styles/components/form' as *;
+@use 'styles/components/badge' as *;
 
 h2 {
   margin-bottom: 10px;
-}
-
-.card {
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-
-.card.empty {
-  text-align: center;
-  padding: 20px;
-  color: #777;
-  font-size: 14px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.secondary {
-  background: #e5e7eb;
-  color: #111;
-}
-
-input, select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
-
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #3b82f6;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
 }
 
 .list {
@@ -121,12 +60,7 @@ button {
   gap: 10px;
 }
 
-.badge {
-  padding: 4px 8px;
-  border-radius: 8px;
-  color: white;
-  font-size: 12px;
-}
+/* badge provided by styles/components/_badge.scss */
 
 .delete {
   background: transparent;
