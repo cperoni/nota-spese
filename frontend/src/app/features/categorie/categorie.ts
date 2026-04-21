@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { CategorieService, Categoria } from '../../service/categorie.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +13,7 @@ import { ConfirmationDialog } from '../../shared/confirmation-dialog/confirmatio
 @Component({
   selector: 'app-categorie',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule],
   templateUrl: './categorie.html',
   styleUrls: ['./categorie.scss'],
 })

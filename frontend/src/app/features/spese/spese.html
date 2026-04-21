@@ -65,8 +65,13 @@
             <td>
               <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">{{ s.categorie?.nome }}</span>
             </td>
-            <td>
-              <button class="danger" (click)="confirmDelete(s); $event.stopPropagation()">Elimina</button>
+            <td class="actions">
+              <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(s); $event.stopPropagation()">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(s); $event.stopPropagation()">
+                <mat-icon>delete</mat-icon>
+              </button>
             </td>
           </tr>
         </tbody>

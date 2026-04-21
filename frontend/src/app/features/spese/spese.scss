@@ -176,6 +176,21 @@ button {
   text-align: right;
   width: 120px;
 }
+/* Azioni: icone per modifica/cancella */
+.spese-table td.actions {
+  text-align: right;
+  width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.spese-table td.actions button[mat-icon-button] {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+}
 /* fine table*/
 
 button.danger {

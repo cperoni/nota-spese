@@ -45,9 +45,12 @@
               </span>
             </td>
 
-            <td>
-              <button class="danger" (click)="confirmDelete(c); $event.stopPropagation()">
-                Elimina
+            <td class="actions">
+              <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(c); $event.stopPropagation()">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(c); $event.stopPropagation()">
+                <mat-icon>delete</mat-icon>
               </button>
             </td>
           </tr>
