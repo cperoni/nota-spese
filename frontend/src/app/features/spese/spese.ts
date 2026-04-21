@@ -2,6 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
+import { ConfirmationDialog } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { supabase } from '../../core/supabase.client';
 
 type PeriodoFiltro =
@@ -21,7 +24,11 @@ type PeriodoFiltro =
   styleUrls: ['./spese.scss'],
 })
 export class Spese implements OnInit {
-  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private dialog: MatDialog
+  ) {}
 
   spese: any[] = [];
   categorie: any[] = [];
@@ -204,8 +211,14 @@ export class Spese implements OnInit {
   }
 
   async confirmDelete(s: any) {
-    const ok = confirm(`Sei sicuro di cancellare la spesa "${s.descrizione || ''}" (${s.importo}€)?`);
-    if (!ok) return;
+    const ref = this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'Conferma cancellazione',
+        message: `Sei sicuro di cancellare la spesa "${s.categorie?.nome || ''}" di ${s.importo}€?`,
+      },
+    });
+    const result = await firstValueFrom(ref.afterClosed());
+    if (!result) return;
     if (!s.id) return;
     await this.delete(s.id);
   }

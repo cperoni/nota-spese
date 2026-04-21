@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+h2[mat-dialog-title] {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+[mat-dialog-content] p {
+  margin: 0;
+}
+
+[mat-dialog-actions] {
+  margin-top: 16px;
+}

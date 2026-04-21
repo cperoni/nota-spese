@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { CategorieService, Categoria } from '../../service/categorie.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
+import { ConfirmationDialog } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-categorie',
@@ -18,7 +21,7 @@ export class Categorie implements OnInit, OnDestroy {
   editingId: string | null = null;
   private sub: Subscription | null = null;
 
-  constructor(private cs: CategorieService, private route: ActivatedRoute) {
+  constructor(private cs: CategorieService, private route: ActivatedRoute, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -73,8 +76,14 @@ export class Categorie implements OnInit, OnDestroy {
   }
 
   async confirmDelete(cat: Categoria) {
-    const ok = confirm(`Sei sicuro di cancellare la categoria "${cat.nome}"?`);
-    if (!ok) return;
+    const ref = this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'Conferma cancellazione',
+        message: `Sei sicuro di cancellare la categoria "${cat.nome}"?`,
+      },
+    });
+    const result = await firstValueFrom(ref.afterClosed());
+    if (!result) return;
     if (!cat.id) return;
     const { error } = await this.cs.deleteCategoria(cat.id);
     if (error) return console.error('delete error', error);
