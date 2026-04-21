@@ -14,3 +14,9 @@ L'applicazione deve seguire i pattern moderni di angular 22.
 Quando c'è la necessità si crea un componente condiviso. 
 La chiamata ai servizi va nei file service.
 Se devi scrivere dei commenti usa l'italiano.
+L'applicazione è in fase di sviluppo, quindi se c'è qualcosa che non è ancora stata implementata, puoi scrivere un commento TODO per ricordarti di implementarla in futuro.
+L'applicazione deve essere responsive, quindi deve funzionare bene sia su desktop che su mobile.
+Per gestire la responsività, utilizzo un mixin chiamato respond che accetta come parametro la dimensione dello schermo (mobile, tablet, desktop) e applica le regole di stile appropriate.
+Il mixin respond è definito in un file chiamato _responsive.scss che si trova nella cartella styles.
+Il mixin respond è già stato importato nei file scss dei componenti, quindi puoi usarlo direttamente nei file scss dei componenti per gestire la responsività.
+
