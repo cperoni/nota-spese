@@ -10,6 +10,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/service/auth.service';
 import { NgIf } from '@angular/common';
+import { Breakpoints } from '@angular/cdk/layout';
+import { MatDrawerMode } from '@angular/material/sidenav';
+
 @Component({
   standalone: true,
   imports: [
@@ -19,7 +22,7 @@ import { NgIf } from '@angular/common';
     MatToolbarModule,
     RouterLink,
     RouterOutlet,
-    NgIf
+    NgIf,
   ],
   templateUrl: './shell.html',
   styleUrls: ['./shell.scss'],
@@ -31,13 +34,18 @@ export class Shell implements OnInit {
   private router = inject(Router);
   isMobile = false;
 
+  sidenavMode: MatDrawerMode = this.isMobile ? 'over' : 'side';
+  sidenavOpened = !this.isMobile;
+
   ngOnInit() {
     this.breakpointObserver
-      .observe('(max-width: 768px)')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result) => {
-        this.isMobile = result.matches;
-      });
+    .observe([Breakpoints.Handset])
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(result => {
+      this.isMobile = result.matches;
+      this.sidenavMode = this.isMobile ? 'over' : 'side';
+      this.sidenavOpened = !this.isMobile;
+    });
   }
   async eseguiLogout() {
     const { error } = await this.authService.signOut();

@@ -1,12 +1,12 @@
 <mat-sidenav-container class="container">
-  <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile">
+  <mat-sidenav #sidenav [mode]="sidenavMode" [opened]="sidenavOpened">
     <div class="sidebar-content">
       <div class="brand">Nota Spese</div>
 
       <nav>
-        <a mat-button routerLink="/" (click)="sidenav.close()">Home</a>
-        <a mat-button routerLink="/categorie" (click)="sidenav.close()">Categorie</a>
-        <a mat-button routerLink="/analisi" (click)="sidenav.close()">Analisi</a>
+        <a mat-button routerLink="/" (click)="isMobile && sidenav.close()">Home</a>
+        <a mat-button routerLink="/categorie" (click)="isMobile && sidenav.close()">Categorie</a>
+        <a mat-button routerLink="/analisi" (click)="isMobile && sidenav.close()">Analisi</a>
       </nav>
 
       <button mat-button class="logout" (click)="eseguiLogout()">Logout</button>
