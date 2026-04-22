@@ -29,7 +29,7 @@
     <h3>🧾 Categorie</h3>
 
     <div class="table-wrap">
-      <table class="spese-table">
+      <table class="categorie-table">
         <thead>
           <tr>
             <th>Categoria</th>
@@ -38,7 +38,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let c of categorie" (click)="select(c)" class="spese-row">
+          <tr *ngFor="let c of categorie" (click)="select(c)" class="categorie-row">
             <td>
               <span class="badge" [style.background]="c.colore || '#ccc'">
                 {{ c.nome }}

@@ -1,9 +1,10 @@
-<div class="container">
+<div class="page container">
 
   <h2>💰 Inserisci spesa</h2>
 
-  <!-- FORM -->
-  <form (ngSubmit)="save()" class="card form">
+  <section class="form-section">
+    <!-- FORM -->
+    <form (ngSubmit)="save()" class="card form">
     <input
       type="text"
       inputmode="decimal"
@@ -29,7 +30,8 @@
       <button type="submit">{{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}</button>
       <button type="button" class="secondary" *ngIf="editingId" (click)="resetForm()">Annulla</button>
     </div>
-  </form>
+    </form>
+  </section>
 
   <div class="filter-bar">
     <label for="filtroPeriodo">Mostra:</label>

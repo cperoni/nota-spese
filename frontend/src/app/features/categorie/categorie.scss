@@ -150,4 +150,41 @@ button.danger:hover {
   .form-actions { justify-content: space-between; }
 }
 
+/* Make form card and table match spese layout: full width on mobile, centered with max-width on larger screens */
+.form-section .card,
+.table-wrap {
+  width: 100%;
+  margin: 0;
+}
+
+@include respond(tablet) {
+  .form-section .card,
+  .table-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 6px 0 12px;
+  }
+
+  .form {
+    gap: 8px;
+  }
+
+  .form-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .categoria-form input[type="color"] {
+    width: 48px;
+    height: 34px;
+  }
+}
+
 /* badge provided by styles/components/_badge.scss */
