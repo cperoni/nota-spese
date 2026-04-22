@@ -12,6 +12,7 @@ import { AuthService } from '../../core/service/auth.service';
 import { NgIf } from '@angular/common';
 import { Breakpoints } from '@angular/cdk/layout';
 import { MatDrawerMode } from '@angular/material/sidenav';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   standalone: true,
@@ -23,6 +24,7 @@ import { MatDrawerMode } from '@angular/material/sidenav';
     RouterLink,
     RouterOutlet,
     NgIf,
+    LoadingSpinnerComponent,
   ],
   templateUrl: './shell.html',
   styleUrls: ['./shell.scss'],

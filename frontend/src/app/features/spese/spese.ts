@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { supabase } from '../../core/supabase.client';
+import { LoadingService } from '../../core/service/loading.service';
 
 type PeriodoFiltro =
   | 'ultimi_7_giorni'
@@ -29,7 +30,8 @@ export class Spese implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loading: LoadingService
   ) {}
 
   spese: any[] = [];
@@ -120,14 +122,19 @@ export class Spese implements OnInit {
       data: this.data || new Date().toISOString().split('T')[0],
     };
 
-    if (this.editingId) {
-      await supabase.from('spese').update(payload).eq('id', this.editingId);
-    } else {
-      await supabase.from('spese').insert([payload]);
-    }
+    this.loading.show();
+    try {
+      if (this.editingId) {
+        await supabase.from('spese').update(payload).eq('id', this.editingId);
+      } else {
+        await supabase.from('spese').insert([payload]);
+      }
 
-    this.resetForm();
-    await this.loadSpese();
+      this.resetForm();
+      await this.loadSpese();
+    } finally {
+      this.loading.hide();
+    }
   }
 
   // Chiamata dall'input quando cambia il valore dell'importo
@@ -208,8 +215,13 @@ export class Spese implements OnInit {
   }
 
   async delete(id: string) {
-    await supabase.from('spese').delete().eq('id', id);
-    await this.loadSpese();
+    this.loading.show();
+    try {
+      await supabase.from('spese').delete().eq('id', id);
+      await this.loadSpese();
+    } finally {
+      this.loading.hide();
+    }
   }
 
   async confirmDelete(s: any) {

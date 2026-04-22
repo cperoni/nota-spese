@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CategorieService, Categoria } from './../../core/service/categorie.service';
+import { LoadingService } from '../../core/service/loading.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,7 +24,7 @@ export class Categorie implements OnInit, OnDestroy {
   editingId: string | null = null;
   private sub: Subscription | null = null;
 
-  constructor(private cs: CategorieService, private route: ActivatedRoute, private dialog: MatDialog) {
+  constructor(private cs: CategorieService, private route: ActivatedRoute, private dialog: MatDialog, private loading: LoadingService) {
   }
 
   ngOnInit(): void {
@@ -63,18 +64,23 @@ export class Categorie implements OnInit, OnDestroy {
 
   async save() {
     if (!this.model.nome || !this.model.colore) return;
-    if (this.editingId) {
-      const { error } = await this.cs.updateCategoria(this.editingId, {
-        nome: this.model.nome,
-        colore: this.model.colore,
-      });
-      if (error) return console.error('update error', error);
-    } else {
-      const { error } = await this.cs.addCategoria(this.model);
-      if (error) return console.error('insert error', error);
+    this.loading.show();
+    try {
+      if (this.editingId) {
+        const { error } = await this.cs.updateCategoria(this.editingId, {
+          nome: this.model.nome,
+          colore: this.model.colore,
+        });
+        if (error) return console.error('update error', error);
+      } else {
+        const { error } = await this.cs.addCategoria(this.model);
+        if (error) return console.error('insert error', error);
+      }
+      await this.load();
+      this.resetForm();
+    } finally {
+      this.loading.hide();
     }
-    await this.load();
-    this.resetForm();
   }
 
   async confirmDelete(cat: Categoria) {
@@ -87,8 +93,13 @@ export class Categorie implements OnInit, OnDestroy {
     const result = await firstValueFrom(ref.afterClosed());
     if (!result) return;
     if (!cat.id) return;
-    const { error } = await this.cs.deleteCategoria(cat.id);
-    if (error) return console.error('delete error', error);
-    await this.load();
+    this.loading.show();
+    try {
+      const { error } = await this.cs.deleteCategoria(cat.id);
+      if (error) return console.error('delete error', error);
+      await this.load();
+    } finally {
+      this.loading.hide();
+    }
   }
 }
