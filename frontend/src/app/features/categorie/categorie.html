@@ -1,63 +1,62 @@
-<div class="page container">
-  <h2>🏷️ Gestione categorie</h2>
+<div class="page-wrapper">
+  <div class="page container">
+    <h2>🏷️ Gestione categorie</h2>
 
-  <section class="form-section">
-    <form (ngSubmit)="save()" class="card form">
-      <input
-        type="text"
-        name="nome"
-        [(ngModel)]="model.nome"
-        placeholder="Nome categoria (es. Trasporti)"
-        required
-      />
+    <section class="form-section">
+      <form (ngSubmit)="save()" class="card form">
+        <input
+          type="text"
+          name="nome"
+          [(ngModel)]="model.nome"
+          placeholder="Nome categoria (es. Trasporti)"
+          required
+        />
 
-      <input type="color" name="colore" [(ngModel)]="model.colore" />
+        <input type="color" name="colore" [(ngModel)]="model.colore" />
 
-      <div class="form-actions">
-        <button type="submit">
-          {{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}
-        </button>
+        <div class="form-actions">
+          <button type="submit">
+            {{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}
+          </button>
+          <button type="button" class="secondary" *ngIf="editingId" (click)="resetForm()">
+            Annulla
+          </button>
+        </div>
+      </form>
+    </section>
 
-        <button *ngIf="editingId" type="button" class="secondary" (click)="resetForm()">
-          Annulla
-        </button>
-      </div>
-    </form>
-  </section>
-
-  <section class="list-section">
     <h3>🧾 Categorie</h3>
 
-    <div class="table-wrap">
-      <table class="categorie-table">
-        <thead>
-          <tr>
-            <th>Categoria</th>
-            <th>Azioni</th>
-          </tr>
-        </thead>
+    <section class="list-section">
+      <div class="table-wrap">
+        <table class="categorie-table">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Azioni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of categorie" (click)="select(c)" class="categorie-row">
+              <td>
+                <span class="badge" [style.background]="c.colore || '#ccc'">
+                  {{ c.nome }}
+                </span>
+              </td>
+              <td class="actions">
+                <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(c); $event.stopPropagation()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(c); $event.stopPropagation()">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <tbody>
-          <tr *ngFor="let c of categorie" (click)="select(c)" class="categorie-row">
-            <td>
-              <span class="badge" [style.background]="c.colore || '#ccc'">
-                {{ c.nome }}
-              </span>
-            </td>
-
-            <td class="actions">
-              <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(c); $event.stopPropagation()">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(c); $event.stopPropagation()">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="card empty" *ngIf="categorie.length === 0">Nessuna categoria presente.</div>
-  </section>
+      <div class="card empty" *ngIf="categorie.length === 0">Nessuna categoria presente.</div>
+    </section>
+  </div>
 </div>
