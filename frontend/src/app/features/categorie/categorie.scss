@@ -1,16 +1,15 @@
 @use 'styles/abstracts/breakpoints' as *;
-@use 'styles/layout/container' as *;
 @use 'styles/components/card' as *;
 @use 'styles/components/button' as *;
 @use 'styles/components/form' as *;
 @use 'styles/components/badge' as *;
+@use 'styles/components/tables' as *;
+@use '../../../styles/layout/container' as layout;
+@use '../../../styles/components/page_header' as page_header;
+@use '../../../styles/components/page_sections' as page_sections;
 
-/* Replicates home.scss wrapper so layout matches the spese page */
 .page-wrapper {
-  max-width: 800px;
-  margin: auto;
-  padding: 16px;
-  font-family: system-ui;
+  @include layout.app-container;
 }
 
 h2 {
@@ -45,18 +44,11 @@ input[type='color'] {
 
 /* Table styles — identical to spese */
 .categorie-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  background: var(--card-bg);
-  border-radius: 10px;
-  overflow: hidden;
+  @include app-table;
 }
 
 .table-wrap {
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
+  @include table-wrap;
 }
 
 .categorie-table thead {

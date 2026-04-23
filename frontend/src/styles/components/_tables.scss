@@ -1,0 +1,12 @@
+@mixin app-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+@mixin table-wrap {
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}

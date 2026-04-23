@@ -1,15 +1,21 @@
-@use 'styles/abstracts/breakpoints' as *;
-
 .card {
-	background: white;
+	background: #fff;
+	border: 1px solid rgba(15, 23, 42, 0.08);
 	border-radius: 14px;
-	padding: 14px;
-	box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-
-.card.empty {
+	padding: 16px;
+	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  }
+  
+  @media (min-width: 768px) {
+	.card {
+	  padding: 20px;
+	}
+  }
+  
+  .card.empty,
+  .empty {
 	text-align: center;
 	padding: 20px;
 	color: #777;
 	font-size: 14px;
-}
+  }

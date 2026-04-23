@@ -1,15 +1,7 @@
-.home-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 16px;
-  font-family: system-ui;
-}
+@use '../../../styles/layout/container' as layout;
 
-/* HEADER */
-.header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
+.home-container {
+  @include layout.app-container;
 }
 
 @media (max-width: 768px) {
