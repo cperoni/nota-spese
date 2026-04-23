@@ -72,7 +72,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let s of spese" (click)="select(s)" class="spese-row">
-            <td>{{ s.importo }}€</td>
+            <td class="amount-col">{{ s.importo }}€</td>
             <td>{{ s.descrizione }}</td>
             <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
             <td>

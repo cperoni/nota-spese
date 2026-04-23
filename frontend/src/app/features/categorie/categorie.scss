@@ -51,19 +51,6 @@ input[type='color'] {
   @include table-wrap;
 }
 
-.categorie-table thead {
-  background: var(--hover);
-}
-
-.categorie-table th {
-  text-align: left;
-  padding: 12px 14px;
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text-secondary);
-  letter-spacing: 0.3px;
-}
-
 .categorie-table td {
   padding: 12px 14px;
   border-top: 1px solid var(--border);
@@ -72,16 +59,6 @@ input[type='color'] {
 .categorie-row {
   cursor: pointer;
   transition: background 0.15s ease;
-}
-
-.categorie-row:hover {
-  background: var(--hover);
-}
-
-.categorie-table th:last-child,
-.categorie-table td:last-child {
-  text-align: right;
-  width: 120px;
 }
 
 .categorie-table td.actions {

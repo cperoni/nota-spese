@@ -81,38 +81,11 @@
   @include table-wrap;
 }
 
-.spese-table thead {
-  background: var(--hover);
-}
-
-.spese-table th {
-  text-align: left;
-  padding: 12px 14px;
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text-secondary);
-  letter-spacing: 0.3px;
-}
-
-.spese-table td {
-  padding: 12px 14px;
-  border-top: 1px solid var(--border);
-}
-
 .spese-row {
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
-.spese-row:hover {
-  background: var(--hover);
-}
-
-.spese-table th:last-child,
-.spese-table td:last-child {
-  text-align: right;
-  width: 120px;
-}
 /* Azioni: icone per modifica/cancella */
 .spese-table td.actions {
   text-align: right;
