@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { supabase } from '../../core/supabase.client';
 import { LoadingService } from '../../core/service/loading.service';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 
 import { UI_ICONS } from '../../shared/config/ui-icons';
 
@@ -24,7 +25,7 @@ type PeriodoFiltro =
 @Component({
   selector: 'app-spese',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule,EmptyStateComponent],
   templateUrl: './spese.html',
   styleUrls: ['./spese.scss'],
 })
