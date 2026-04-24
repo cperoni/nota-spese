@@ -12,6 +12,16 @@ mat-sidenav-container {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.app-title {
+  margin-left: 8px;
+}
+
+.spacer {
+  flex: 1;
 }
 
 /* SIDEBAR */
@@ -68,11 +78,10 @@ mat-sidenav {
       border-radius: 6px;
     }
 
-    /* Hover uniforme per tutte le voci */
     a.mat-button:hover,
     button.mat-button:hover,
     .linkButton:hover {
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: color-mix(in srgb, var(--mat-sys-on-surface) 8%, transparent);
     }
   }
 }

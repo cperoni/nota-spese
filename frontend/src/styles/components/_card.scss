@@ -1,9 +1,9 @@
 .card {
-	background: #fff;
-	border: 1px solid rgba(15, 23, 42, 0.08);
+	background: var(--mat-sys-surface-container-low);
+	border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
 	border-radius: 14px;
 	padding: 16px;
-	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+	box-shadow: 0 4px 14px color-mix(in srgb, var(--mat-sys-shadow) 20%, transparent);
   }
   
   @media (min-width: 768px) {
@@ -16,6 +16,6 @@
   .empty {
 	text-align: center;
 	padding: 20px;
-	color: #777;
+	color: var(--mat-sys-on-surface-variant);
 	font-size: 14px;
   }

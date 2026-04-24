@@ -1,17 +1,16 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule, MatDrawerMode } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { Router } from '@angular/router';
-import { AuthService } from '../../core/service/auth.service';
+import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { Breakpoints } from '@angular/cdk/layout';
-import { MatDrawerMode } from '@angular/material/sidenav';
+
+import { AuthService } from '../../core/service/auth.service';
+import { ThemeService } from '../../core/service/theme.service';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
@@ -34,21 +33,34 @@ export class Shell implements OnInit {
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private themeService = inject(ThemeService);
+
   isMobile = false;
 
   sidenavMode: MatDrawerMode = this.isMobile ? 'over' : 'side';
   sidenavOpened = !this.isMobile;
 
   ngOnInit() {
+    this.themeService.initTheme();
+
     this.breakpointObserver
-    .observe([Breakpoints.Handset])
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(result => {
-      this.isMobile = result.matches;
-      this.sidenavMode = this.isMobile ? 'over' : 'side';
-      this.sidenavOpened = !this.isMobile;
-    });
+      .observe([Breakpoints.Handset])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        this.isMobile = result.matches;
+        this.sidenavMode = this.isMobile ? 'over' : 'side';
+        this.sidenavOpened = !this.isMobile;
+      });
   }
+
+  get isDarkTheme(): boolean {
+    return this.themeService.theme() === 'dark';
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
   async eseguiLogout() {
     const { error } = await this.authService.signOut();
     if (error) {

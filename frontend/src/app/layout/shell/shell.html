@@ -4,9 +4,25 @@
       <div class="brand">Nota Spese</div>
 
       <nav>
-        <button mat-button class="linkButton" routerLink="/" (click)="isMobile && sidenav.close()">Home</button>
-        <button mat-button class="linkButton" routerLink="/categorie" (click)="isMobile && sidenav.close()">Categorie</button>
-        <button mat-button class="linkButton" routerLink="/analisi" (click)="isMobile && sidenav.close()">Analisi</button>
+        <button mat-button class="linkButton" routerLink="/" (click)="isMobile && sidenav.close()">
+          Home
+        </button>
+        <button
+          mat-button
+          class="linkButton"
+          routerLink="/categorie"
+          (click)="isMobile && sidenav.close()"
+        >
+          Categorie
+        </button>
+        <button
+          mat-button
+          class="linkButton"
+          routerLink="/analisi"
+          (click)="isMobile && sidenav.close()"
+        >
+          Analisi
+        </button>
       </nav>
 
       <button mat-button class="linkButton" (click)="eseguiLogout()">Logout</button>
@@ -15,12 +31,17 @@
 
   <mat-sidenav-content>
     <mat-toolbar class="topbar">
-           <!-- SOLO MOBILE -->
       <button mat-icon-button *ngIf="isMobile" (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
 
-      <span>💰 Nota Spese</span>
+      <span class="app-title">💰 Nota Spese</span>
+
+      <span class="spacer"></span>
+
+      <button mat-icon-button (click)="toggleTheme()" aria-label="Cambia tema">
+        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
     </mat-toolbar>
 
     <main class="content">
