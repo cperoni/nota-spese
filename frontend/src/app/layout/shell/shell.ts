@@ -13,6 +13,8 @@ import { AuthService } from '../../core/service/auth.service';
 import { ThemeService } from '../../core/service/theme.service';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 
+import { UI_ICONS } from '../../shared/config/ui-icons';
+
 @Component({
   standalone: true,
   imports: [
@@ -35,6 +37,8 @@ export class Shell implements OnInit {
   private router = inject(Router);
   private themeService = inject(ThemeService);
 
+  readonly icons = UI_ICONS;
+  
   isMobile = false;
 
   sidenavMode: MatDrawerMode = this.isMobile ? 'over' : 'side';

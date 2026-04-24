@@ -1,44 +1,52 @@
 <div class="page container">
-
   <header class="page-header">
     <div class="title-group">
-      <h2>💰 Gestione spese</h2>
+      <h2 class="section-title">
+        <mat-icon aria-hidden="true">{{ icons.sections.spese }}</mat-icon>
+        <span>Gestione spese</span>
+      </h2>
       <p class="subtitle">Aggiungi una spesa in pochi secondi e tieni traccia del periodo.</p>
     </div>
-  
-    <button type="button" class="primary-cta" (click)="resetForm()">
-      ➕ Nuova spesa
+
+    <button type="button" class="primary-cta icon-start" (click)="resetForm()">
+      <mat-icon aria-hidden="true">{{ icons.actions.add }}</mat-icon>
+      <span>Nuova spesa</span>
     </button>
   </header>
 
   <section class="form-section">
-    <!-- FORM -->
     <form (ngSubmit)="save()" class="card form">
-    <input
-      type="text"
-      inputmode="decimal"
-      placeholder="Importo spesa in euro (es. 12,50)"
-      name="importo"
-      [(ngModel)]="importoStr"
-      (ngModelChange)="onImportoChange($event)"
-      (blur)="onImportoBlur()"
-    />
-    <div class="error" *ngIf="importoError">{{ importoError }}</div>
+      <input
+        type="text"
+        inputmode="decimal"
+        placeholder="Importo spesa in euro (es. 12,50)"
+        name="importo"
+        [(ngModel)]="importoStr"
+        (ngModelChange)="onImportoChange($event)"
+        (blur)="onImportoBlur()"
+      />
+      <div class="error" *ngIf="importoError">{{ importoError }}</div>
 
-    <input type="date" name="data" [(ngModel)]="data" />
+      <input type="date" name="data" [(ngModel)]="data" />
 
-    <input type="text" name="descrizione" placeholder="Descrizione" [(ngModel)]="descrizione" />
+      <input type="text" name="descrizione" placeholder="Descrizione" [(ngModel)]="descrizione" />
 
-    <select name="categoria_id" [(ngModel)]="categoria_id">
-      <option *ngFor="let c of categorie" [value]="c.id">
-        {{ c.nome }}
-      </option>
-    </select>
+      <select name="categoria_id" [(ngModel)]="categoria_id">
+        <option *ngFor="let c of categorie" [value]="c.id">
+          {{ c.nome }}
+        </option>
+      </select>
 
-    <div class="form-actions">
-      <button type="submit">{{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}</button>
-      <button type="button" class="secondary" *ngIf="editingId" (click)="resetForm()">Annulla</button>
-    </div>
+      <div class="form-actions">
+        <button type="submit" class="icon-start">
+          <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+          <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
+        </button>
+        <button type="button" class="secondary icon-start" *ngIf="editingId" (click)="resetForm()">
+          <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
+          <span>Annulla</span>
+        </button>
+      </div>
     </form>
   </section>
 
@@ -54,11 +62,12 @@
     </select>
   </div>
 
-
   <section class="list-section card">
-    
-    <h3>🧾 Ultime spese</h3>
-    
+    <h3 class="section-title">
+      <mat-icon aria-hidden="true">{{ icons.sections.listaSpese }}</mat-icon>
+      <span>Ultime spese</span>
+    </h3>
+
     <div class="table-wrap">
       <table class="spese-table">
         <thead>
@@ -80,10 +89,10 @@
             </td>
             <td class="actions">
               <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(s); $event.stopPropagation()">
-                <mat-icon>edit</mat-icon>
+                <mat-icon>{{ icons.actions.edit }}</mat-icon>
               </button>
               <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(s); $event.stopPropagation()">
-                <mat-icon>delete</mat-icon>
+                <mat-icon>{{ icons.actions.delete }}</mat-icon>
               </button>
             </td>
           </tr>
@@ -95,6 +104,4 @@
       Nessuna spesa trovata per il filtro selezionato.
     </div>
   </section>
-
-</div>
-
+</div>  

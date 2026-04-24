@@ -8,28 +8,48 @@ mat-sidenav-container {
   height: 100%;
 }
 
+/* TOPBAR */
 .topbar {
   position: sticky;
   top: 0;
   z-index: 10;
   display: flex;
   align-items: center;
+  gap: 8px;
+  background: var(--mat-sys-surface-container);
+  border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
 }
 
 .app-title {
-  margin-left: 8px;
+  margin-left: 4px;
+  color: var(--mat-sys-on-surface);
+  font-weight: 600;
 }
 
 .spacer {
   flex: 1;
 }
 
+/* Utility: icona + testo */
+.icon-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* SIDEBAR */
 mat-sidenav {
-  width: 250px;
+  width: 260px;
   padding: 16px;
+  background: var(--mat-sys-surface-container-low);
+  border-right: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
 
-  /* Assicura che la lista di voci sia verticale */
   nav,
   .mat-nav-list,
   .menu,
@@ -41,7 +61,6 @@ mat-sidenav {
     margin: 0;
   }
 
-  /* Link / item full-width per allineamento verticale */
   a,
   .mat-list-item,
   li {
@@ -49,11 +68,12 @@ mat-sidenav {
     width: 100%;
   }
 
-  /* Scope limitato alla sidebar per non toccare altri bottoni */
   .sidebar-content {
     .brand {
-      text-align: center;
-      margin-bottom: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: var(--mat-sys-on-surface);
     }
 
     nav {
@@ -64,24 +84,30 @@ mat-sidenav {
       margin: 0 0 12px 0;
     }
 
-    /* Target specifico ai mat-button all'interno della sidebar */
     a.mat-button,
     button.mat-button,
     .linkButton {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      gap: 10px;
       width: 100%;
       min-width: 0;
+      min-height: 44px; /* touch target mobile */
       padding: 8px 12px;
-      text-align: center;
-      border-radius: 6px;
+      text-align: left;
+      border-radius: 10px;
+      color: var(--mat-sys-on-surface);
     }
 
     a.mat-button:hover,
     button.mat-button:hover,
     .linkButton:hover {
       background-color: color-mix(in srgb, var(--mat-sys-on-surface) 8%, transparent);
+    }
+
+    .logout-btn {
+      margin-top: 8px;
     }
   }
 }

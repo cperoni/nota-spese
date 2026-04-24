@@ -1,46 +1,50 @@
 <mat-sidenav-container class="container">
   <mat-sidenav #sidenav [mode]="sidenavMode" [opened]="sidenavOpened">
     <div class="sidebar-content">
-      <div class="brand">Nota Spese</div>
+      <div class="brand icon-start">
+        <mat-icon aria-hidden="true">{{icons.app }}</mat-icon>
+        <span>Nota Spese</span>
+      </div>
 
       <nav>
         <button mat-button class="linkButton" routerLink="/" (click)="isMobile && sidenav.close()">
-          Home
+          <mat-icon aria-hidden="true">{{ icons.nav.home }}</mat-icon>
+          <span>Home</span>
         </button>
-        <button
-          mat-button
-          class="linkButton"
-          routerLink="/categorie"
-          (click)="isMobile && sidenav.close()"
-        >
-          Categorie
+
+        <button mat-button class="linkButton" routerLink="/categorie" (click)="isMobile && sidenav.close()">
+          <mat-icon aria-hidden="true">{{ icons.nav.categorie }}</mat-icon>
+          <span>Categorie</span>
         </button>
-        <button
-          mat-button
-          class="linkButton"
-          routerLink="/analisi"
-          (click)="isMobile && sidenav.close()"
-        >
-          Analisi
+
+        <button mat-button class="linkButton" routerLink="/analisi" (click)="isMobile && sidenav.close()">
+          <mat-icon aria-hidden="true">{{ icons.nav.analisi }}</mat-icon>
+          <span>Analisi</span>
         </button>
       </nav>
 
-      <button mat-button class="linkButton" (click)="eseguiLogout()">Logout</button>
+      <button mat-button class="linkButton logout-btn" (click)="eseguiLogout()">
+        <mat-icon aria-hidden="true">{{ icons.actions.logout }}</mat-icon>
+        <span>Logout</span>
+      </button>
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar class="topbar">
-      <button mat-icon-button *ngIf="isMobile" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
+      <button mat-icon-button *ngIf="isMobile" (click)="sidenav.toggle()" aria-label="Apri menu">
+        <mat-icon>{{ icons.actions.menu }}</mat-icon>
       </button>
 
-      <span class="app-title">💰 Nota Spese</span>
+      <div class="app-title icon-start">
+        <mat-icon aria-hidden="true">account_balance_wallet</mat-icon>
+        <span>Nota Spese</span>
+      </div>
 
       <span class="spacer"></span>
 
       <button mat-icon-button (click)="toggleTheme()" aria-label="Cambia tema">
-        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        <mat-icon>{{ isDarkTheme ? icons.theme.light : icons.theme.dark }}</mat-icon>
       </button>
     </mat-toolbar>
 

@@ -1,15 +1,17 @@
 <div class="page-wrapper">
-
   <div class="page container">
-
     <header class="page-header">
       <div class="title-group">
-        <h2>🏷️ Gestione categorie</h2>
+        <h2 class="section-title">
+          <mat-icon aria-hidden="true">{{ icons.sections.categorie }}</mat-icon>
+          <span>Gestione categorie</span>
+        </h2>
         <p class="subtitle">Organizza le tue spese con categorie chiare e colori distintivi.</p>
       </div>
-    
-      <button type="button" class="primary-cta" (click)="resetForm()">
-        ➕ Nuova categoria
+
+      <button type="button" class="primary-cta icon-start" (click)="resetForm()">
+        <mat-icon aria-hidden="true">{{ icons.actions.add }}</mat-icon>
+        <span>Nuova categoria</span>
       </button>
     </header>
 
@@ -26,20 +28,24 @@
         <input type="color" name="colore" [(ngModel)]="model.colore" />
 
         <div class="form-actions">
-          <button type="submit">
-            {{ editingId ? '💾 Aggiorna' : '➕ Aggiungi' }}
+          <button type="submit" class="icon-start">
+            <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+            <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
           </button>
-          <button type="button" class="secondary" *ngIf="editingId" (click)="resetForm()">
-            Annulla
+          <button type="button" class="secondary icon-start" *ngIf="editingId" (click)="resetForm()">
+            <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
+            <span>Annulla</span>
           </button>
         </div>
       </form>
     </section>
 
     <section class="list-section card">
-      
-      <h3>🧾 Categorie</h3>
-      
+      <h3 class="section-title">
+        <mat-icon aria-hidden="true">{{ icons.sections.listaCategorie }}</mat-icon>
+        <span>Categorie</span>
+      </h3>
+
       <div class="table-wrap">
         <table class="categorie-table">
           <thead>
@@ -57,10 +63,10 @@
               </td>
               <td class="actions">
                 <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(c); $event.stopPropagation()">
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>{{ icons.actions.edit }}</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(c); $event.stopPropagation()">
-                  <mat-icon>delete</mat-icon>
+                  <mat-icon>{{ icons.actions.delete }}</mat-icon>
                 </button>
               </td>
             </tr>
