@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { CategorieService, Categoria } from './../../core/service/categorie.service';
+import { CategorieService } from './../../core/service/categorie.service';
+import { CategoriaItem, CategoriaFormModel } from './categorie.types';
 import { LoadingService } from '../../core/service/loading.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -22,8 +23,8 @@ import { UI_ICONS } from '../../shared/config/ui-icons';
   styleUrls: ['./categorie.scss'],
 })
 export class Categorie implements OnInit, OnDestroy {
-  categorie: Categoria[] = [];
-  model: Categoria = { nome: '', colore: '#000000' } as Categoria;
+  categorie: CategoriaItem[] = [];
+  model: CategoriaFormModel = { nome: '', colore: '#000000' } as CategoriaFormModel;
   editingId: string | null = null;
   private sub: Subscription | null = null;
 
@@ -33,12 +34,12 @@ export class Categorie implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const resolved = this.route.snapshot.data?.['categorie'] as Categoria[] | undefined;
-    if (resolved && resolved.length) {
-      this.categorie = resolved;
-    } else {
-      this.load();
-    }
+    const resolved = this.route.snapshot.data?.['categorie'] as unknown[] | undefined;
+if (resolved?.length) {
+  this.categorie = resolved.map((row) => this.normalizeCategoria(row));
+} else {
+  this.load();
+}
     this.sub = this.cs.refresh.subscribe(() => {
       this.load();
     });
@@ -54,17 +55,18 @@ export class Categorie implements OnInit, OnDestroy {
       console.error('Errore caricamento categorie', error);
       return;
     }
-    this.categorie = (data as Categoria[]) || [];
+  
+    this.categorie = (data ?? []).map((row) => this.normalizeCategoria(row));
   }
 
-  select(cat: Categoria) {
+  select(cat: CategoriaItem) {
     this.editingId = cat.id || null;
     this.model = { ...cat };
   }
 
   resetForm() {
     this.editingId = null;
-    this.model = { nome: '', colore: '#000000' } as Categoria;
+    this.model = { nome: '', colore: '#000000' };
   }
 
   async save() {
@@ -88,7 +90,7 @@ export class Categorie implements OnInit, OnDestroy {
     }
   }
 
-  async confirmDelete(cat: Categoria) {
+  async confirmDelete(cat: CategoriaItem) {
     const ref = this.dialog.open(ConfirmationDialog, {
       data: {
         title: 'Conferma cancellazione',
@@ -106,5 +108,14 @@ export class Categorie implements OnInit, OnDestroy {
     } finally {
       this.loading.hide();
     }
+  }
+
+  private normalizeCategoria(row: any): CategoriaItem {
+    return {
+      id: String(row?.id ?? ''),
+      nome: String(row?.nome ?? ''),
+      colore: String(row?.colore ?? '#000000'),
+      created_at: row?.created_at ? String(row.created_at) : undefined,
+    };
   }
 }
