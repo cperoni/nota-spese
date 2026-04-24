@@ -23,7 +23,7 @@
     [icons]="icons"
     [spese]="spese"
     [filtroPeriodo]="filtroPeriodo"
-    (filtroPeriodoChange)="filtroPeriodo = $any($event); onFiltroPeriodoChange()"
+    (filtroPeriodoChange)="onFiltroPeriodoChange($event)"
     (editClicked)="select($event)"
     (deleteClicked)="confirmDelete($event)"
     (emptyActionClicked)="resetForm()"

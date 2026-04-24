@@ -2,17 +2,20 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { UI_ICONS } from '../../../../shared/config/ui-icons';
+import { CategoriaItem } from '../../spese.types';
 
 @Component({
   selector: 'app-spese-form',
   standalone: true,
   imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './spese-form.html',
+  styleUrls: ['./spese-form.scss'],
 })
 export class SpeseForm {
-  @Input() icons!: any;
+  @Input({ required: true }) icons!: typeof UI_ICONS;
   @Input() editingId: string | null = null;
-  @Input() categorie: any[] = [];
+  @Input() categorie: CategoriaItem[] = [];
   @Input() importoStr = '';
   @Input() importoError = '';
   @Input() data = '';

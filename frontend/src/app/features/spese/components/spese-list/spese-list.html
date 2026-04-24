@@ -38,7 +38,7 @@
             <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
             <td>
               <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">
-                {{ s.categorie?.nome }}
+                {{ s.categorie?.nome || 'Senza categoria' }}
               </span>
             </td>
             <td class="actions">

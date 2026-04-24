@@ -1,0 +1,5 @@
+@use 'styles/components/form' as *;
+
+.form input[type='date'] {
+  color-scheme: dark light;
+}

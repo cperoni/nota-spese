@@ -1,0 +1,75 @@
+@use 'styles/components/badge' as *;
+@use 'styles/components/tables' as *;
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.filter-bar select {
+  max-width: 280px;
+}
+
+.filter-bar label {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.spese-table {
+  @include app-table;
+}
+
+.table-wrap {
+  @include table-wrap;
+}
+
+.spese-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.spese-table td,
+.spese-table th {
+  color: var(--mat-sys-on-surface);
+}
+
+.spese-table td.actions {
+  text-align: right;
+  width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.spese-table td.actions button[mat-icon-button] {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .filter-bar select {
+    max-width: 100%;
+  }
+}

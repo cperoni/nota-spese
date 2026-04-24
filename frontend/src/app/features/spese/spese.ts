@@ -13,15 +13,7 @@ import { SpeseHeader } from './components/spese-header/spese-header';
 import { SpeseForm } from './components/spese-form/spese-form';
 import { SpeseList } from './components/spese-list/spese-list';
 import { UI_ICONS } from '../../shared/config/ui-icons';
-
-type PeriodoFiltro =
-  | 'ultimi_7_giorni'
-  | 'ultima_settimana'
-  | 'ultimo_mese'
-  | 'ultimi_2_mesi'
-  | 'ultimi_6_mesi'
-  | 'ultimo_anno'
-  | 'tutte';
+import { CategoriaItem, PeriodoFiltro, SpesaItem, SpesaPayload } from './spese.types';
 
 @Component({
   selector: 'app-spese',
@@ -46,8 +38,8 @@ export class Spese implements OnInit {
     private loading: LoadingService,
   ) {}
 
-  spese: any[] = [];
-  categorie: any[] = [];
+  spese: SpesaItem[] = [];
+  categorie: CategoriaItem[] = [];
   filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
 
   readonly icons = UI_ICONS;
@@ -118,7 +110,17 @@ export class Spese implements OnInit {
     }
 
     const { data } = await query;
-    this.spese = data ?? [];
+
+    this.spese = (data ?? []).map((row: any) => {
+      const categoriaRaw = row.categorie;
+      const categoria =
+        Array.isArray(categoriaRaw) ? (categoriaRaw[0] ?? null) : (categoriaRaw ?? null);
+    
+      return {
+        ...row,
+        categorie: categoria,
+      };
+    });
     this.cdr.detectChanges();
   }
 
@@ -130,7 +132,7 @@ export class Spese implements OnInit {
 
     this.importo = parseFloat(this.importoStr.replace(',', '.')) || 0;
 
-    const payload = {
+    const payload: SpesaPayload = {
       importo: this.importo,
       descrizione: this.descrizione,
       categoria_id: this.categoria_id,
@@ -160,7 +162,7 @@ export class Spese implements OnInit {
   }
 
   // Seleziona una spesa dalla lista per modificarla
-  select(s: any) {
+  select(s: SpesaItem) {
     this.editingId = s.id || null;
     this.importo = s.importo;
     this.importoStr = (s.importo || 0).toFixed(2).replace('.', ',');
@@ -245,7 +247,7 @@ export class Spese implements OnInit {
     }
   }
 
-  async confirmDelete(s: any) {
+  async confirmDelete(s: SpesaItem) {
     const ref = this.dialog.open(ConfirmationDialog, {
       data: {
         title: 'Conferma cancellazione',
@@ -258,8 +260,9 @@ export class Spese implements OnInit {
     await this.delete(s.id);
   }
 
-  async onFiltroPeriodoChange() {
-    await this.loadSpese();
+  onFiltroPeriodoChange(periodo?: PeriodoFiltro) {
+    if (periodo) this.filtroPeriodo = periodo;
+    return this.loadSpese();
   }
 
   private getIntervalloDate(periodo: PeriodoFiltro): { from?: string; to?: string } | null {
