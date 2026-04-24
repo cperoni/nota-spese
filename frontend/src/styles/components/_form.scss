@@ -1,14 +1,26 @@
 @use 'styles/abstracts/breakpoints' as *;
 
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 18%, transparent);
+  background-color: var(--mat-sys-surface-container-low);
+  color: var(--mat-sys-on-surface);
 }
 
-input:focus, select:focus, textarea:focus {
-  border-color: #3b82f6;
+input::placeholder,
+textarea::placeholder {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--mat-sys-primary);
   outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mat-sys-primary) 22%, transparent);
 }

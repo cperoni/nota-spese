@@ -8,10 +8,10 @@
 
 @mixin table-wrap {
   margin-top: 10px;
-  border: 1px solid var(--border, #e5e7eb);
+  border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 14%, transparent);
   border-radius: 12px;
-  overflow: auto; // serve per sticky header su liste lunghe
-  background: #fff;
+  overflow: auto;
+  background: var(--mat-sys-surface-container);
 }
 
 /* Base comune per tutte le tabelle app */
@@ -19,24 +19,25 @@
   position: sticky;
   top: 0;
   z-index: 2;
-  background: #f8fafc;
-  color: var(--text-secondary, #6b7280);
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.2px;
   text-align: left;
   padding: 12px 14px;
-  border-bottom: 1px solid var(--border, #e5e7eb);
+  border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 16%, transparent);
 }
 
 .table-wrap table tbody td {
   padding: 12px 14px;
-  border-top: 1px solid var(--border, #eef2f7);
+  border-top: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+  color: var(--mat-sys-on-surface);
 }
 
 /* Zebra leggera */
 .table-wrap table tbody tr:nth-child(even) {
-  background: #fcfdff;
+  background: color-mix(in srgb, var(--mat-sys-surface-container-high) 65%, transparent);
 }
 
 /* Hover morbido */
@@ -45,7 +46,7 @@
 }
 
 .table-wrap table tbody tr:hover {
-  background: #f3f7ff;
+  background: color-mix(in srgb, var(--mat-sys-primary) 12%, var(--mat-sys-surface-container));
 }
 
 /* Colonne numeriche */

@@ -128,3 +128,20 @@
     justify-content: space-between;
   }
 }
+
+/* Fix specifico pagina spese per dark/light */
+.form input[type='date'] {
+  color-scheme: dark light; /* aiuta il date picker nativo */
+}
+
+.filter-bar label,
+.desc,
+.date,
+.empty {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.spese-table td,
+.spese-table th {
+  color: var(--mat-sys-on-surface);
+}
