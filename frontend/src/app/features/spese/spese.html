@@ -8,7 +8,7 @@
       <p class="subtitle">Aggiungi una spesa in pochi secondi e tieni traccia del periodo.</p>
     </div>
 
-    <button type="button" class="primary-cta icon-start" (click)="resetForm()">
+    <button type="button" class="btn btn-primary icon-start" (click)="resetForm()">
       <mat-icon aria-hidden="true">{{ icons.actions.add }}</mat-icon>
       <span>Nuova spesa</span>
     </button>
@@ -38,11 +38,11 @@
       </select>
 
       <div class="form-actions">
-        <button type="submit" class="icon-start">
+        <button type="submit" class="btn btn-primary icon-start">
           <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
           <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
         </button>
-        <button type="button" class="secondary icon-start" *ngIf="editingId" (click)="resetForm()">
+        <button type="button" class="btn btn-secondary icon-start" *ngIf="editingId" (click)="resetForm()"> 
           <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
           <span>Annulla</span>
         </button>

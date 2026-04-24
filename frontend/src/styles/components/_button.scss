@@ -1,39 +1,93 @@
 @use 'styles/abstracts/breakpoints' as *;
 
-button {
-	padding: 10px;
-	border: none;
-	border-radius: 10px;
-	background: #3b82f6;
-	color: white;
-	cursor: pointer;
-	font-weight: bold;
+/* Base button */
+button,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
 
-button:disabled {
-	background: #cbd5e1;
-	color: #94a3b8;
-	cursor: not-allowed;
-	opacity: 1;
-	transform: none;
+button:active,
+.btn:active {
+  transform: translateY(1px);
 }
 
-.secondary {
-	background: #e5e7eb;
-	color: #111;
+button:disabled,
+.btn:disabled {
+  background: color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+  color: var(--mat-sys-on-surface-variant);
+  cursor: not-allowed;
+  opacity: 1;
+  transform: none;
 }
 
-.danger,
-button.danger {
-	background: transparent;
-	color: #d64545;
-	border: 1px solid #f1b5b5;
-	padding: 6px 10px;
-	border-radius: 6px;
-	font-size: 12px;
+/* Variants */
+.btn-primary {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
 }
 
-.danger:hover,
-button.danger:hover {
-	background: #ffecec;
+.btn-secondary {
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+  border-color: color-mix(in srgb, var(--mat-sys-on-surface) 14%, transparent);
+}
+
+.btn-danger {
+  background: color-mix(in srgb, var(--mat-sys-error) 14%, var(--mat-sys-surface-container));
+  color: var(--mat-sys-on-surface);
+  border-color: color-mix(in srgb, var(--mat-sys-error) 30%, transparent);
+}
+
+/* Helper for icon + text buttons */
+.icon-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Keep Angular Material icon-only buttons untouched */
+button[mat-icon-button] {
+  min-height: 44px;
+  min-width: 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 10px;
+}
+
+/* Mobile first adaptations */
+@media (max-width: 768px) {
+  button,
+  .btn {
+    min-height: 48px;
+    font-size: 15px;
+    border-radius: 12px;
+    padding: 0 14px;
+  }
+
+  .form-actions {
+    display: grid;
+    gap: 8px;
+  }
+
+  .form-actions .btn,
+  .form-actions button:not([mat-icon-button]) {
+    width: 100%;
+  }
+
+  .page-header .btn,
+  .page-header button:not([mat-icon-button]) {
+    min-height: 44px;
+  }
 }
