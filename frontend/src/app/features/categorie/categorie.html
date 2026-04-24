@@ -16,30 +16,33 @@
     </header>
 
     <section class="form-section">
-      <form (ngSubmit)="save()" class="card form">
-        <input
-          type="text"
-          name="nome"
-          [(ngModel)]="model.nome"
-          placeholder="Nome categoria (es. Trasporti)"
-          required
-        />
-
-        <input type="color" name="colore" [(ngModel)]="model.colore" />
-
-        <div class="form-actions">
+      <form (ngSubmit)="save()" class="card form feature-form">
+        <div class="feature-form__grid">
+          <div class="feature-form__field feature-form__field--full">
+            <label for="nome-categoria" class="feature-form__label">Nome categoria</label>
+            <input
+              id="nome-categoria"
+              type="text"
+              name="nome"
+              [(ngModel)]="model.nome"
+              placeholder="Es. Trasporti"
+              required
+            />
+          </div>
+      
+          <div class="feature-form__field">
+            <label for="colore-categoria" class="feature-form__label">Colore</label>
+            <input id="colore-categoria" type="color" name="colore" [(ngModel)]="model.colore" />
+            <small class="feature-form__hint">Scegli un colore facilmente distinguibile</small>
+          </div>
+        </div>
+      
+        <div class="form-actions feature-form__actions">
           <button type="submit" class="btn btn-primary icon-start">
-            <mat-icon aria-hidden="true">{{
-              editingId ? icons.actions.save : icons.actions.add
-            }}</mat-icon>
+            <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
             <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
           </button>
-          <button
-            type="button"
-            class="btn btn-secondary icon-start"
-            *ngIf="editingId"
-            (click)="resetForm()"
-          >
+          <button type="button" class="btn btn-secondary icon-start" *ngIf="editingId" (click)="resetForm()">
             <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
             <span>Annulla</span>
           </button>

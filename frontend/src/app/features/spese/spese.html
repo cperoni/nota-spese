@@ -15,41 +15,56 @@
   </header>
 
   <section class="form-section">
-    <form (ngSubmit)="save()" class="card form">
-      <input
-        type="text"
-        inputmode="decimal"
-        placeholder="Importo spesa in euro (es. 12,50)"
-        name="importo"
-        [(ngModel)]="importoStr"
-        (ngModelChange)="onImportoChange($event)"
-        (blur)="onImportoBlur()"
-      />
-      <div class="error" *ngIf="importoError">{{ importoError }}</div>
-
-      <input type="date" name="data" [(ngModel)]="data" />
-
-      <input type="text" name="descrizione" placeholder="Descrizione" [(ngModel)]="descrizione" />
-
-      <select name="categoria_id" [(ngModel)]="categoria_id">
-        <option *ngFor="let c of categorie" [value]="c.id">
-          {{ c.nome }}
-        </option>
-      </select>
-
-      <div class="form-actions">
+    <form (ngSubmit)="save()" class="card form feature-form">
+      <div class="feature-form__grid">
+        <div class="feature-form__field">
+          <label for="importo" class="feature-form__label">Importo</label>
+          <input
+            id="importo"
+            type="text"
+            inputmode="decimal"
+            placeholder="Es. 12,50"
+            name="importo"
+            [(ngModel)]="importoStr"
+            (ngModelChange)="onImportoChange($event)"
+            (blur)="onImportoBlur()"
+          />
+          <small class="feature-form__hint">Usa la virgola per i decimali (es. 12,50)</small>
+          <div class="error" *ngIf="importoError">{{ importoError }}</div>
+        </div>
+    
+        <div class="feature-form__field">
+          <label for="data" class="feature-form__label">Data</label>
+          <input id="data" type="date" name="data" [(ngModel)]="data" />
+        </div>
+    
+        <div class="feature-form__field feature-form__field--full">
+          <label for="descrizione" class="feature-form__label">Descrizione</label>
+          <input
+            id="descrizione"
+            type="text"
+            name="descrizione"
+            placeholder="Es. Spesa supermercato"
+            [(ngModel)]="descrizione"
+          />
+        </div>
+    
+        <div class="feature-form__field feature-form__field--full">
+          <label for="categoria_id" class="feature-form__label">Categoria</label>
+          <select id="categoria_id" name="categoria_id" [(ngModel)]="categoria_id">
+            <option *ngFor="let c of categorie" [value]="c.id">
+              {{ c.nome }}
+            </option>
+          </select>
+        </div>
+      </div>
+    
+      <div class="form-actions feature-form__actions">
         <button type="submit" class="btn btn-primary icon-start">
-          <mat-icon aria-hidden="true">{{
-            editingId ? icons.actions.save : icons.actions.add
-          }}</mat-icon>
+          <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
           <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary icon-start"
-          *ngIf="editingId"
-          (click)="resetForm()"
-        >
+        <button type="button" class="btn btn-secondary icon-start" *ngIf="editingId" (click)="resetForm()">
           <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
           <span>Annulla</span>
         </button>

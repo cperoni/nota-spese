@@ -1,5 +1,6 @@
 @use 'styles/abstracts/breakpoints' as *;
 
+/* Base controls */
 input,
 select,
 textarea {
@@ -23,4 +24,64 @@ textarea:focus {
   border-color: var(--mat-sys-primary);
   outline: none;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--mat-sys-primary) 22%, transparent);
+}
+
+/* Shared feature form layout (mobile-first) */
+.feature-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature-form__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.feature-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feature-form__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.feature-form__hint {
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.feature-form__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
+}
+
+.feature-form__field--full {
+  grid-column: 1 / -1;
+}
+
+.feature-form input[type='color'] {
+  width: 64px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  border-radius: 8px;
+  background: transparent;
+}
+
+/* Responsive */
+@include respond(tablet) {
+  .feature-form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
