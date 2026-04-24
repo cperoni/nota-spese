@@ -1,0 +1,30 @@
+@use 'styles/components/card' as *;
+@use 'styles/components/button' as *;
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-state__icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.empty-state__title {
+  margin: 0;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.empty-state__hint {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+  max-width: 32ch;
+}

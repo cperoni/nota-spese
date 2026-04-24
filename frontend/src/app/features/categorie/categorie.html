@@ -29,10 +29,17 @@
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary icon-start">
-            <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+            <mat-icon aria-hidden="true">{{
+              editingId ? icons.actions.save : icons.actions.add
+            }}</mat-icon>
             <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
           </button>
-          <button type="button" class="btn btn-secondary icon-start" *ngIf="editingId" (click)="resetForm()">
+          <button
+            type="button"
+            class="btn btn-secondary icon-start"
+            *ngIf="editingId"
+            (click)="resetForm()"
+          >
             <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
             <span>Annulla</span>
           </button>
@@ -62,10 +69,20 @@
                 </span>
               </td>
               <td class="actions">
-                <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(c); $event.stopPropagation()">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  aria-label="Modifica"
+                  (click)="select(c); $event.stopPropagation()"
+                >
                   <mat-icon>{{ icons.actions.edit }}</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(c); $event.stopPropagation()">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  aria-label="Elimina"
+                  (click)="confirmDelete(c); $event.stopPropagation()"
+                >
                   <mat-icon>{{ icons.actions.delete }}</mat-icon>
                 </button>
               </td>
@@ -74,7 +91,14 @@
         </table>
       </div>
 
-      <div class="empty" *ngIf="categorie.length === 0">Nessuna categoria presente.</div>
+      <app-empty-state
+        *ngIf="categorie.length === 0"
+        [icon]="icons.sections.categorie"
+        title="Nessuna categoria presente"
+        hint="Crea la prima categoria per organizzare meglio le spese."
+        actionLabel="Crea categoria"
+        (action)="resetForm()"
+      ></app-empty-state>
     </section>
   </div>
 </div>

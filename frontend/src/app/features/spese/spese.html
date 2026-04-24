@@ -39,10 +39,17 @@
 
       <div class="form-actions">
         <button type="submit" class="btn btn-primary icon-start">
-          <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+          <mat-icon aria-hidden="true">{{
+            editingId ? icons.actions.save : icons.actions.add
+          }}</mat-icon>
           <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
         </button>
-        <button type="button" class="btn btn-secondary icon-start" *ngIf="editingId" (click)="resetForm()"> 
+        <button
+          type="button"
+          class="btn btn-secondary icon-start"
+          *ngIf="editingId"
+          (click)="resetForm()"
+        >
           <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
           <span>Annulla</span>
         </button>
@@ -52,7 +59,11 @@
 
   <div class="filter-bar">
     <label for="filtroPeriodo">Mostra:</label>
-    <select id="filtroPeriodo" [(ngModel)]="filtroPeriodo" (ngModelChange)="onFiltroPeriodoChange()">
+    <select
+      id="filtroPeriodo"
+      [(ngModel)]="filtroPeriodo"
+      (ngModelChange)="onFiltroPeriodoChange()"
+    >
       <option value="ultimi_7_giorni">Ultimi 7 giorni</option>
       <option value="ultimo_mese">Ultimo mese</option>
       <option value="ultimi_2_mesi">Ultimi 2 mesi</option>
@@ -85,13 +96,25 @@
             <td>{{ s.descrizione }}</td>
             <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
             <td>
-              <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">{{ s.categorie?.nome }}</span>
+              <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">{{
+                s.categorie?.nome
+              }}</span>
             </td>
             <td class="actions">
-              <button mat-icon-button color="primary" aria-label="Modifica" (click)="select(s); $event.stopPropagation()">
+              <button
+                mat-icon-button
+                color="primary"
+                aria-label="Modifica"
+                (click)="select(s); $event.stopPropagation()"
+              >
                 <mat-icon>{{ icons.actions.edit }}</mat-icon>
               </button>
-              <button mat-icon-button color="warn" aria-label="Elimina" (click)="confirmDelete(s); $event.stopPropagation()">
+              <button
+                mat-icon-button
+                color="warn"
+                aria-label="Elimina"
+                (click)="confirmDelete(s); $event.stopPropagation()"
+              >
                 <mat-icon>{{ icons.actions.delete }}</mat-icon>
               </button>
             </td>
@@ -99,9 +122,13 @@
         </tbody>
       </table>
     </div>
-
-    <div class="card empty" *ngIf="spese.length === 0">
-      Nessuna spesa trovata per il filtro selezionato.
-    </div>
+    <app-empty-state
+      *ngIf="spese.length === 0"
+      [icon]="icons.sections.listaSpese"
+      title="Nessuna spesa trovata"
+      hint="Prova a cambiare filtro oppure aggiungi una nuova spesa per iniziare."
+      actionLabel="Aggiungi una spesa"
+      (action)="resetForm()"
+    ></app-empty-state>
   </section>
-</div>  
+</div>

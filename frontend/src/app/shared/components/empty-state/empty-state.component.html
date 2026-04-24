@@ -1,0 +1,17 @@
+<div class="card empty-state">
+    <mat-icon class="empty-state__icon" aria-hidden="true">{{ icon }}</mat-icon>
+  
+    <p class="empty-state__title">{{ title }}</p>
+  
+    <p class="empty-state__hint" *ngIf="hint">{{ hint }}</p>
+  
+    <button
+      *ngIf="showAction"
+      type="button"
+      class="btn btn-primary icon-start"
+      (click)="onActionClick()"
+    >
+      <mat-icon aria-hidden="true">add</mat-icon>
+      <span>{{ actionLabel }}</span>
+    </button>
+  </div>

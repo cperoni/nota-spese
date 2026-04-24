@@ -10,13 +10,14 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 
 import { UI_ICONS } from '../../shared/config/ui-icons';
 
 @Component({
   selector: 'app-categorie',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule,EmptyStateComponent],
   templateUrl: './categorie.html',
   styleUrls: ['./categorie.scss'],
 })
