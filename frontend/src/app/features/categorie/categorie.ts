@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
+import { UI_ICONS } from '../../shared/config/ui-icons';
+
 @Component({
   selector: 'app-categorie',
   standalone: true,
@@ -23,6 +25,8 @@ export class Categorie implements OnInit, OnDestroy {
   model: Categoria = { nome: '', colore: '#000000' } as Categoria;
   editingId: string | null = null;
   private sub: Subscription | null = null;
+
+  readonly icons = UI_ICONS;
 
   constructor(private cs: CategorieService, private route: ActivatedRoute, private dialog: MatDialog, private loading: LoadingService) {
   }

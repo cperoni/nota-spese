@@ -10,6 +10,8 @@ import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/
 import { supabase } from '../../core/supabase.client';
 import { LoadingService } from '../../core/service/loading.service';
 
+import { UI_ICONS } from '../../shared/config/ui-icons';
+
 type PeriodoFiltro =
   | 'ultimi_7_giorni'
   | 'ultima_settimana'
@@ -37,6 +39,8 @@ export class Spese implements OnInit {
   spese: any[] = [];
   categorie: any[] = [];
   filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
+
+  readonly icons = UI_ICONS;
 
   // Id del record in modifica (null = modalità inserimento)
   editingId: string | null = null;
