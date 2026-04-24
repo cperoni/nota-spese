@@ -11,14 +11,25 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+
+import { CategorieHeader } from './components/categorie-header/categorie-header';
+import { CategorieForm } from './components/categorie-form/categorie-form';
+import { CategorieList } from './components/categorie-list/categorie-list';
 
 import { UI_ICONS } from '../../shared/config/ui-icons';
 
 @Component({
   selector: 'app-categorie',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule,EmptyStateComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    CategorieHeader,
+    CategorieForm,
+    CategorieList,
+  ],
   templateUrl: './categorie.html',
   styleUrls: ['./categorie.scss'],
 })

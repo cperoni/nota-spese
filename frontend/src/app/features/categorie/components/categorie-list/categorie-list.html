@@ -1,0 +1,41 @@
+<section class="list-section card">
+    <h3 class="section-title">
+      <mat-icon aria-hidden="true">{{ icons.sections.listaCategorie }}</mat-icon>
+      <span>Categorie</span>
+    </h3>
+  
+    <div class="table-wrap">
+      <table class="categorie-table">
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of categorie" (click)="editClicked.emit(c)" class="categorie-row">
+            <td>
+              <span class="badge" [style.background]="c.colore || '#ccc'">{{ c.nome }}</span>
+            </td>
+            <td class="actions">
+              <button mat-icon-button color="primary" aria-label="Modifica" (click)="editClicked.emit(c); $event.stopPropagation()">
+                <mat-icon>{{ icons.actions.edit }}</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" aria-label="Elimina" (click)="deleteClicked.emit(c); $event.stopPropagation()">
+                <mat-icon>{{ icons.actions.delete }}</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <app-empty-state
+      *ngIf="categorie.length === 0"
+      [icon]="icons.sections.categorie"
+      title="Nessuna categoria presente"
+      hint="Crea la prima categoria per organizzare meglio le spese."
+      actionLabel="Crea categoria"
+      (action)="emptyActionClicked.emit()"
+    ></app-empty-state>
+  </section>

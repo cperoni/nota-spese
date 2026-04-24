@@ -1,0 +1,48 @@
+@use 'styles/components/badge' as *;
+@use 'styles/components/tables' as *;
+
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.categorie-table {
+  @include app-table;
+}
+
+.table-wrap {
+  @include table-wrap;
+}
+
+.categorie-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.categorie-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.categorie-table td.actions {
+  text-align: right;
+  width: 140px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.categorie-table td.actions button[mat-icon-button] {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+}
