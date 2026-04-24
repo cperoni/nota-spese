@@ -9,8 +9,9 @@ import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { supabase } from '../../core/supabase.client';
 import { LoadingService } from '../../core/service/loading.service';
-import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
-
+import { SpeseHeader } from './components/spese-header/spese-header';
+import { SpeseForm } from './components/spese-form/spese-form';
+import { SpeseList } from './components/spese-list/spese-list';
 import { UI_ICONS } from '../../shared/config/ui-icons';
 
 type PeriodoFiltro =
@@ -25,7 +26,15 @@ type PeriodoFiltro =
 @Component({
   selector: 'app-spese',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule,EmptyStateComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    SpeseHeader,
+    SpeseForm,
+    SpeseList,
+  ],
   templateUrl: './spese.html',
   styleUrls: ['./spese.scss'],
 })
@@ -34,7 +43,7 @@ export class Spese implements OnInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private loading: LoadingService
+    private loading: LoadingService,
   ) {}
 
   spese: any[] = [];
@@ -57,11 +66,13 @@ export class Spese implements OnInit {
   data: string = '';
 
   async ngOnInit() {
-
     this.data = new Date().toISOString().substring(0, 10);
     await this.loadCategorie();
 
-    const hasResolved = Object.prototype.hasOwnProperty.call(this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {}, 'spese');
+    const hasResolved = Object.prototype.hasOwnProperty.call(
+      this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {},
+      'spese',
+    );
     if (hasResolved) {
       this.spese = this.route.snapshot.data['spese'] || [];
       this.cdr.detectChanges();
@@ -72,10 +83,7 @@ export class Spese implements OnInit {
   }
 
   async loadCategorie() {
-    const { data } = await supabase
-      .from('categorie')
-      .select('*')
-      .order('nome');
+    const { data } = await supabase.from('categorie').select('*').order('nome');
 
     this.categorie = data ?? [];
 
@@ -89,14 +97,16 @@ export class Spese implements OnInit {
     const rangeDate = this.getIntervalloDate(this.filtroPeriodo);
     let query = supabase
       .from('spese')
-      .select(`
+      .select(
+        `
         id,
         importo,
         descrizione,
         data,
         categoria_id,
         categorie ( nome, colore )
-      `)
+      `,
+      )
       .order('data', { ascending: false });
 
     if (rangeDate?.from) {
@@ -161,10 +171,16 @@ export class Spese implements OnInit {
 
     // Porta il form in vista e mette il focus sul campo importo per modificare rapidamente
     setTimeout(() => {
-      const el = document.querySelector('form.card.form input[name="importo"]') as HTMLElement | null;
+      const el = document.querySelector(
+        'form.card.form input[name="importo"]',
+      ) as HTMLElement | null;
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        try { el.focus(); } catch (e) { /* ignore */ }
+        try {
+          el.focus();
+        } catch (e) {
+          /* ignore */
+        }
       }
     }, 50);
   }
@@ -184,7 +200,7 @@ export class Spese implements OnInit {
   // Restituisce true se `importoStr` rispetta il formato richiesto
   validateImporto(): boolean {
     if (!this.importoStr || this.importoStr.trim() === '') {
-      this.importoError = 'L\'importo è obbligatorio.';
+      this.importoError = "L'importo è obbligatorio.";
       return false;
     }
     // Normalizza il separatore decimale per il parse
@@ -202,7 +218,7 @@ export class Spese implements OnInit {
   // Formatta l'input al perdere il focus: sempre con 2 decimali e separatore virgola
   onImportoBlur() {
     if (!this.importoStr || this.importoStr.trim() === '') {
-      this.importoError = 'L\'importo è obbligatorio.';
+      this.importoError = "L'importo è obbligatorio.";
       return;
     }
 
