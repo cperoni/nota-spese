@@ -2,4 +2,6 @@
 
 .form input[type='date'] {
   color-scheme: dark light;
+  min-width: 0;
+  max-width: 100%;
 }

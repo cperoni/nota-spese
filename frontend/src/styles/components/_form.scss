@@ -85,3 +85,17 @@ textarea:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Evita overflow in grid/flex su Safari iOS */
+.feature-form__field {
+  min-width: 0;
+}
+
+/* iOS Safari: evita "auto zoom" sugli input */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

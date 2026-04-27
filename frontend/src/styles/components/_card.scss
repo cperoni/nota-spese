@@ -12,6 +12,15 @@
 	}
   }
   
+  /* Mobile: look edge-to-edge più pulito */
+  @media (max-width: 767px) {
+	.card {
+	  border: none;
+	  border-radius: 10px;
+	  box-shadow: none;
+	}
+  }
+  
   .card.empty,
   .empty {
 	text-align: center;
