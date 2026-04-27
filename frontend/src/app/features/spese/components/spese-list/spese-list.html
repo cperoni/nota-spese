@@ -1,4 +1,5 @@
-<div class="filter-bar">
+<section class="filter-card card">
+  <div class="filter-bar">
     <label for="filtroPeriodo">Mostra:</label>
     <select
       id="filtroPeriodo"
@@ -13,53 +14,54 @@
       <option value="tutte">Tutte le spese</option>
     </select>
   </div>
-  
-  <section class="list-section card">
-    <h3 class="section-title">
-      <mat-icon aria-hidden="true">{{ icons.sections.listaSpese }}</mat-icon>
-      <span>Ultime spese</span>
-    </h3>
-  
-    <div class="table-wrap">
-      <table class="spese-table">
-        <thead>
-          <tr>
-            <th>Importo</th>
-            <th>Descrizione</th>
-            <th>Data</th>
-            <th>Categoria</th>
-            <th>Azioni</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let s of spese" (click)="editClicked.emit(s)" class="spese-row">
-            <td class="amount-col">{{ s.importo }}€</td>
-            <td>{{ s.descrizione }}</td>
-            <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
-            <td>
-              <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">
-                {{ s.categorie?.nome || 'Senza categoria' }}
-              </span>
-            </td>
-            <td class="actions">
-              <button mat-icon-button color="primary" aria-label="Modifica" (click)="editClicked.emit(s); $event.stopPropagation()">
-                <mat-icon>{{ icons.actions.edit }}</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" aria-label="Elimina" (click)="deleteClicked.emit(s); $event.stopPropagation()">
-                <mat-icon>{{ icons.actions.delete }}</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <app-empty-state
-      *ngIf="spese.length === 0"
-      [icon]="icons.sections.listaSpese"
-      title="Nessuna spesa trovata"
-      hint="Prova a cambiare filtro oppure aggiungi una nuova spesa per iniziare."
-      actionLabel="Aggiungi una spesa"
-      (action)="emptyActionClicked.emit()"
-    ></app-empty-state>
-  </section>
+</section>
+
+<section class="list-section card">
+  <h3 class="section-title">
+    <mat-icon aria-hidden="true">{{ icons.sections.listaSpese }}</mat-icon>
+    <span>Ultime spese</span>
+  </h3>
+
+  <div class="table-wrap">
+    <table class="spese-table">
+      <thead>
+        <tr>
+          <th>Importo</th>
+          <th>Descrizione</th>
+          <th>Data</th>
+          <th>Categoria</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of spese" (click)="editClicked.emit(s)" class="spese-row">
+          <td class="amount-col">{{ s.importo }}€</td>
+          <td>{{ s.descrizione }}</td>
+          <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">
+              {{ s.categorie?.nome || 'Senza categoria' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button mat-icon-button color="primary" aria-label="Modifica" (click)="editClicked.emit(s); $event.stopPropagation()">
+              <mat-icon>{{ icons.actions.edit }}</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" aria-label="Elimina" (click)="deleteClicked.emit(s); $event.stopPropagation()">
+              <mat-icon>{{ icons.actions.delete }}</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-empty-state
+    *ngIf="spese.length === 0"
+    [icon]="icons.sections.listaSpese"
+    title="Nessuna spesa trovata"
+    hint="Prova a cambiare filtro oppure aggiungi una nuova spesa per iniziare."
+    actionLabel="Aggiungi una spesa"
+    (action)="emptyActionClicked.emit()"
+  ></app-empty-state>
+</section>

@@ -1,8 +1,38 @@
-.form-section,
-.list-section {
-  margin-bottom: 16px;
+/* Layout condiviso per tutte le feature page */
+.feature-page {
+  width: 100%;
+  max-width: 800px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.list-section h3 {
-    margin: 0 0 12px;
-  }
+/* Tutti i componenti feature sono blocchi full-width */
+.feature-page > * {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Sezioni coerenti */
+.feature-page .form-section,
+.feature-page .list-section {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 16px;
+}
+
+/* Card coerenti al 100% */
+.feature-page .card {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  inline-size: 100%;
+}
+
+.feature-page .list-section h3 {
+  margin: 0 0 12px;
+}

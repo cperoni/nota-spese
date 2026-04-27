@@ -1,16 +1,1 @@
-@use '../../../styles/layout/container' as layout;
-
-.home-container {
-  @include layout.app-container;
-}
-
-@media (max-width: 768px) {
-  .home-container {
-    padding: 12px;
-  }
-
-  .header h1 {
-    font-size: 22px;
-    line-height: 1.2;
-  }
-}
+/* Home non più usata come wrapper */

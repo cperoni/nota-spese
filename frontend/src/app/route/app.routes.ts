@@ -7,10 +7,6 @@ import { SpeseResolver } from '../features/spese/spese.resolver';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    component: Login,
-  },
-  {
     path: '',
     canActivate: [authGuard],
     component: Shell,
@@ -18,7 +14,10 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('../../app/features/home/home').then(m => m.Home),
+          import('../../app/features/spese/spese').then(m => m.Spese),
+        resolve: {
+          spese: SpeseResolver,
+        },
       },
       {
         path: 'categorie',
