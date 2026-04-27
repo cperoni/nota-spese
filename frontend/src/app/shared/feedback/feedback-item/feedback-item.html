@@ -1,0 +1,12 @@
+<div class="item" [class]="item.type">
+  <div class="content">
+    <span class="icon"></span>
+    <span class="message">{{ item.message }}</span>
+  </div>
+
+  @if (item.actionLabel) {
+    <button (click)="onAction()">
+      {{ item.actionLabel }}
+    </button>
+  }
+</div>
