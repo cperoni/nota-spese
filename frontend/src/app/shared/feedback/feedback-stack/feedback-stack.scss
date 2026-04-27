@@ -1,3 +1,5 @@
+@use 'styles/abstracts/breakpoints' as *;
+
 .stack {
   position: fixed;
   bottom: 16px;
