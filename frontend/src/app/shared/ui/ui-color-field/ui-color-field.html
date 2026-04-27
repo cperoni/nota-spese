@@ -1,0 +1,22 @@
+<mat-form-field appearance="outline" class="ui-field ui-color-field">
+    <mat-label>{{ label }}</mat-label>
+  
+    <input
+      matInput
+      type="text"
+      [ngModel]="value"
+      (ngModelChange)="onChange($event)"
+      placeholder="#000000"
+    />
+  
+    <input
+      matSuffix
+      class="color-picker"
+      type="color"
+      [ngModel]="value"
+      (ngModelChange)="onChange($event)"
+      aria-label="Seleziona colore"
+    />
+  
+    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  </mat-form-field>

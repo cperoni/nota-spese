@@ -66,3 +66,36 @@ app-root {
 .mat-icon {
   font-family: 'Material Icons Round' !important;
 }
+
+/* Material fields: look coerente app-wide */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+  border-radius: 12px !important;
+}
+
+/* iOS: evita zoom automatico sugli input */
+@media (max-width: 767px) {
+  .mat-mdc-input-element,
+  .mat-mdc-select-min-line {
+    font-size: 16px !important;
+  }
+}
+
+/* Shared Material field style */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+  border-radius: 12px !important;
+}
+
+@media (max-width: 767px) {
+  .mat-mdc-input-element,
+  .mat-mdc-select-min-line {
+    font-size: 16px !important; /* evita zoom iOS */
+  }
+}

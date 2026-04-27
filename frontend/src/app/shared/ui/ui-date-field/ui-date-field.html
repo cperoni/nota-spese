@@ -1,0 +1,16 @@
+<mat-form-field appearance="outline" class="ui-field">
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [value]="internalDate"
+    (dateChange)="onDateChange($event)"
+    [placeholder]="placeholder"
+    [required]="required"
+    readonly
+  />
+
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

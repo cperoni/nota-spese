@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
 import { CategoriaFormModel } from '../../categorie.types';
-
+import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
+import { UiColorField } from '../../../../shared/ui/ui-color-field/ui-color-field';
 @Component({
   selector: 'app-categorie-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, UiTextField, UiColorField],
   templateUrl: './categorie-form.html',
   styleUrls: ['./categorie-form.scss'],
 })

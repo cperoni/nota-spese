@@ -4,11 +4,24 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
 import { CategoriaItem } from '../../spese.types';
+import { UiDateField } from '../../../../shared/ui/ui-date-field/ui-date-field';
+import {
+  UiSelectField,
+  UiSelectOption,
+} from '../../../../shared/ui/ui-select-field/ui-select-field';
+import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
 
 @Component({
   selector: 'app-spese-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    UiDateField,
+    UiSelectField,
+    UiTextField
+  ],
   templateUrl: './spese-form.html',
   styleUrls: ['./spese-form.scss'],
 })
@@ -29,4 +42,13 @@ export class SpeseForm {
   @Output() dataChange = new EventEmitter<string>();
   @Output() descrizioneChange = new EventEmitter<string>();
   @Output() categoriaIdChange = new EventEmitter<string>();
+
+  categoriaOptions: UiSelectOption[] = [];
+
+  ngOnChanges(): void {
+    this.categoriaOptions = this.categorie.map(c => ({
+      value: c.id,
+      label: c.nome,
+    }));
+  }
 }

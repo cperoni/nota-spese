@@ -1,18 +1,11 @@
 <section class="filter-card card">
   <div class="filter-bar">
-    <label for="filtroPeriodo">Mostra:</label>
-    <select
-      id="filtroPeriodo"
-      [ngModel]="filtroPeriodo"
-      (ngModelChange)="filtroPeriodoChange.emit($event)"
-    >
-      <option value="ultimi_7_giorni">Ultimi 7 giorni</option>
-      <option value="ultimo_mese">Ultimo mese</option>
-      <option value="ultimi_2_mesi">Ultimi 2 mesi</option>
-      <option value="ultimi_6_mesi">Ultimi 6 mesi</option>
-      <option value="ultimo_anno">Ultimo anno</option>
-      <option value="tutte">Tutte le spese</option>
-    </select>
+    <app-ui-select-field
+      label="Mostra"
+      [value]="filtroPeriodo"
+      [options]="filtroPeriodoOptions"
+      (valueChange)="onFiltroPeriodoChange($event)"
+    ></app-ui-select-field>
   </div>
 </section>
 
@@ -44,10 +37,20 @@
             </span>
           </td>
           <td class="actions">
-            <button mat-icon-button color="primary" aria-label="Modifica" (click)="editClicked.emit(s); $event.stopPropagation()">
+            <button
+              mat-icon-button
+              color="primary"
+              aria-label="Modifica"
+              (click)="editClicked.emit(s); $event.stopPropagation()"
+            >
               <mat-icon>{{ icons.actions.edit }}</mat-icon>
             </button>
-            <button mat-icon-button color="warn" aria-label="Elimina" (click)="deleteClicked.emit(s); $event.stopPropagation()">
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Elimina"
+              (click)="deleteClicked.emit(s); $event.stopPropagation()"
+            >
               <mat-icon>{{ icons.actions.delete }}</mat-icon>
             </button>
           </td>
