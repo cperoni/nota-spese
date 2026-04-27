@@ -14,6 +14,7 @@ import { SpeseForm } from './components/spese-form/spese-form';
 import { SpeseList } from './components/spese-list/spese-list';
 import { UI_ICONS } from '../../shared/config/ui-icons';
 import { CategoriaItem, PeriodoFiltro, SpesaItem, SpesaPayload } from './spese.types';
+import { FeedbackService } from '../../core/service/feedback.service';
 
 @Component({
   selector: 'app-spese',
@@ -36,6 +37,7 @@ export class Spese implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private loading: LoadingService,
+    private feedback: FeedbackService,
   ) {}
 
   spese: SpesaItem[] = [];
@@ -113,21 +115,22 @@ export class Spese implements OnInit {
 
     this.spese = (data ?? []).map((row: any) => {
       const categoriaRaw = row.categorie;
-      const categoria =
-        Array.isArray(categoriaRaw) ? (categoriaRaw[0] ?? null) : (categoriaRaw ?? null);
-    
+      const categoria = Array.isArray(categoriaRaw)
+        ? (categoriaRaw[0] ?? null)
+        : (categoriaRaw ?? null);
+
       return {
         ...row,
         categorie: categoria,
       };
     });
     this.cdr.detectChanges();
+    this.feedback.success('Spesa salvata con successo!');
   }
 
   // Salva nuova spesa o aggiorna quella in modifica
   async save() {
     if (!this.categoria_id) return;
-
     if (!this.validateImporto()) return;
 
     this.importo = parseFloat(this.importoStr.replace(',', '.')) || 0;
@@ -143,12 +146,16 @@ export class Spese implements OnInit {
     try {
       if (this.editingId) {
         await supabase.from('spese').update(payload).eq('id', this.editingId);
+        this.feedback.success('Spesa aggiornata con successo!');
       } else {
         await supabase.from('spese').insert([payload]);
+        this.feedback.success('Spesa salvata con successo!');
       }
 
       this.resetForm();
       await this.loadSpese();
+    } catch (error) {
+      this.feedback.error('Errore nel salvataggio della spesa');
     } finally {
       this.loading.hide();
     }
