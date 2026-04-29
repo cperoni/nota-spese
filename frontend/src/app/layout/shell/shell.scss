@@ -17,7 +17,11 @@ mat-sidenav-container {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--mat-sys-surface-container);
+  // 1. Usa lo STESSO colore della sidebar per un look uniforme
+  background: var(--mat-sys-surface-container-low);
+  // 2. Rimuove ombre che potrebbero creare distacco visivo
+  box-shadow: none !important;
+ // 3. Mantiene solo la linea sottile di separazione inferiore
   border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
 }
 
@@ -46,10 +50,18 @@ mat-sidenav-container {
 
 /* SIDEBAR */
 mat-sidenav {
-  width: 260px;
+width: 260px;
   padding: 16px;
+  // Usa lo stesso contenitore di superficie per coerenza con il sistema
   background: var(--mat-sys-surface-container-low);
+  
+  // 1. Rimuove l'arrotondamento predefinito di Material 3 per un look "docked"
+  border-radius: 0 !important; 
+  
+  // 2. Rimuove eventuali bordi superiori e ombre che creano distacco dall'header
+  border-top: none;
   border-right: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+  box-shadow: none !important;
 
   nav,
   .mat-nav-list,
