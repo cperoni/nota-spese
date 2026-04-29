@@ -125,7 +125,6 @@ export class Spese implements OnInit {
       };
     });
     this.cdr.detectChanges();
-    this.feedback.success('Spesa salvata con successo!');
   }
 
   // Salva nuova spesa o aggiorna quella in modifica
@@ -149,7 +148,7 @@ export class Spese implements OnInit {
         this.feedback.success('Spesa aggiornata con successo!');
       } else {
         await supabase.from('spese').insert([payload]);
-        this.feedback.success('Spesa salvata con successo!');
+        this.feedback.success('Spesa inserita con successo!');
       }
 
       this.resetForm();
@@ -248,7 +247,10 @@ export class Spese implements OnInit {
     this.loading.show();
     try {
       await supabase.from('spese').delete().eq('id', id);
+      this.feedback.success('Spesa eliminata con successo!');
       await this.loadSpese();
+    } catch (error) {
+      this.feedback.error("Errore durante l'eliminazione");
     } finally {
       this.loading.hide();
     }
