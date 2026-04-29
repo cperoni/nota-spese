@@ -163,8 +163,10 @@ export class Spese implements OnInit {
   // Chiamata dall'input quando cambia il valore dell'importo
   onImportoChange(value: string) {
     this.importoStr = value;
-    // Aggiorna controllo di validità in tempo reale
-    this.validateImporto();
+    // Se l'utente scrive qualcosa, puliamo eventuali errori precedenti
+    if (this.importoStr.trim() !== '') {
+      this.importoError = '';
+    }
   }
 
   // Seleziona una spesa dalla lista per modificarla
@@ -223,24 +225,27 @@ export class Spese implements OnInit {
     return true;
   }
 
-  // Formatta l'input al perdere il focus: sempre con 2 decimali e separatore virgola
+  // Formatta l'input al perdere il focus: non mostra il warning "obbligatorio"
   onImportoBlur() {
-    if (!this.importoStr || this.importoStr.trim() === '') {
-      this.importoError = "L'importo è obbligatorio.";
+    const trimmed = this.importoStr.trim();
+
+    if (!trimmed) {
+      // Se è vuoto, puliamo l'errore (verrà mostrato solo al clic su 'Aggiungi')
+      this.importoError = '';
       return;
     }
 
-    const normalized = this.importoStr.trim().replace(',', '.');
+    const normalized = trimmed.replace(',', '.');
     const num = parseFloat(normalized);
+
     if (isNaN(num)) {
       this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
       return;
     }
 
-    // Format a due decimali e ripristina la virgola come separatore
+    // Formatta a due decimali e ripristina la virgola come separatore
     this.importoStr = num.toFixed(2).replace('.', ',');
-    // Ricalcola validità
-    this.validateImporto();
+    this.importoError = '';
   }
 
   async delete(id: string) {
