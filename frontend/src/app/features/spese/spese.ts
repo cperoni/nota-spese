@@ -160,13 +160,76 @@ export class Spese implements OnInit {
     }
   }
 
-  // Chiamata dall'input quando cambia il valore dell'importo
+  // Chiamata in tempo reale mentre l'utente digita
   onImportoChange(value: string) {
-    this.importoStr = value;
-    // Se l'utente scrive qualcosa, puliamo eventuali errori precedenti
-    if (this.importoStr.trim() !== '') {
+    // 1. Rimuove tutto ciò che non è un numero o una virgola
+    let sanitized = value.replace(/[^0-9,]/g, '');
+
+    // 2. Gestisce il caso di virgole multiple (ne permette solo una)
+    const parts = sanitized.split(',');
+    if (parts.length > 2) {
+      sanitized = parts[0] + ',' + parts.slice(1).join('');
+    }
+
+    // 3. FIX CRITICO: Se il valore sanitizzato è uguale a quello precedente,
+    // Angular non aggiornerebbe il DOM. Forziamo il reset visivo.
+    if (this.importoStr === sanitized) {
+      // Temporaneamente "sporchiamo" il valore per forzare il refresh del binding
+      // Questo rimuove istantaneamente i caratteri alfabetici rimasti nel campo
+      this.importoStr = sanitized + ' '; 
+      this.cdr.detectChanges();
+    }
+
+    // 4. Applica il valore finale pulito
+    this.importoStr = sanitized.trim();
+
+    // Pulisce l'errore se l'utente sta scrivendo
+    if (this.importoStr !== '') {
       this.importoError = '';
     }
+    
+    this.cdr.detectChanges();
+  }
+
+  // Conferma la formattazione a due decimali quando si esce dal campo
+  onImportoBlur() {
+    const trimmed = this.importoStr.trim();
+    if (!trimmed) {
+      this.importoError = '';
+      return;
+    }
+
+    // Trasforma la virgola in punto per il parsing numerico
+    const normalized = trimmed.replace(',', '.');
+    const num = parseFloat(normalized);
+    
+    if (isNaN(num)) {
+      this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
+      return;
+    }
+
+    // Formatta sempre con due decimali e ripristina la virgola per l'UI
+    this.importoStr = num.toFixed(2).replace('.', ',');
+    this.importoError = ''; 
+  }
+
+  // Chiamata solo al click su "Aggiungi" o "Salva"
+  validateImporto(): boolean {
+    if (!this.importoStr || this.importoStr.trim() === '') {
+      this.importoError = "L'importo è obbligatorio.";
+      this.cdr.detectChanges(); // Forza il refresh per mostrare il bordo rosso
+      return false;
+    }
+    
+    const normalized = this.importoStr.trim().replace(',', '.');
+    const num = parseFloat(normalized);
+    if (isNaN(num)) {
+      this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
+      return false;
+    }
+
+    this.importoError = '';
+    return true;
   }
 
   // Seleziona una spesa dalla lista per modificarla
@@ -194,59 +257,7 @@ export class Spese implements OnInit {
       }
     }, 50);
   }
-
-  // Ripristina la form in modalità inserimento
-  resetForm() {
-    this.editingId = null;
-    this.importo = null;
-    this.importoStr = '';
-    this.importoError = '';
-    this.descrizione = '';
-    this.categoria_id = this.categorie.length > 0 ? this.categorie[0].id : '';
-    this.data = this.formatDate(new Date());
-    this.cdr.detectChanges();
-  }
-
-  // Restituisce true se `importoStr` rispetta il formato richiesto
-  validateImporto(): boolean {
-    if (!this.importoStr || this.importoStr.trim() === '') {
-      this.importoError = "L'importo è obbligatorio.";
-      return false;
-    }
-    // Normalizza il separatore decimale per il parse
-    const normalized = this.importoStr.trim().replace(',', '.');
-    const num = parseFloat(normalized);
-    if (isNaN(num)) {
-      this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
-      return false;
-    }
-
-    this.importoError = '';
-    return true;
-  }
-
-  // Formatta l'input al perdere il focus: non mostra il warning "obbligatorio"
-  onImportoBlur() {
-    const trimmed = this.importoStr.trim();
-
-    if (!trimmed) {
-      // Se è vuoto, puliamo l'errore (verrà mostrato solo al clic su 'Aggiungi')
-      this.importoError = '';
-      return;
-    }
-
-    const normalized = trimmed.replace(',', '.');
-    const num = parseFloat(normalized);
-
-    if (isNaN(num)) {
-      this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
-      return;
-    }
-
-    // Formatta a due decimali e ripristina la virgola come separatore
-    this.importoStr = num.toFixed(2).replace('.', ',');
-    this.importoError = '';
-  }
+  
 
   async delete(id: string) {
     this.loading.show();
@@ -277,6 +288,18 @@ export class Spese implements OnInit {
   onFiltroPeriodoChange(periodo?: PeriodoFiltro) {
     if (periodo) this.filtroPeriodo = periodo;
     return this.loadSpese();
+  }
+
+  // Ripristina il form e resetta gli stati di errore
+  resetForm() {
+    this.editingId = null;
+    this.importo = null;
+    this.importoStr = '';
+    this.importoError = ''; // Rimuove l'errore e quindi il bordo rosso
+    this.descrizione = '';
+    this.categoria_id = this.categorie.length > 0 ? this.categorie[0].id : '';
+    this.data = this.formatDate(new Date());
+    this.cdr.detectChanges();
   }
 
   private getIntervalloDate(periodo: PeriodoFiltro): { from?: string; to?: string } | null {

@@ -13,7 +13,7 @@
           (blurEvent)="importoBlur.emit()"
           hint="Usa la virgola per i decimali (es. 12,50)"
           [error]="importoError"
-          [required]="true"
+          [required]="!!importoError"
         ></app-ui-text-field>
       </div>
 
@@ -50,7 +50,9 @@
 
     <div class="form-actions feature-form__actions">
       <button type="submit" class="btn btn-primary icon-start">
-        <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+        <mat-icon aria-hidden="true">{{
+          editingId ? icons.actions.save : icons.actions.add
+        }}</mat-icon>
         <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
       </button>
 
