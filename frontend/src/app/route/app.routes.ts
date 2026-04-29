@@ -7,14 +7,17 @@ import { SpeseResolver } from '../features/spese/spese.resolver';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    component: Login,
+  },
+  {
     path: '',
     canActivate: [authGuard],
     component: Shell,
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('../../app/features/spese/spese').then(m => m.Spese),
+        loadComponent: () => import('../../app/features/spese/spese').then((m) => m.Spese),
         resolve: {
           spese: SpeseResolver,
         },
@@ -22,23 +25,21 @@ export const routes: Routes = [
       {
         path: 'categorie',
         loadComponent: () =>
-          import('../../app/features/categorie/categorie').then(m => m.Categorie),
+          import('../../app/features/categorie/categorie').then((m) => m.Categorie),
         resolve: {
           categorie: CategorieResolver,
         },
       },
       {
         path: 'spese',
-        loadComponent: () =>
-          import('../../app/features/spese/spese').then(m => m.Spese),
+        loadComponent: () => import('../../app/features/spese/spese').then((m) => m.Spese),
         resolve: {
           spese: SpeseResolver,
         },
       },
       {
         path: 'analisi',
-        loadComponent: () =>
-          import('../../app/features/analisi/analisi').then(m => m.Analisi),
+        loadComponent: () => import('../../app/features/analisi/analisi').then((m) => m.Analisi),
       },
     ],
   },
