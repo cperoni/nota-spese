@@ -1,38 +1,31 @@
-/* Layout condiviso per tutte le feature page */
+/* Layout condiviso per tutte le feature page (Spese, Categorie, ecc.) */
 .feature-page {
   width: 100%;
   max-width: 800px;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  
+  // Spazio netto tra i blocchi (Header, Form, Lista)
+  gap: 32px !important; 
+  padding-bottom: 40px;
 }
 
-/* Tutti i componenti feature sono blocchi full-width */
-.feature-page > * {
-  display: block;
+/* IMPORTANTE: I tag personalizzati di Angular sono 'inline' per default.
+   Dobbiamo forzarli a 'block' affinché il 'gap' del genitore funzioni.
+*/
+app-spese-header,
+app-spese-form,
+app-spese-list,
+app-categorie-header,
+app-categorie-form,
+app-categorie-list {
+  display: block !important;
   width: 100%;
-  min-width: 0;
 }
 
-/* Sezioni coerenti */
+/* Rimuove margini interni che potrebbero annullare visivamente il gap */
 .feature-page .form-section,
 .feature-page .list-section {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  margin: 0 0 16px;
-}
-
-/* Card coerenti al 100% */
-.feature-page .card {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  inline-size: 100%;
-}
-
-.feature-page .list-section h3 {
-  margin: 0 0 12px;
+  margin: 0 !important;
 }

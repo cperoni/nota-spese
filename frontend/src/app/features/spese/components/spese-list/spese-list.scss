@@ -1,31 +1,44 @@
 @use 'styles/components/badge' as *;
 @use 'styles/components/tables' as *;
 
-.filter-bar {
-  width: 100%;
-  max-width: 320px;
-}
-
-.filter-bar select {
-  max-width: 280px;
+:host {
+  display: block;
   width: 100%;
 }
 
-.filter-bar label {
-  color: var(--mat-sys-on-surface-variant);
-  white-space: nowrap;
+.list-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  // In desktop mette titolo a sinistra e filtro a destra
+  @media (min-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .section-title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin: 0;
 
   mat-icon {
     font-size: 22px;
     width: 22px;
     height: 22px;
     color: var(--mat-sys-on-surface);
+  }
+}
+
+.filter-bar {
+  width: 100%;
+  // Il filtro non deve essere troppo largo in desktop
+  @media (min-width: 600px) {
+    max-width: 240px;
   }
 }
 
@@ -60,16 +73,4 @@
   min-width: 44px;
   min-height: 44px;
   border-radius: 8px;
-}
-
-
-.filter-card {
-  margin-bottom: 12px;
-  width: 100%;
-}
-
-@media (max-width: 768px) {
-  .filter-bar {
-    max-width: 100%;
-  }
 }
