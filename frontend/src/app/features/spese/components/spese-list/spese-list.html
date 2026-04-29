@@ -4,7 +4,7 @@
       <mat-icon aria-hidden="true">{{ icons.sections.listaSpese }}</mat-icon>
       <span>Ultime spese</span>
     </h3>
-    
+
     <div class="filter-bar">
       <app-ui-select-field
         label="Mostra"
@@ -32,9 +32,13 @@
           <td>{{ s.descrizione }}</td>
           <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
           <td>
-            <span class="badge" [style.background]="s.categorie?.colore || '#ccc'">
-              {{ s.categorie?.nome || 'Senza categoria' }}
-            </span>
+            <div class="category-cell">
+              <span
+                class="color-dot"
+                [style.backgroundColor]="s.categorie?.colore || '#ccc'"
+              ></span>
+              <span class="category-name">{{ s.categorie?.nome || 'Senza categoria' }}</span>
+            </div>
           </td>
           <td class="actions">
             <button
