@@ -127,6 +127,8 @@ if (resolved?.length) {
       nome: String(row?.nome ?? ''),
       colore: String(row?.colore ?? '#000000'),
       created_at: row?.created_at ? String(row.created_at) : undefined,
+      // Supabase restituisce il conteggio come un array nell'oggetto 'spese'
+      numeroSpese: row?.spese?.[0]?.count ?? 0,
     };
   }
 }

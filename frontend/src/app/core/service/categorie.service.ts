@@ -19,8 +19,14 @@ export class CategorieService {
     return this._refresh$.asObservable();
   }
 
-  getCategorie() {
-    return supabase.from('categorie').select('*').order('created_at', { ascending: false });
+getCategorie() {
+    return supabase
+      .from('categorie')
+      .select(`
+        *,
+        spese:spese(count)
+      `)
+      .order('created_at', { ascending: false });
   }
 
   async addCategoria(categoria: Categoria) {

@@ -3,6 +3,7 @@ export interface CategoriaItem {
     nome: string;
     colore: string;
     created_at?: string;
+    numeroSpese?: number;
   }
   
   export interface CategoriaFormModel {
