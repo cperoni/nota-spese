@@ -1,40 +1,50 @@
-<mat-form-field appearance="outline" class="ui-field custom-color-field">
+<mat-form-field 
+  appearance="outline" 
+  class="ui-field color-select-field"
+  [class.mat-form-field-invalid]="error"
+  [class.has-error]="error"
+>
   <mat-label>{{ label }}</mat-label>
-  
-  <input matInput [value]="value" readonly class="hidden-input" (click)="colorMenuTrigger.openMenu()">
-  
-  <div class="color-selection-wrapper" (click)="colorMenuTrigger.openMenu()">
-    <div class="color-preview-bar" [style.backgroundColor]="value"></div>
+
+  <div matPrefix class="color-prefix" (click)="openPalette()"> <div class="active-dot" 
+         [style.backgroundColor]="value || 'transparent'"
+         [class.is-empty]="!value"
+         [class.error-dot]="error && !value">
+      <mat-icon *ngIf="!value">palette</mat-icon>
+    </div>
   </div>
 
-  <button
+  <input 
+    matInput 
+    [value]="selectedColorName" 
+    [placeholder]="!value ? 'Seleziona colore' : ''"
+    readonly 
+    class="display-input" 
+    (click)="openPalette()" 
+  > <button
     type="button"
     matSuffix
     mat-icon-button
-    #colorMenuTrigger="matMenuTrigger"
     [matMenuTriggerFor]="colorMenu"
-    class="expand-btn"
-  >
-    <mat-icon>expand_more</mat-icon>
+  > <mat-icon>arrow_drop_down</mat-icon>
   </button>
 
-  <mat-menu #colorMenu="matMenu" class="modern-palette-menu">
-    <div class="palette-container" (click)="$event.stopPropagation()">
-      <div class="palette-grid">
-        @for (color of palette; track color) {
-          <button 
-            type="button"
-            class="color-option" 
-            [style.backgroundColor]="color"
-            (click)="onChange(color); colorMenuTrigger.closeMenu()"
-            [class.selected]="value === color"
-          >
-            <mat-icon *ngIf="value === color">check</mat-icon>
-          </button>
-        }
-      </div>
+  <mat-menu #colorMenu="matMenu" class="palette-popup">
+    <div class="palette-grid" (click)="$event.stopPropagation()">
+      @for (item of palette; track item.hex) {
+        <button 
+          type="button"
+          class="color-btn" 
+          [style.backgroundColor]="item.hex"
+          [title]="item.name"
+          (click)="onChange(item.hex)" 
+          [class.is-selected]="value === item.hex"
+        >
+          <mat-icon *ngIf="value === item.hex">done</mat-icon>
+        </button>
+      }
     </div>
   </mat-menu>
 
-  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-error *ngIf="error">{{ error }}</mat-error>
 </mat-form-field>

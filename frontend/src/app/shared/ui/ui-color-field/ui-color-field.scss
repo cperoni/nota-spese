@@ -1,70 +1,92 @@
-.ui-field {
-  width: 100%;
-}
+.ui-field { width: 100%; }
 
-// Nasconde il testo dell'input ma mantiene il comportamento del cursore
-.hidden-input {
-  color: transparent !important;
-  caret-color: transparent !important;
-  cursor: pointer;
-}
-
-.color-selection-wrapper {
-  position: absolute;
-  inset: 0;
+.color-prefix {
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding-left: 4px;
+  padding-right: 12px;
+}
+
+.active-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.is-empty {
+    border-style: dashed;
+    background: transparent;
+    mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+}
+
+.display-input {
   cursor: pointer;
+  font-weight: 500;
+  // Aumentiamo la dimensione del font per evitare che il placeholder sembri troncato
+  font-size: 15px; 
 }
 
-.color-preview-bar {
-  width: 100%;
-  height: 10px;
-  border-radius: 20px; // Forma a "pill" moderna
-  border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-
-// Griglia palette 5 colonne per 20 colori
 .palette-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 8px;
   padding: 12px;
-  background: var(--mat-sys-surface-container-high);
 }
 
-.color-option {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px; // Quadrati smussati
-  border: 1.5px solid rgba(0,0,0,0.05);
+.color-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.15s ease;
+  transition: transform 0.1s ease;
+  mat-icon { color: white; font-size: 20px; width: 20px; height: 20px; }
+  &:hover { transform: scale(1.1); }
+  &.is-selected { outline: 2px solid var(--mat-sys-primary); outline-offset: 2px; }
+}
 
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    color: white;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  }
+.color-select-field {
+  &.has-error {
+    // Forza il colore rosso di Material sull'outline e sulla label
+    ::ng-deep {
+      .mdc-notched-outline > * {
+        border-color: var(--mat-sys-error) !important;
+        border-width: 2px !important;
+      }
+      .mdc-floating-label {
+        color: var(--mat-sys-error) !important;
+      }
+      .mat-mdc-form-field-icon-suffix, .mat-mdc-form-field-icon-prefix {
+        color: var(--mat-sys-error) !important;
+      }
+    }
 
-  &:hover {
-    transform: scale(1.1);
-    z-index: 2;
-  }
-
-  &.selected {
-    outline: 2px solid var(--mat-sys-primary);
-    outline-offset: 2px;
+    // Colora di rosso anche l'icona interna al cerchio se vuoto
+    .active-dot.is-empty mat-icon {
+      color: var(--mat-sys-error) !important;
+    }
+    
+    .active-dot.error-dot {
+      border-color: var(--mat-sys-error);
+      border-style: solid;
+    }
   }
 }
 
-.expand-btn {
-  margin-right: 4px;
+.active-dot {
+  /* ... mantieni stile base ... */
+  transition: all 0.2s ease;
 }

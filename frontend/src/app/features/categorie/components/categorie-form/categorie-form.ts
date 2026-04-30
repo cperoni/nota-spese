@@ -24,6 +24,7 @@ export class CategorieForm {
   @Input({ required: true }) icons!: typeof UI_ICONS;
   @Input() model: CategoriaFormModel = { nome: '', colore: '#000000' };
   @Input() editingId: string | null = null;
+  @Input() errorColore = '';
 
   @Output() submitClicked = new EventEmitter<void>();
   @Output() cancelClicked = new EventEmitter<void>();

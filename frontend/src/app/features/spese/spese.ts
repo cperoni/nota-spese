@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
-import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog';
 import { supabase } from '../../core/supabase.client';
 import { LoadingService } from '../../core/service/loading.service';
 import { SpeseHeader } from './components/spese-header/spese-header';

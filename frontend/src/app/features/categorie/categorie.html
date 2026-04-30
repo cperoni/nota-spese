@@ -1,14 +1,15 @@
 <div class="feature-page container">
   <app-categorie-header [icons]="icons" (addClicked)="resetForm()"></app-categorie-header>
 
-  <app-categorie-form
-    [icons]="icons"
-    [model]="model"
-    [editingId]="editingId"
-    (submitClicked)="save()"
-    (cancelClicked)="resetForm()"
-    (modelChange)="model = $event"
-  ></app-categorie-form>
+<app-categorie-form
+  [icons]="icons"
+  [model]="model"
+  [editingId]="editingId"
+  [errorColore]="errorColore" 
+  (submitClicked)="save()"
+  (cancelClicked)="resetForm()"
+  (modelChange)="model = $event"
+></app-categorie-form>
 
   <app-categorie-list
     [icons]="icons"

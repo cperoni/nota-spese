@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 100%;
 
   @include respond(tablet) {
     flex-direction: row;
@@ -18,13 +17,13 @@
 }
 
 .field-name {
-  flex: 2; // Il campo nome è il più largo
+  flex: 1; // Il campo nome è il più largo
 }
 
 .field-color {
-  flex: 1;
   @include respond(tablet) {
     max-width: 160px;
+    flex-shrink: 0;
   }
 }
 

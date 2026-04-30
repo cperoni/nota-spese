@@ -17,16 +17,20 @@
         <app-ui-color-field
           label="Colore"
           [value]="model.colore"
+          [error]="errorColore"
+          [required]="true"
           (valueChange)="modelChange.emit({ ...model, colore: $event })"
         ></app-ui-color-field>
       </div>
 
       <div class="form-actions">
         <button type="submit" class="btn btn-primary" [title]="editingId ? 'Salva' : 'Aggiungi'">
-          <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+          <mat-icon aria-hidden="true">{{
+            editingId ? icons.actions.save : icons.actions.add
+          }}</mat-icon>
           <span class="btn-label">{{ editingId ? 'Salva' : 'Aggiungi' }}</span>
         </button>
-        
+
         <button
           type="button"
           class="btn btn-secondary"
