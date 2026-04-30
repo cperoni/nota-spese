@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { CategoriaItem, CategoriaFormModel } from './categorie.types';
 import { CategorieService } from '../../core/service/categorie.service';
 import { LoadingService } from '../../core/service/loading.service';
 import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog';
+
 import { CategorieHeader } from './components/categorie-header/categorie-header';
 import { CategorieForm } from './components/categorie-form/categorie-form';
 import { CategorieList } from './components/categorie-list/categorie-list';
@@ -35,21 +36,19 @@ export class Categorie implements OnInit {
 
   categorie: CategoriaItem[] = [];
   editingId: string | null = null;
+  errorColore = '';
   
-  // Modello inizializzato a vuoto per forzare la validazione al primo invio
   model: CategoriaFormModel = {
     nome: '',
     colore: ''
   };
 
-  // Variabile per gestire lo stato di errore del selettore colore
-  errorColore = '';
-
   constructor(
     private categorieService: CategorieService,
     private loading: LoadingService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef 
   ) {}
 
   ngOnInit() {
@@ -61,34 +60,39 @@ export class Categorie implements OnInit {
     try {
       const { data, error } = await this.categorieService.getCategorie();
       if (error) throw error;
+      
       this.categorie = (data || []).map(row => this.normalizeCategoria(row));
+      
+      // Forza l'aggiornamento della UI appena i dati arrivano
+      this.cdr.detectChanges(); 
     } catch (err: any) {
       this.snackBar.open('Errore nel caricamento categorie', 'Chiudi', { duration: 3000 });
     } finally {
       this.loading.hide();
+      this.cdr.detectChanges();
     }
   }
 
   async save() {
-    // 1. Reset stati di errore
     this.errorColore = '';
-
-    // 2. Validazione Manuale
     let isValid = true;
 
+    // Validazione nome (UI gestita da required)
     if (!this.model.nome.trim()) {
-      isValid = false; 
-      // Nota: il campo testo Material si colora già col [required]
+      isValid = false;
     }
 
+    // Validazione colore (UI gestita manualmente)
     if (!this.model.colore) {
       this.errorColore = 'Seleziona un colore per la categoria';
       isValid = false;
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      this.cdr.detectChanges();
+      return;
+    }
 
-    // 3. Salvataggio
     this.loading.show();
     try {
       if (this.editingId) {
@@ -101,11 +105,12 @@ export class Categorie implements OnInit {
         this.snackBar.open('Categoria aggiunta', 'OK', { duration: 2000 });
       }
       this.resetForm();
-      this.loadCategorie();
+      await this.loadCategorie();
     } catch (err: any) {
       this.snackBar.open('Errore durante il salvataggio', 'Chiudi', { duration: 3000 });
     } finally {
       this.loading.hide();
+      this.cdr.detectChanges();
     }
   }
 
@@ -116,15 +121,16 @@ export class Categorie implements OnInit {
       colore: c.colore
     };
     this.errorColore = '';
-    // Scroll opzionale verso il form quando si modifica
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.cdr.detectChanges();
   }
 
   confirmDelete(c: CategoriaItem) {
     const dialogRef = this.dialog.open(ConfirmationDialog, {
+      width: '400px',
       data: {
         title: 'Elimina Categoria',
-        message: `Sei sicuro di voler eliminare "${c.nome}"? ${c.numeroSpese && c.numeroSpese > 0 ? 'Ci sono spese associate.' : ''}`,
+        message: `Sei sicuro di voler eliminare "${c.nome}"? ${c.numeroSpese && c.numeroSpese > 0 ? 'Ci sono ' + c.numeroSpese + ' spese associate.' : ''}`,
         confirmText: 'Elimina',
         cancelText: 'Annulla'
       }
@@ -137,11 +143,12 @@ export class Categorie implements OnInit {
           const { error } = await this.categorieService.deleteCategoria(c.id);
           if (error) throw error;
           this.snackBar.open('Categoria eliminata', 'OK', { duration: 2000 });
-          this.loadCategorie();
+          await this.loadCategorie();
         } catch (err: any) {
-          this.snackBar.open('Impossibile eliminare: verifica se ci sono spese collegate', 'Chiudi', { duration: 4000 });
+          this.snackBar.open('Impossibile eliminare: verifica spese collegate', 'Chiudi', { duration: 4000 });
         } finally {
           this.loading.hide();
+          this.cdr.detectChanges();
         }
       }
     });
@@ -151,6 +158,7 @@ export class Categorie implements OnInit {
     this.editingId = null;
     this.model = { nome: '', colore: '' };
     this.errorColore = '';
+    this.cdr.detectChanges();
   }
 
   private normalizeCategoria(row: any): CategoriaItem {
@@ -159,7 +167,6 @@ export class Categorie implements OnInit {
       nome: String(row?.nome ?? ''),
       colore: String(row?.colore ?? '#000000'),
       created_at: row?.created_at ? String(row.created_at) : undefined,
-      // Estrae il conteggio dal join di Supabase
       numeroSpese: row?.spese?.[0]?.count ?? 0
     };
   }
