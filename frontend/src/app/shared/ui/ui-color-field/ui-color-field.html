@@ -6,13 +6,14 @@
 >
   <mat-label>{{ label }}</mat-label>
 
-  <div matPrefix class="color-prefix" (click)="openPalette()"> <div class="active-dot" 
-         [style.backgroundColor]="value || 'transparent'"
-         [class.is-empty]="!value"
-         [class.error-dot]="error && !value">
-      <mat-icon *ngIf="!value">palette</mat-icon>
-    </div>
+<div matPrefix class="color-prefix" (click)="openPalette()">
+  <div class="active-dot" 
+       [style.backgroundColor]="value || 'transparent'"
+       [class.is-empty]="!value"
+       [class.error-dot]="error && !value">
+    <mat-icon *ngIf="!value">palette</mat-icon>
   </div>
+</div>
 
   <input 
     matInput 

@@ -7,26 +7,70 @@
   padding-right: 12px;
 }
 
+/* ui-color-field.scss */
+
 .active-dot {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px; // Impedisce schiacciamenti in flexbox
   border-radius: 50%;
   border: 2px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  
+  // CENTRATURA TOTALE
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
 
   &.is-empty {
     border-style: dashed;
-    background: transparent;
+    background: var(--mat-sys-surface-container-low);
+
     mat-icon {
-      font-size: 14px;
-      width: 14px;
-      height: 14px;
+      // RESET ICONA: Forziamo le dimensioni per evitare che "esca" dal cerchio
+      font-size: 18px !important; 
+      width: 18px !important;
+      height: 18px !important;
+      line-height: 18px !important; // CRITICO: evita spostamenti verticali
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      
       color: var(--mat-sys-on-surface-variant);
+      opacity: 0.6;
     }
   }
+
+  &.error-dot {
+    border-color: var(--mat-sys-error) !important;
+    border-style: solid;
+    background: color-mix(in srgb, var(--mat-sys-error) 5%, transparent);
+
+    mat-icon {
+      color: var(--mat-sys-error) !important;
+      opacity: 1;
+    }
+  }
+}
+
+// Assicuriamoci che il prefisso di Material non aggiunga padding extra
+::ng-deep .mat-mdc-form-field-icon-prefix {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+// Allineamento verticale del prefisso
+.color-prefix {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+  padding-right: 8px;
+  height: 100%;
+  cursor: pointer;
 }
 
 .display-input {
