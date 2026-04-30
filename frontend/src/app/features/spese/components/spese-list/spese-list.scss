@@ -1,4 +1,129 @@
 @use 'styles/components/tables' as *;
+@use 'styles/abstracts/breakpoints' as *;
+
+.filter-toolbar {
+  // 1. Sfondo e Bordi
+  background-color: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 16px; // Angoli più morbidi
+  
+  // 2. Spaziature (Gap e Padding)
+  padding: 16px 24px;
+  margin-bottom: 28px;
+  
+  // 3. Layout
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  transition: all 0.2s ease;
+
+  @include respond(tablet) {
+    flex-wrap: nowrap;
+  }
+
+  @media (max-width: 950px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+    gap: 16px;
+  }
+}
+
+.filter-main {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.toolbar-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mat-sys-on-surface-variant);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 600px) {
+    display: none; // Nascondi etichetta su mobile per spazio
+  }
+}
+
+.filter-grid {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+
+  @media (max-width: 950px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filter-item {
+  &.search { flex: 2; min-width: 200px; }
+  &.category { flex: 1; min-width: 180px; }
+  &.date { flex: 1; min-width: 150px; }
+}
+
+// Allineamento icone e dot nei menu a discesa
+.category-cell-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+}
+
+// Reset margini per i componenti material dentro la toolbar
+::ng-deep .toolbar-select {
+  width: 100%;
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none; // Rimuove lo spazio per gli errori sotto i filtri
+  }
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--mat-sys-surface) !important; // Campo bianco su fondo grigio
+  }
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--mat-sys-outline-variant);
+  padding-left: 16px;
+
+  @media (max-width: 950px) {
+    border-left: none;
+    border-top: 1px solid var(--mat-sys-outline-variant);
+    padding-left: 0;
+    padding-top: 8px;
+    justify-content: flex-end;
+  }
+}
 
 :host {
   display: block;

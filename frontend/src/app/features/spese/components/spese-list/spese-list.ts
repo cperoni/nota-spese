@@ -1,42 +1,84 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+
+// Import componenti condivisi - VERIFICA I PERCORSI
+import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
-import { PeriodoFiltro, SpesaItem } from '../../spese.types';
-import {
-  UiSelectField,
-  UiSelectOption,
-} from '../../../../shared/ui/ui-select-field/ui-select-field';
+import { CategoriaItem } from '../../../categorie/categorie.types';
+import { SpesaItem } from '../../spese.types';
+
+// Se il file si chiama empty-state.ts e non empty-state.component.ts, usa questo:
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
+
+// Definiamo il tipo localmente per evitare errori di assegnazione se non è importato correttamente
+type PeriodoFiltro = 'all' | 'month' | 'year';
 
 @Component({
   selector: 'app-spese-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, EmptyStateComponent, UiSelectField],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    UiTextField,
+    EmptyState
+  ],
   templateUrl: './spese-list.html',
-  styleUrls: ['./spese-list.scss'],
+  styleUrls: ['./spese-list.scss']
 })
-export class SpeseList {
-  @Input({ required: true }) icons!: typeof UI_ICONS;
+export class SpeseList implements OnInit {
+  @Input({ required: true }) icons!: typeof UI_ICONS; 
   @Input() spese: SpesaItem[] = [];
-  @Input() filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
+  @Input() categorie: CategoriaItem[] = [];
+  
+  // Inizializziamo con un casting per evitare TS2322
+  @Input() filtroPeriodo: PeriodoFiltro = 'month' as PeriodoFiltro;
 
-  @Output() filtroPeriodoChange = new EventEmitter<PeriodoFiltro>();
   @Output() editClicked = new EventEmitter<SpesaItem>();
   @Output() deleteClicked = new EventEmitter<SpesaItem>();
+  @Output() filtroPeriodoChange = new EventEmitter<PeriodoFiltro>();
+  @Output() filterChange = new EventEmitter<any>();
   @Output() emptyActionClicked = new EventEmitter<void>();
 
-  readonly filtroPeriodoOptions: UiSelectOption[] = [
-    { value: 'ultimi_7_giorni', label: 'Ultimi 7 giorni' },
-    { value: 'ultimo_mese', label: 'Ultimo mese' },
-    { value: 'ultimi_2_mesi', label: 'Ultimi 2 mesi' },
-    { value: 'ultimi_6_mesi', label: 'Ultimi 6 mesi' },
-    { value: 'ultimo_anno', label: 'Ultimo anno' },
-    { value: 'tutte', label: 'Tutte le spese' },
-  ];
+  filters = {
+    search: '',
+    categoriaId: null as string | null,
+    periodo: 'month' as PeriodoFiltro
+  };
 
-  onFiltroPeriodoChange(value: string): void {
-    this.filtroPeriodoChange.emit(value as PeriodoFiltro);
+  ngOnInit() {
+    this.filters.periodo = this.filtroPeriodo;
+  }
+
+  onSearch(val: string) {
+    this.filters.search = val;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.filterChange.emit(this.filters);
+  }
+
+  loadSpese() {
+    this.applyFilters();
+  }
+
+  resetFilters() {
+    this.filters = {
+      search: '',
+      categoriaId: null,
+      periodo: 'month' as PeriodoFiltro
+    };
+    this.applyFilters();
   }
 }

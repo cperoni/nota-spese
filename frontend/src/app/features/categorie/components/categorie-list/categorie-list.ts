@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
 import { CategoriaItem } from '../../categorie.types';
 
 @Component({
   selector: 'app-categorie-list',
   standalone: true,
-  imports: [CommonModule, MatIconModule, EmptyStateComponent],
+  imports: [CommonModule, MatIconModule, EmptyState],
   templateUrl: './categorie-list.html',
   styleUrls: ['./categorie-list.scss'],
 })

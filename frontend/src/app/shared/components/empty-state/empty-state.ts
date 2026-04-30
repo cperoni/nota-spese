@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-empty-state',
   standalone: true,
   imports: [CommonModule, MatIconModule],
-  templateUrl: './empty-state.component.html',
-  styleUrls: ['./empty-state.component.scss'],
+  templateUrl: './empty-state.html',
+  styleUrls: ['./empty-state.scss'],
 })
-export class EmptyStateComponent {
+export class EmptyState {
   @Input() icon = 'info';
   @Input() title = 'Nessun elemento';
   @Input() hint = '';

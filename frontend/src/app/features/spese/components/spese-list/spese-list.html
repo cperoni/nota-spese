@@ -1,17 +1,54 @@
-<section class="list-section card">
-  <div class="list-header">
-    <h3 class="section-title">
-      <mat-icon aria-hidden="true">{{ icons.sections.listaSpese }}</mat-icon>
-      <span>Ultime spese</span>
-    </h3>
+<section class="spese-section">
+  <div class="filter-toolbar">
+    <div class="filter-main">
+      <div class="toolbar-label">
+        <mat-icon>filter_alt</mat-icon>
+        <span>Filtri</span>
+      </div>
 
-    <div class="filter-bar">
-      <app-ui-select-field
-        label="Mostra"
-        [value]="filtroPeriodo"
-        [options]="filtroPeriodoOptions"
-        (valueChange)="onFiltroPeriodoChange($event)"
-      ></app-ui-select-field>
+      <div class="filter-grid">
+        <div class="filter-item search">
+          <app-ui-text-field
+            placeholder="Cerca spesa..."
+            [value]="filters.search"
+            (valueChange)="onSearch($event)">
+          </app-ui-text-field>
+        </div>
+
+        <div class="filter-item category">
+          <mat-form-field appearance="outline" class="toolbar-select">
+            <mat-label>Categoria</mat-label>
+            <mat-select [(ngModel)]="filters.categoriaId" (selectionChange)="loadSpese()">
+              <mat-option [value]="null">Tutte le categorie</mat-option>
+              @for (c of categorie; track c.id) {
+                <mat-option [value]="c.id">
+                  <div class="category-cell-inline">
+                    <span class="color-dot" [style.backgroundColor]="c.colore"></span>
+                    <span>{{ c.nome }}</span>
+                  </div>
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="filter-item date">
+          <mat-form-field appearance="outline" class="toolbar-select">
+            <mat-label>Periodo</mat-label>
+            <mat-select [(ngModel)]="filters.periodo" (selectionChange)="loadSpese()">
+              <mat-option value="all">Sempre</mat-option>
+              <mat-option value="month">Questo mese</mat-option>
+              <mat-option value="year">Quest'anno</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar-actions">
+      <button mat-icon-button (click)="resetFilters()" title="Reset filtri">
+        <mat-icon>restart_alt</mat-icon>
+      </button>
     </div>
   </div>
 
