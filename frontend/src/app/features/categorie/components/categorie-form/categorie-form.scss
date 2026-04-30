@@ -1,1 +1,59 @@
-@use 'styles/components/form' as *;
+@use 'styles/abstracts/breakpoints' as *;
+
+.category-inline-form {
+  padding: 12px 16px !important; // Padding ridotto per un look più compatto
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  @include respond(tablet) {
+    flex-direction: row;
+    align-items: flex-start; // Allinea in alto per gestire correttamente le label Material
+    gap: 16px;
+  }
+}
+
+.field-name {
+  flex: 2; // Il campo nome è il più largo
+}
+
+.field-color {
+  flex: 1;
+  @include respond(tablet) {
+    max-width: 160px;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px; // Allineamento mobile
+
+  @include respond(tablet) {
+    // Offset calcolato per centrare i bottoni perfettamente con la box di input Material (outline)
+    // compensando lo spazio della label superiore
+    padding-top: 8px; 
+    margin-left: auto;
+  }
+}
+
+.btn {
+  height: 48px; // Altezza standard per pareggiare i campi Material
+  min-width: 48px;
+  white-space: nowrap;
+}
+
+.btn-label {
+  @media (max-width: 480px) {
+    display: none; // In schermi molto piccoli mostra solo l'icona "+"
+  }
+}
+
+// Rimuove il bordo superiore decorativo ereditato dai form standard
+.form-actions {
+  border-top: none !important;
+}

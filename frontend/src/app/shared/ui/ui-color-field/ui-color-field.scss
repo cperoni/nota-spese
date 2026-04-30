@@ -1,13 +1,70 @@
 .ui-field {
-    width: 100%;
+  width: 100%;
+}
+
+// Nasconde il testo dell'input ma mantiene il comportamento del cursore
+.hidden-input {
+  color: transparent !important;
+  caret-color: transparent !important;
+  cursor: pointer;
+}
+
+.color-selection-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.color-preview-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 20px; // Forma a "pill" moderna
+  border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+// Griglia palette 5 colonne per 20 colori
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  padding: 12px;
+  background: var(--mat-sys-surface-container-high);
+}
+
+.color-option {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px; // Quadrati smussati
+  border: 1.5px solid rgba(0,0,0,0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   }
-  
-  .color-picker {
-    width: 28px;
-    height: 28px;
-    border: 0;
-    border-radius: 6px;
-    padding: 0;
-    background: transparent;
-    cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+    z-index: 2;
   }
+
+  &.selected {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+}
+
+.expand-btn {
+  margin-right: 4px;
+}

@@ -1,22 +1,40 @@
-<mat-form-field appearance="outline" class="ui-field ui-color-field">
-    <mat-label>{{ label }}</mat-label>
+<mat-form-field appearance="outline" class="ui-field custom-color-field">
+  <mat-label>{{ label }}</mat-label>
   
-    <input
-      matInput
-      type="text"
-      [ngModel]="value"
-      (ngModelChange)="onChange($event)"
-      placeholder="#000000"
-    />
+  <input matInput [value]="value" readonly class="hidden-input" (click)="colorMenuTrigger.openMenu()">
   
-    <input
-      matSuffix
-      class="color-picker"
-      type="color"
-      [ngModel]="value"
-      (ngModelChange)="onChange($event)"
-      aria-label="Seleziona colore"
-    />
-  
-    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-  </mat-form-field>
+  <div class="color-selection-wrapper" (click)="colorMenuTrigger.openMenu()">
+    <div class="color-preview-bar" [style.backgroundColor]="value"></div>
+  </div>
+
+  <button
+    type="button"
+    matSuffix
+    mat-icon-button
+    #colorMenuTrigger="matMenuTrigger"
+    [matMenuTriggerFor]="colorMenu"
+    class="expand-btn"
+  >
+    <mat-icon>expand_more</mat-icon>
+  </button>
+
+  <mat-menu #colorMenu="matMenu" class="modern-palette-menu">
+    <div class="palette-container" (click)="$event.stopPropagation()">
+      <div class="palette-grid">
+        @for (color of palette; track color) {
+          <button 
+            type="button"
+            class="color-option" 
+            [style.backgroundColor]="color"
+            (click)="onChange(color); colorMenuTrigger.closeMenu()"
+            [class.selected]="value === color"
+          >
+            <mat-icon *ngIf="value === color">check</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+  </mat-menu>
+
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+</mat-form-field>

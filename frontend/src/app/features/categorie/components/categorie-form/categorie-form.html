@@ -1,7 +1,7 @@
 <section class="form-section">
-  <form (ngSubmit)="submitClicked.emit()" class="card form feature-form">
-    <div class="feature-form__grid">
-      <div class="feature-form__field feature-form__field--full">
+  <form (ngSubmit)="submitClicked.emit()" class="card category-inline-form">
+    <div class="form-content">
+      <div class="field-name">
         <app-ui-text-field
           label="Nome categoria"
           name="nome"
@@ -13,32 +13,30 @@
         ></app-ui-text-field>
       </div>
 
-      <div class="feature-form__field">
+      <div class="field-color">
         <app-ui-color-field
           label="Colore"
           [value]="model.colore"
           (valueChange)="modelChange.emit({ ...model, colore: $event })"
-          hint="Scegli un colore facilmente distinguibile"
         ></app-ui-color-field>
       </div>
-    </div>
 
-    <div class="form-actions feature-form__actions">
-      <button type="submit" class="btn btn-primary icon-start">
-        <mat-icon aria-hidden="true">{{
-          editingId ? icons.actions.save : icons.actions.add
-        }}</mat-icon>
-        <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
-      </button>
-      <button
-        type="button"
-        class="btn btn-secondary icon-start"
-        *ngIf="editingId"
-        (click)="cancelClicked.emit()"
-      >
-        <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
-        <span>Annulla</span>
-      </button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [title]="editingId ? 'Salva' : 'Aggiungi'">
+          <mat-icon aria-hidden="true">{{ editingId ? icons.actions.save : icons.actions.add }}</mat-icon>
+          <span class="btn-label">{{ editingId ? 'Salva' : 'Aggiungi' }}</span>
+        </button>
+        
+        <button
+          type="button"
+          class="btn btn-secondary"
+          *ngIf="editingId"
+          (click)="cancelClicked.emit()"
+          title="Annulla"
+        >
+          <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
+        </button>
+      </div>
     </div>
   </form>
 </section>
