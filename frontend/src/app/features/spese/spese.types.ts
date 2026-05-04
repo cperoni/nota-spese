@@ -1,11 +1,12 @@
-export type PeriodoFiltro =
-  | 'ultimi_7_giorni'
-  | 'ultima_settimana'
-  | 'ultimo_mese'
-  | 'ultimi_2_mesi'
-  | 'ultimi_6_mesi'
-  | 'ultimo_anno'
-  | 'tutte';
+export type PeriodoFiltro = 
+  | 'ultimi_7_giorni' 
+  | 'ultimo_mese' 
+  | 'ultimi_2_mesi' 
+  | 'ultimi_6_mesi' 
+  | 'ultimo_anno' 
+  | 'tutte' 
+  | 'personalizzato' // aggiungilo se previsto
+  | undefined;
 
 export interface CategoriaItem {
   id: string;

@@ -11,13 +11,12 @@ import { MatInputModule } from '@angular/material/input';
 import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
 import { CategoriaItem } from '../../../categorie/categorie.types';
-import { SpesaItem } from '../../spese.types';
+import { PeriodoFiltro, SpesaItem } from '../../spese.types';
 
 // Se il file si chiama empty-state.ts e non empty-state.component.ts, usa questo:
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 
 // Definiamo il tipo localmente per evitare errori di assegnazione se non è importato correttamente
-type PeriodoFiltro = 'all' | 'month' | 'year';
 
 @Component({
   selector: 'app-spese-list',

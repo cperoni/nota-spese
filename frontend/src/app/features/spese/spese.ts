@@ -312,23 +312,6 @@ export class Spese implements OnInit {
         start.setDate(start.getDate() - 6);
         return { from: this.formatDate(start), to: fine };
       }
-      case 'ultima_settimana': {
-        const day = oggi.getDay(); // 0 domenica
-        const diffToMonday = day === 0 ? 6 : day - 1;
-        const startCurrentWeek = new Date(oggi);
-        startCurrentWeek.setDate(oggi.getDate() - diffToMonday);
-
-        const startPreviousWeek = new Date(startCurrentWeek);
-        startPreviousWeek.setDate(startCurrentWeek.getDate() - 7);
-
-        const endPreviousWeek = new Date(startCurrentWeek);
-        endPreviousWeek.setDate(startCurrentWeek.getDate() - 1);
-
-        return {
-          from: this.formatDate(startPreviousWeek),
-          to: this.formatDate(endPreviousWeek),
-        };
-      }
       case 'ultimo_mese': {
         const start = new Date(oggi);
         start.setMonth(start.getMonth() - 1);
