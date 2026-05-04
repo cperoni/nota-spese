@@ -3,6 +3,15 @@
 @use 'styles/abstracts/variables' as *;
 @use 'styles/components/card' as *;
 
+.table-wrap {
+  @include table-wrap;
+  width: 100%;
+}
+
+.spese-table {
+  @include app-table;
+}
+
 .filter-toolbar {
   // Sfondo leggero e prominente
   margin-bottom: 32px;

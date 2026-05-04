@@ -4,14 +4,17 @@
   border-spacing: 0;
   font-size: 14px;
   overflow: hidden;
+  border-radius: 16px;  /* Più morbido */
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--mat-sys-shadow) 15%, transparent);  /* Ombra leggera */
 }
 
 @mixin table-wrap {
-  margin-top: 10px;
-  border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 14%, transparent);
-  border-radius: 12px;
+  margin-top: 16px;  /* Spazio aumentato */
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline) 20%, transparent);  /* Bordo più sottile */
+  border-radius: 16px;  /* Uniforme */
   overflow: auto;
-  background: var(--mat-sys-surface-container);
+  background: var(--mat-sys-surface-container-low);  /* Sfondo più chiaro */
+  box-shadow: 0 1px 8px color-mix(in srgb, var(--mat-sys-shadow) 10%, transparent);  /* Ombra sottile */
 }
 
 /* Base comune per tutte le tabelle app */
@@ -23,30 +26,32 @@
   color: var(--mat-sys-on-surface-variant);
   font-weight: 600;
   font-size: 13px;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;  /* Leggermente aumentato */
   text-align: left;
-  padding: 12px 14px;
-  border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 16%, transparent);
+  padding: 14px 16px;  /* Padding aumentato */
+  border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-outline) 25%, transparent);
 }
 
 .table-wrap table tbody td {
-  padding: 12px 14px;
-  border-top: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+  padding: 14px 16px;  /* Padding aumentato */
+  border-top: 1px solid color-mix(in srgb, var(--mat-sys-outline) 15%, transparent);
   color: var(--mat-sys-on-surface);
+  vertical-align: middle;  /* Allineamento verticale */
 }
 
-/* Zebra leggera */
+/* Zebra leggera migliorata */
 .table-wrap table tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--mat-sys-surface-container-high) 65%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-surface-container-high) 40%, transparent);  /* Più visibile */
 }
 
-/* Hover morbido */
+/* Hover morbido migliorato */
 .table-wrap table tbody tr {
-  transition: background-color 0.2s ease;
+  transition: background-color 0.25s ease;  /* Transizione più lenta */
+  cursor: pointer;  /* Cursore pointer per righe cliccabili */
 }
 
 .table-wrap table tbody tr:hover {
-  background: color-mix(in srgb, var(--mat-sys-primary) 12%, var(--mat-sys-surface-container));
+  background: color-mix(in srgb, var(--mat-sys-primary) 8%, var(--mat-sys-surface-container));  /* Hover più sottile */
 }
 
 /* Colonne numeriche */
@@ -55,4 +60,56 @@
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum' 1;
   white-space: nowrap;
+  font-weight: 500;  /* Leggermente più pesante */
+}
+
+/* Colonne azioni */
+.table-wrap table .actions {
+  text-align: right;
+  width: 120px;  /* Larghezza fissa per azioni */
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Celle categoria */
+.table-wrap table .category-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-wrap table .category-cell .color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.table-wrap table .category-cell .category-name {
+  font-weight: 500;
+}
+
+/* Badge conteggio (per categorie) */
+.table-wrap table .count-badge {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+/* Responsive: su mobile, padding ridotto */
+@media (max-width: 768px) {
+  .table-wrap table thead th,
+  .table-wrap table tbody td {
+    padding: 10px 12px;
+  }
+
+  .table-wrap table .actions {
+    width: 100px;
+  }
 }
