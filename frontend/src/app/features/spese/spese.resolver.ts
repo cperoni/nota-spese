@@ -6,12 +6,11 @@ import { supabase } from '../../core/supabase.client';
   providedIn: 'root',
 })
 export class SpeseResolver implements Resolve<any[]> {
-  // Carica di default le spese degli ultimi 7 giorni
   async resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<any[]> {
+    // Carica di default le spese del mese corrente
     const oggi = new Date();
     const to = oggi.toISOString().slice(0, 10);
-    const start = new Date(oggi);
-    start.setDate(start.getDate() - 6);
+    const start = new Date(oggi.getFullYear(), oggi.getMonth(), 1);  // Primo del mese corrente
     const from = start.toISOString().slice(0, 10);
 
     const { data, error } = await supabase

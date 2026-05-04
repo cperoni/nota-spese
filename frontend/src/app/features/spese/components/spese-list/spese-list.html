@@ -36,7 +36,7 @@
         <div class="filter-item date">
           <mat-form-field appearance="outline" class="toolbar-select">
             <mat-label>Periodo</mat-label>
-            <mat-select [(ngModel)]="filters.periodo" (selectionChange)="onPeriodoChange()">  <!-- Corretto -->
+            <mat-select [(ngModel)]="filters.periodo" (selectionChange)="onPeriodoChange()">
               <mat-option value="ultimi_7_giorni">Ultimi 7 giorni</mat-option>
               <mat-option value="mese_corrente">Mese corrente</mat-option>
               <mat-option value="ultimi_6_mesi">Ultimi 6 mesi</mat-option>
@@ -53,7 +53,7 @@
       </button>
     </div>
   </div>
-  
+
   <div class="table-wrap" *ngIf="spese.length > 0">
     <table class="spese-table">
       <thead>
@@ -106,8 +106,7 @@
     *ngIf="spese.length === 0"
     [icon]="icons.sections.listaSpese"
     title="Nessuna spesa trovata"
-    hint="Prova a cambiare filtro oppure aggiungi una nuova spesa per iniziare."
-    actionLabel="Aggiungi una spesa"
-    (action)="emptyActionClicked.emit()"
+    hint="Prova a cambiare filtro oppure inserisci una spesa."
+    [showAction]="false"
   ></app-empty-state>
 </section>

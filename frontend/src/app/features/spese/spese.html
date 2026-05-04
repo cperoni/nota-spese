@@ -1,5 +1,5 @@
 <div class="feature-page container">
-  <app-spese-header [icons]="icons" (addClicked)="resetForm()"></app-spese-header>
+  <app-spese-header [icons]="icons"></app-spese-header>
 
   <app-spese-form
     [icons]="icons"
@@ -21,11 +21,11 @@
 
   <app-spese-list
     [icons]="icons"
-    [spese]="speseFiltrate" 
-    [categorie]="categorie"  
+    [spese]="speseFiltrate"
+    [categorie]="categorie"
     [filtroPeriodo]="filtroPeriodo"
     (filtroPeriodoChange)="onFiltroPeriodoChange($event)"
-    (filterChange)="onFilterChange($event)"  
+    (filterChange)="onFilterChange($event)"
     (editClicked)="select($event)"
     (deleteClicked)="confirmDelete($event)"
     (emptyActionClicked)="resetForm()"

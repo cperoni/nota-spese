@@ -42,51 +42,58 @@ export class Spese implements OnInit {
   ) {}
 
   spese: SpesaItem[] = [];
-  speseFiltrate: SpesaItem[] = []; // Lista filtrata localmente
+  speseFiltrate: SpesaItem[] = [];
   categorie: CategoriaItem[] = [];
   filtroPeriodo: PeriodoFiltro = 'mese_corrente';
 
-  // Filtri locali (categoria e ricerca)
+  readonly icons = UI_ICONS;
+
+  editingId: string | null = null;
+  importo: number | null = null;
+  importoStr: string = '';
+  importoError: string = '';
+  descrizione = '';
+  categoria_id = '';
+  data: string = '';
+
   localFilters = {
     search: '',
     categoriaId: null as string | null,
   };
 
-  readonly icons = UI_ICONS;
-
-  // Id del record in modifica (null = modalità inserimento)
-  editingId: string | null = null;
-
-  importo: number | null = null;
-  // Input visuale per l'importo: usa la virgola come separatore decimale (es. 12,50)
-  importoStr: string = '';
-  // Messaggio di errore per validazione importo (vuoto se valido)
-  importoError: string = '';
-
-  descrizione = '';
-  categoria_id = '';
-  data: string = '';
-
   async ngOnInit() {
-    this.data = new Date().toISOString().substring(0, 10);
-    await this.loadCategorie();
+  this.data = new Date().toISOString().substring(0, 10);
+  await this.loadCategorie();
 
-    const hasResolved = Object.prototype.hasOwnProperty.call(
-      this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {},
-      'spese',
-    );
-    if (hasResolved) {
-      this.spese = this.route.snapshot.data['spese'] || [];
-      this.cdr.detectChanges();
-    } else {
-      // fallback: se il resolver non è stato eseguito, carica comunque le spese
-      await this.loadSpese();
-    }
+  const hasResolved = Object.prototype.hasOwnProperty.call(
+    this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {},
+    'spese',
+  );
+
+  if (hasResolved) {
+    // Mappa i dati grezzi come in loadSpese()
+    const rawData = this.route.snapshot.data['spese'] || [];
+    console.log('Raw data from resolver:', rawData);  // Debug
+    this.spese = rawData.map((row: any) => {
+      const categoriaRaw = row.categorie;
+      const categoria = Array.isArray(categoriaRaw)
+        ? (categoriaRaw[0] ?? null)
+        : (categoriaRaw ?? null);
+
+      return {
+        ...row,
+        categorie: categoria,
+      };
+    });
+    this.applyLocalFilters();
+    this.cdr.detectChanges();
+  } else {
+    await this.loadSpese();
   }
+}
 
   async loadCategorie() {
     const { data } = await supabase.from('categorie').select('*').order('nome');
-
     this.categorie = data ?? [];
 
     if (this.categorie.length > 0) {
@@ -132,11 +139,11 @@ export class Spese implements OnInit {
         categorie: categoria,
       };
     });
+
     this.applyLocalFilters();
     this.cdr.detectChanges();
   }
 
-  // Salva nuova spesa o aggiorna quella in modifica
   async save() {
     if (!this.categoria_id) return;
     if (!this.validateImporto()) return;
@@ -169,30 +176,20 @@ export class Spese implements OnInit {
     }
   }
 
-  // Chiamata in tempo reale mentre l'utente digita
   onImportoChange(value: string) {
-    // 1. Rimuove tutto ciò che non è un numero o una virgola
     let sanitized = value.replace(/[^0-9,]/g, '');
-
-    // 2. Gestisce il caso di virgole multiple (ne permette solo una)
     const parts = sanitized.split(',');
     if (parts.length > 2) {
       sanitized = parts[0] + ',' + parts.slice(1).join('');
     }
 
-    // 3. FIX CRITICO: Se il valore sanitizzato è uguale a quello precedente,
-    // Angular non aggiornerebbe il DOM. Forziamo il reset visivo.
     if (this.importoStr === sanitized) {
-      // Temporaneamente "sporchiamo" il valore per forzare il refresh del binding
-      // Questo rimuove istantaneamente i caratteri alfabetici rimasti nel campo
       this.importoStr = sanitized + ' ';
       this.cdr.detectChanges();
     }
 
-    // 4. Applica il valore finale pulito
     this.importoStr = sanitized.trim();
 
-    // Pulisce l'errore se l'utente sta scrivendo
     if (this.importoStr !== '') {
       this.importoError = '';
     }
@@ -200,7 +197,6 @@ export class Spese implements OnInit {
     this.cdr.detectChanges();
   }
 
-  // Conferma la formattazione a due decimali quando si esce dal campo
   onImportoBlur() {
     const trimmed = this.importoStr.trim();
     if (!trimmed) {
@@ -208,7 +204,6 @@ export class Spese implements OnInit {
       return;
     }
 
-    // Trasforma la virgola in punto per il parsing numerico
     const normalized = trimmed.replace(',', '.');
     const num = parseFloat(normalized);
 
@@ -217,16 +212,14 @@ export class Spese implements OnInit {
       return;
     }
 
-    // Formatta sempre con due decimali e ripristina la virgola per l'UI
     this.importoStr = num.toFixed(2).replace('.', ',');
     this.importoError = '';
   }
 
-  // Chiamata solo al click su "Aggiungi" o "Salva"
   validateImporto(): boolean {
     if (!this.importoStr || this.importoStr.trim() === '') {
       this.importoError = "L'importo è obbligatorio.";
-      this.cdr.detectChanges(); // Forza il refresh per mostrare il bordo rosso
+      this.cdr.detectChanges();
       return false;
     }
 
@@ -241,7 +234,6 @@ export class Spese implements OnInit {
     return true;
   }
 
-  // Seleziona una spesa dalla lista per modificarla
   select(s: SpesaItem) {
     this.editingId = s.id || null;
     this.importo = s.importo;
@@ -250,21 +242,6 @@ export class Spese implements OnInit {
     this.categoria_id = s.categoria_id || this.categoria_id;
     this.data = s.data ? s.data.slice(0, 10) : this.formatDate(new Date());
     this.cdr.detectChanges();
-
-    // Porta il form in vista e mette il focus sul campo importo per modificare rapidamente
-    setTimeout(() => {
-      const el = document.querySelector(
-        'form.card.form input[name="importo"]',
-      ) as HTMLElement | null;
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        try {
-          el.focus();
-        } catch (e) {
-          /* ignore */
-        }
-      }
-    }, 50);
   }
 
   async delete(id: string) {
@@ -298,18 +275,16 @@ export class Spese implements OnInit {
     return this.loadSpese();
   }
 
-  // Nuovo metodo per filtri locali (categoria e ricerca)
   onFilterChange(filters: any) {
     this.localFilters = { ...filters };
     this.applyLocalFilters();
   }
 
-  // Ripristina il form e resetta gli stati di errore
   resetForm() {
     this.editingId = null;
     this.importo = null;
     this.importoStr = '';
-    this.importoError = ''; // Rimuove l'errore e quindi il bordo rosso
+    this.importoError = '';
     this.descrizione = '';
     this.categoria_id = this.categorie.length > 0 ? this.categorie[0].id : '';
     this.data = this.formatDate(new Date());
@@ -318,17 +293,16 @@ export class Spese implements OnInit {
 
   private applyLocalFilters() {
     this.speseFiltrate = this.spese.filter((spesa) => {
-      // Filtro ricerca (descrizione, case-insensitive)
       const matchesSearch =
         !this.localFilters.search ||
         spesa.descrizione.toLowerCase().includes(this.localFilters.search.toLowerCase());
 
-      // Filtro categoria
       const matchesCategoria =
         !this.localFilters.categoriaId || spesa.categoria_id === this.localFilters.categoriaId;
 
       return matchesSearch && matchesCategoria;
     });
+    console.log('applyLocalFilters - speseFiltrate length:', this.speseFiltrate.length);  // Debug
     this.cdr.detectChanges();
   }
 
@@ -343,7 +317,7 @@ export class Spese implements OnInit {
         return { from: this.formatDate(start), to: fine };
       }
       case 'mese_corrente': {
-        const start = new Date(oggi.getFullYear(), oggi.getMonth(), 1); // Primo del mese corrente
+        const start = new Date(oggi.getFullYear(), oggi.getMonth(), 1);
         return { from: this.formatDate(start), to: fine };
       }
       case 'ultimi_6_mesi': {
@@ -352,7 +326,7 @@ export class Spese implements OnInit {
         return { from: this.formatDate(start), to: fine };
       }
       case 'anno_corrente': {
-        const start = new Date(oggi.getFullYear(), 0, 1); // 1 gennaio anno corrente
+        const start = new Date(oggi.getFullYear(), 0, 1);
         return { from: this.formatDate(start), to: fine };
       }
       default:

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,14 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-
-// Import componenti condivisi - VERIFICA I PERCORSI
 import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
 import { CategoriaItem } from '../../../categorie/categorie.types';
 import { PeriodoFiltro, SpesaItem } from '../../spese.types';
-
-// Se il file si chiama empty-state.ts e non empty-state.component.ts, usa questo:
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 
 @Component({
@@ -28,18 +24,16 @@ import { EmptyState } from '../../../../shared/components/empty-state/empty-stat
     MatSelectModule,
     MatInputModule,
     UiTextField,
-    EmptyState
+    EmptyState,
   ],
   templateUrl: './spese-list.html',
-  styleUrls: ['./spese-list.scss']
+  styleUrls: ['./spese-list.scss'],
 })
 export class SpeseList implements OnInit {
-  @Input({ required: true }) icons!: typeof UI_ICONS; 
+  @Input({ required: true }) icons!: typeof UI_ICONS;
   @Input() spese: SpesaItem[] = [];
   @Input() categorie: CategoriaItem[] = [];
-  
-  // Inizializziamo con un casting per evitare TS2322
-  @Input() filtroPeriodo: PeriodoFiltro = 'month' as PeriodoFiltro;
+  @Input() filtroPeriodo: PeriodoFiltro = 'mese_corrente' as PeriodoFiltro;
 
   @Output() editClicked = new EventEmitter<SpesaItem>();
   @Output() deleteClicked = new EventEmitter<SpesaItem>();
@@ -50,11 +44,17 @@ export class SpeseList implements OnInit {
   filters = {
     search: '',
     categoriaId: null as string | null,
-    periodo: 'mese_corrente' as PeriodoFiltro  // Default aggiornato
+    periodo: 'mese_corrente' as PeriodoFiltro,
   };
 
+    ngOnChanges(changes: SimpleChanges) {
+    if (changes['spese']) {
+      console.log('SpeseList - spese changed:', changes['spese'].currentValue);  // Debug
+    }
+  }
+  
   ngOnInit() {
-    this.filters.periodo = this.filtroPeriodo || 'mese_corrente'; 
+    this.filters.periodo = this.filtroPeriodo || 'mese_corrente';
   }
 
   onSearch(val: string) {
@@ -66,21 +66,16 @@ export class SpeseList implements OnInit {
     this.filterChange.emit(this.filters);
   }
 
-  loadSpese() {
-    this.applyFilters();
+  onPeriodoChange() {
+    this.filtroPeriodoChange.emit(this.filters.periodo);
   }
 
   resetFilters() {
     this.filters = {
       search: '',
       categoriaId: null,
-      periodo: 'mese_corrente' as PeriodoFiltro  // Default corretto
+      periodo: 'mese_corrente' as PeriodoFiltro,
     };
     this.applyFilters();
-  }
-
-    // Nuovo metodo per periodo (emette cambio periodo)
-  onPeriodoChange() {
-    this.filtroPeriodoChange.emit(this.filters.periodo);
   }
 }
