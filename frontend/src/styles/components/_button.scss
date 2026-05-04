@@ -91,3 +91,36 @@ button[mat-icon-button] {
     min-height: 44px;
   }
 }
+
+// Pulsanti azione tabelle (categorie/spese)
+button.action-btn[mat-icon-button] {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 10px;
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+  transition: background 0.18s;
+}
+button.action-btn[mat-icon-button][color="primary"] {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+}
+button.action-btn[mat-icon-button][color="warn"] {
+  background: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+}
+button.action-btn[mat-icon-button]:hover {
+  filter: brightness(0.97);
+}
+
+// Uniforma la dimensione delle icone nei bottoni azione delle tabelle
+button.action-btn[mat-icon-button] .mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  display: inline-block;
+}

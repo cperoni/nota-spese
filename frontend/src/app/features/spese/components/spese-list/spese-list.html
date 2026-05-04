@@ -82,6 +82,7 @@
           <td class="actions">
             <button
               mat-icon-button
+              class="action-btn"
               color="primary"
               aria-label="Modifica"
               (click)="editClicked.emit(s); $event.stopPropagation()"
@@ -90,6 +91,7 @@
             </button>
             <button
               mat-icon-button
+              class="action-btn"
               color="warn"
               aria-label="Elimina"
               (click)="deleteClicked.emit(s); $event.stopPropagation()"
