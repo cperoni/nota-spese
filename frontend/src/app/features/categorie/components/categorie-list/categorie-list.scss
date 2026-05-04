@@ -13,19 +13,12 @@
   }
 }
 
-.categorie-table { @include app-table; }
-.table-wrap { @include table-wrap; }
-.categorie-row { cursor: pointer; transition: background 0.15s ease; }
-
-.categorie-table td {
-  padding: 12px 14px;
+.table-wrap {
+  @include table-wrap;
+  width: 100%;
 }
 
-.categorie-table td.actions {
-  text-align: right;
-  width: 140px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  align-items: center;
+.categorie-table {
+  @include app-table;
+  width: 100%;
 }

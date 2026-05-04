@@ -1,4 +1,4 @@
-<section class="list-section card">
+<section class="list-section">
   <h3 class="section-title">
     <mat-icon aria-hidden="true">{{ icons.sections.listaCategorie }}</mat-icon>
     <span>Categorie</span>
@@ -19,8 +19,8 @@
               <span class="color-dot" [style.backgroundColor]="c.colore || '#ccc'"></span>
               <span class="category-name">{{ c.nome }}</span>
               <span class="count-badge" title="Numero di spese in questa categoria">
-      {{ c.numeroSpese }}
-    </span>
+                {{ c.numeroSpese }}
+              </span>
             </div>
           </td>
           <td class="actions">
