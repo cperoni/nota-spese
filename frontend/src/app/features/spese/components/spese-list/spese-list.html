@@ -1,5 +1,5 @@
 <section class="spese-section">
-  <div class="filter-toolbar">
+  <div class="card filter-toolbar">  <!-- Usa la classe .card condivisa -->
     <div class="filter-main">
       <div class="toolbar-label">
         <mat-icon>filter_alt</mat-icon>
@@ -21,7 +21,7 @@
             <mat-label>Categoria</mat-label>
             <mat-select [(ngModel)]="filters.categoriaId" (selectionChange)="loadSpese()">
               <mat-option [value]="null">Tutte le categorie</mat-option>
-              @for (c of categorie; track c.id) {
+              @for (c of categorie; track c.id) {  <!-- Solo categorie dal DB -->
                 <mat-option [value]="c.id">
                   <div class="category-cell-inline">
                     <span class="color-dot" [style.backgroundColor]="c.colore"></span>
@@ -37,9 +37,10 @@
           <mat-form-field appearance="outline" class="toolbar-select">
             <mat-label>Periodo</mat-label>
             <mat-select [(ngModel)]="filters.periodo" (selectionChange)="loadSpese()">
-              <mat-option value="all">Sempre</mat-option>
-              <mat-option value="month">Questo mese</mat-option>
-              <mat-option value="year">Quest'anno</mat-option>
+              <mat-option value="ultimi_7_giorni">Ultimi 7 giorni</mat-option>
+              <mat-option value="mese_corrente">Mese corrente</mat-option>
+              <mat-option value="ultimi_6_mesi">Ultimi 6 mesi</mat-option>
+              <mat-option value="anno_corrente">Anno corrente</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

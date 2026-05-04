@@ -42,7 +42,7 @@ export class Spese implements OnInit {
 
   spese: SpesaItem[] = [];
   categorie: CategoriaItem[] = [];
-  filtroPeriodo: PeriodoFiltro = 'ultimi_7_giorni';
+  filtroPeriodo: PeriodoFiltro = 'mese_corrente';  // Default aggiornato
 
   readonly icons = UI_ICONS;
 
@@ -312,14 +312,8 @@ export class Spese implements OnInit {
         start.setDate(start.getDate() - 6);
         return { from: this.formatDate(start), to: fine };
       }
-      case 'ultimo_mese': {
-        const start = new Date(oggi);
-        start.setMonth(start.getMonth() - 1);
-        return { from: this.formatDate(start), to: fine };
-      }
-      case 'ultimi_2_mesi': {
-        const start = new Date(oggi);
-        start.setMonth(start.getMonth() - 2);
+      case 'mese_corrente': {
+        const start = new Date(oggi.getFullYear(), oggi.getMonth(), 1);  // Primo del mese corrente
         return { from: this.formatDate(start), to: fine };
       }
       case 'ultimi_6_mesi': {
@@ -327,12 +321,10 @@ export class Spese implements OnInit {
         start.setMonth(start.getMonth() - 6);
         return { from: this.formatDate(start), to: fine };
       }
-      case 'ultimo_anno': {
-        const start = new Date(oggi);
-        start.setFullYear(start.getFullYear() - 1);
+      case 'anno_corrente': {
+        const start = new Date(oggi.getFullYear(), 0, 1);  // 1 gennaio anno corrente
         return { from: this.formatDate(start), to: fine };
       }
-      case 'tutte':
       default:
         return null;
     }

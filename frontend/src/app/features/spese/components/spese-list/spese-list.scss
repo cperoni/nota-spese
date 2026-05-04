@@ -1,39 +1,26 @@
 @use 'styles/components/tables' as *;
 @use 'styles/abstracts/breakpoints' as *;
 @use 'styles/abstracts/variables' as *;
+@use 'styles/components/card' as *;
 
 .filter-toolbar {
   // Sfondo leggero e prominente
-  background-color: var(--mat-sys-surface-container-low);
-  
-  // Bordo più visibile
-  border: 2px solid var(--mat-sys-outline-variant);
-  border-radius: 12px;
-  
-  // Ombra leggera per elevazione
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  
-  // Padding più ampio
-  padding: 20px 28px;
   margin-bottom: 32px;
   
-  // Layout con gap maggiore
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px; // Aumentato da 24px
+  gap: 32px;
   transition: all 0.2s ease;
 
   @include respond(tablet) {
     flex-wrap: nowrap;
-    padding: 18px 24px;
     gap: 28px;
   }
 
   @include respond(mobile) {
     flex-direction: column;
     align-items: stretch;
-    padding: 16px;
     gap: 20px;
   }
 }
