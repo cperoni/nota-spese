@@ -52,11 +52,11 @@ export class SpeseList implements OnInit {
   filters = {
     search: '',
     categoriaId: null as string | null,
-    periodo: 'month' as PeriodoFiltro
+    periodo: 'mese_corrente' as PeriodoFiltro  // Default aggiornato
   };
 
   ngOnInit() {
-    this.filters.periodo = this.filtroPeriodo;
+    this.filters.periodo = this.filtroPeriodo || 'mese_corrente'; 
   }
 
   onSearch(val: string) {
