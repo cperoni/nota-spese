@@ -9,6 +9,7 @@
       <thead>
         <tr>
           <th>Categoria</th>
+          <th>Numero Spese</th>
           <th>Azioni</th>
         </tr>
       </thead>
@@ -18,10 +19,10 @@
             <div class="category-cell">
               <span class="color-dot" [style.backgroundColor]="c.colore || '#ccc'"></span>
               <span class="category-name">{{ c.nome }}</span>
-              <span class="count-badge" title="Numero di spese in questa categoria">
-                {{ c.numeroSpese }}
-              </span>
             </div>
+          </td>
+          <td class="count-col">
+            {{ c.numeroSpese }}
           </td>
           <td class="actions">
             <button

@@ -55,12 +55,17 @@
 }
 
 /* Colonne numeriche */
-.table-wrap table .amount-col {
+.table-wrap table .amount-col,
+.table-wrap table .count-col {
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum' 1;
   white-space: nowrap;
   font-weight: 500;  /* Leggermente più pesante */
+}
+
+.table-wrap table .count-col {
+  text-align: left;
 }
 
 /* Colonne azioni */
@@ -73,10 +78,13 @@
   align-items: center;
 }
 
-.table-wrap table .actions button.mat-icon-button {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+.table-wrap table .actions button.mat-icon-button,
+.table-wrap table .actions button[mat-icon-button] {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
 }
 
 .table-wrap table .actions button.mat-icon-button mat-icon {
