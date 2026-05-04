@@ -16,8 +16,6 @@ import { PeriodoFiltro, SpesaItem } from '../../spese.types';
 // Se il file si chiama empty-state.ts e non empty-state.component.ts, usa questo:
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 
-// Definiamo il tipo localmente per evitare errori di assegnazione se non è importato correttamente
-
 @Component({
   selector: 'app-spese-list',
   standalone: true,
@@ -76,8 +74,13 @@ export class SpeseList implements OnInit {
     this.filters = {
       search: '',
       categoriaId: null,
-      periodo: 'month' as PeriodoFiltro
+      periodo: 'mese_corrente' as PeriodoFiltro  // Default corretto
     };
     this.applyFilters();
+  }
+
+    // Nuovo metodo per periodo (emette cambio periodo)
+  onPeriodoChange() {
+    this.filtroPeriodoChange.emit(this.filters.periodo);
   }
 }

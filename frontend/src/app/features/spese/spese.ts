@@ -13,8 +13,9 @@ import { SpeseHeader } from './components/spese-header/spese-header';
 import { SpeseForm } from './components/spese-form/spese-form';
 import { SpeseList } from './components/spese-list/spese-list';
 import { UI_ICONS } from '../../shared/config/ui-icons';
-import { CategoriaItem, PeriodoFiltro, SpesaItem, SpesaPayload } from './spese.types';
+import { PeriodoFiltro, SpesaItem, SpesaPayload } from './spese.types';
 import { FeedbackService } from '../../core/service/feedback.service';
+import { CategoriaItem } from '../categorie/categorie.types';
 
 @Component({
   selector: 'app-spese',
@@ -41,8 +42,15 @@ export class Spese implements OnInit {
   ) {}
 
   spese: SpesaItem[] = [];
+  speseFiltrate: SpesaItem[] = []; // Lista filtrata localmente
   categorie: CategoriaItem[] = [];
-  filtroPeriodo: PeriodoFiltro = 'mese_corrente';  // Default aggiornato
+  filtroPeriodo: PeriodoFiltro = 'mese_corrente';
+
+  // Filtri locali (categoria e ricerca)
+  localFilters = {
+    search: '',
+    categoriaId: null as string | null,
+  };
 
   readonly icons = UI_ICONS;
 
@@ -124,6 +132,7 @@ export class Spese implements OnInit {
         categorie: categoria,
       };
     });
+    this.applyLocalFilters();
     this.cdr.detectChanges();
   }
 
@@ -176,7 +185,7 @@ export class Spese implements OnInit {
     if (this.importoStr === sanitized) {
       // Temporaneamente "sporchiamo" il valore per forzare il refresh del binding
       // Questo rimuove istantaneamente i caratteri alfabetici rimasti nel campo
-      this.importoStr = sanitized + ' '; 
+      this.importoStr = sanitized + ' ';
       this.cdr.detectChanges();
     }
 
@@ -187,7 +196,7 @@ export class Spese implements OnInit {
     if (this.importoStr !== '') {
       this.importoError = '';
     }
-    
+
     this.cdr.detectChanges();
   }
 
@@ -202,7 +211,7 @@ export class Spese implements OnInit {
     // Trasforma la virgola in punto per il parsing numerico
     const normalized = trimmed.replace(',', '.');
     const num = parseFloat(normalized);
-    
+
     if (isNaN(num)) {
       this.importoError = 'Inserire un numero valido (es. 12 o 12,50).';
       return;
@@ -210,7 +219,7 @@ export class Spese implements OnInit {
 
     // Formatta sempre con due decimali e ripristina la virgola per l'UI
     this.importoStr = num.toFixed(2).replace('.', ',');
-    this.importoError = ''; 
+    this.importoError = '';
   }
 
   // Chiamata solo al click su "Aggiungi" o "Salva"
@@ -220,7 +229,7 @@ export class Spese implements OnInit {
       this.cdr.detectChanges(); // Forza il refresh per mostrare il bordo rosso
       return false;
     }
-    
+
     const normalized = this.importoStr.trim().replace(',', '.');
     const num = parseFloat(normalized);
     if (isNaN(num)) {
@@ -257,7 +266,6 @@ export class Spese implements OnInit {
       }
     }, 50);
   }
-  
 
   async delete(id: string) {
     this.loading.show();
@@ -290,6 +298,12 @@ export class Spese implements OnInit {
     return this.loadSpese();
   }
 
+  // Nuovo metodo per filtri locali (categoria e ricerca)
+  onFilterChange(filters: any) {
+    this.localFilters = { ...filters };
+    this.applyLocalFilters();
+  }
+
   // Ripristina il form e resetta gli stati di errore
   resetForm() {
     this.editingId = null;
@@ -299,6 +313,22 @@ export class Spese implements OnInit {
     this.descrizione = '';
     this.categoria_id = this.categorie.length > 0 ? this.categorie[0].id : '';
     this.data = this.formatDate(new Date());
+    this.cdr.detectChanges();
+  }
+
+  private applyLocalFilters() {
+    this.speseFiltrate = this.spese.filter((spesa) => {
+      // Filtro ricerca (descrizione, case-insensitive)
+      const matchesSearch =
+        !this.localFilters.search ||
+        spesa.descrizione.toLowerCase().includes(this.localFilters.search.toLowerCase());
+
+      // Filtro categoria
+      const matchesCategoria =
+        !this.localFilters.categoriaId || spesa.categoria_id === this.localFilters.categoriaId;
+
+      return matchesSearch && matchesCategoria;
+    });
     this.cdr.detectChanges();
   }
 
@@ -313,7 +343,7 @@ export class Spese implements OnInit {
         return { from: this.formatDate(start), to: fine };
       }
       case 'mese_corrente': {
-        const start = new Date(oggi.getFullYear(), oggi.getMonth(), 1);  // Primo del mese corrente
+        const start = new Date(oggi.getFullYear(), oggi.getMonth(), 1); // Primo del mese corrente
         return { from: this.formatDate(start), to: fine };
       }
       case 'ultimi_6_mesi': {
@@ -322,7 +352,7 @@ export class Spese implements OnInit {
         return { from: this.formatDate(start), to: fine };
       }
       case 'anno_corrente': {
-        const start = new Date(oggi.getFullYear(), 0, 1);  // 1 gennaio anno corrente
+        const start = new Date(oggi.getFullYear(), 0, 1); // 1 gennaio anno corrente
         return { from: this.formatDate(start), to: fine };
       }
       default:

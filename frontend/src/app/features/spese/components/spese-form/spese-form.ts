@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
-import { CategoriaItem } from '../../spese.types';
 import { UiDateField } from '../../../../shared/ui/ui-date-field/ui-date-field';
 import {
   UiSelectField,
   UiSelectOption,
 } from '../../../../shared/ui/ui-select-field/ui-select-field';
 import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
+import { CategoriaItem } from '../../../categorie/categorie.types';
 
 @Component({
   selector: 'app-spese-form',

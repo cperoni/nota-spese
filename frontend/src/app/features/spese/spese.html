@@ -21,9 +21,11 @@
 
   <app-spese-list
     [icons]="icons"
-    [spese]="spese"
+    [spese]="speseFiltrate" 
+    [categorie]="categorie"  
     [filtroPeriodo]="filtroPeriodo"
     (filtroPeriodoChange)="onFiltroPeriodoChange($event)"
+    (filterChange)="onFilterChange($event)"  
     (editClicked)="select($event)"
     (deleteClicked)="confirmDelete($event)"
     (emptyActionClicked)="resetForm()"

@@ -4,12 +4,6 @@ export type PeriodoFiltro =
   | 'ultimi_6_mesi' 
   | 'anno_corrente';
 
-export interface CategoriaItem {
-  id: string;
-  nome: string;
-  colore: string | null;
-}
-
 export interface SpesaCategoria {
   nome: string;
   colore: string | null;
