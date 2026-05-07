@@ -1,0 +1,13 @@
+<div class="pie-wrapper">
+  <div class="chart" *ngIf="items?.length; else empty">
+    <apx-chart
+      [series]="series"
+      [chart]="chart"
+      [labels]="labels"
+    ></apx-chart>
+  </div>
+
+  <ng-template #empty>
+    <div class="empty">Nessuna spesa disponibile</div>
+  </ng-template>
+</div>

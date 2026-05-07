@@ -1,4 +1,10 @@
 <div class="page">
-  <h2>Analisi</h2>
-  <p>In questa schermata verranno mostrati i grafici riassuntivi delle spese.</p>
+  <header class="page-header">
+    <h2>Analisi</h2>
+    <p>Grafici riassuntivi delle spese per categoria.</p>
+  </header>
+
+  <section class="charts">
+    <app-pie-chart [items]="items()"></app-pie-chart>
+  </section>
 </div>

@@ -1,3 +1,25 @@
 .page {
-  padding: 24px;
+  padding: 16px; // mobile-first
+
+  .page-header {
+    margin-bottom: 12px;
+  }
+
+  .charts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding: 32px;
+  }
 }
