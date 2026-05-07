@@ -66,8 +66,12 @@
   }
 
   @include respond(desktop) {
+    /* Usa grid per evitare overflow: main (filtri) + azioni */
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
     gap: 32px;
-    padding: 0 0 0 0;
+    padding: 0;
   }
 }
 
@@ -113,10 +117,16 @@
   @include respond(tablet) {
     flex-direction: row;
     gap: 16px;
+    flex-wrap: wrap;
   }
 
   @include respond(desktop) {
-    gap: 24px;
+    /* su desktop usare grid con max 3 colonne per evitare overflow */
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 24px;
+    align-items: center;
+    width: 100%;
   }
 }
 
@@ -135,7 +145,7 @@
     min-width: 0;
     @include respond(tablet) {
       flex: 1;
-      min-width: 180px;
+      min-width: 160px;
     }
   }
   &.date {
@@ -143,7 +153,7 @@
     min-width: 0;
     @include respond(tablet) {
       flex: 1;
-      min-width: 150px;
+      min-width: 140px;
     }
   }
 }
