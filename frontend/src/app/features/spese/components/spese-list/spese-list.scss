@@ -47,31 +47,26 @@
 }
 
 .filter-toolbar {
-  // Sfondo leggero e prominente
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 12px;
+  /* lascia gestione visuale a `.card` per background/border/padding */
+  margin-bottom: 20px;
   width: 100%;
   box-sizing: border-box;
-  padding: 0;
-  transition: all 0.2s ease;
+  padding: 0; /* `.card` già fornisce padding */
+
+  .filter-main {
+    width: 100%;
+  }
 
   @include respond(tablet) {
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 28px;
-    padding: 0 0 0 0;
+    padding: 0;
   }
 
   @include respond(desktop) {
-    /* Usa grid per evitare overflow: main (filtri) + azioni */
+    /* layout: filtri | azioni */
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 32px;
-    padding: 0;
+    gap: 20px;
   }
 }
 
@@ -104,10 +99,11 @@
     height: 22px;
   }
   @include respond(mobile) {
-    display: flex;
+    display: none;
   }
 }
 
+/* Layout dei singoli filtri: mobile-first, grid su desktop */
 .filter-grid {
   display: flex;
   flex-direction: column;
@@ -121,54 +117,37 @@
   }
 
   @include respond(desktop) {
-    /* su desktop usare grid con max 3 colonne per evitare overflow */
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px 24px;
+    gap: 12px 20px;
     align-items: center;
     width: 100%;
   }
 }
 
+
+/* Assicura che gli elementi non escano dal contenitore */
 .filter-item {
+  min-width: 0;
   width: 100%;
-  &.search {
-    width: 100%;
-    min-width: 0;
-    @include respond(tablet) {
-      flex: 2;
-      min-width: 200px;
-    }
-  }
-  &.category {
-    width: 100%;
-    min-width: 0;
-    @include respond(tablet) {
-      flex: 1;
-      min-width: 160px;
-    }
-  }
-  &.date {
-    width: 100%;
-    min-width: 0;
-    @include respond(tablet) {
-      flex: 1;
-      min-width: 140px;
-    }
-  }
+  overflow: hidden;
 }
 
+
+/* Allineamento e spacing per le azioni (reset) */
 .toolbar-actions {
   display: flex;
   align-items: center;
   gap: 12px;
-  
+  justify-self: end; /* utile quando il padre è grid */
+
   button {
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background-color: var(--mat-sys-surface-container-highest);
-    }
+    margin: 0;
+    padding: 6px;
+  }
+
+  @include respond(mobile) {
+    justify-self: end;
   }
 }
 
