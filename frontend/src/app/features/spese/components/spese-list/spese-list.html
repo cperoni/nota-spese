@@ -67,7 +67,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let s of spese" (click)="editClicked.emit(s)" class="spese-row">
-          <td class="amount-col">{{ s.importo }}€</td>
+          <td class="amount-col" [class.negative]="s.importo < 0" [class.positive]="s.importo >= 0">
+            <span class="amount-value">{{ s.importo | number:'1.2-2' }}€</span>
+          </td>
           <td>{{ s.descrizione }}</td>
           <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>
           <td>

@@ -12,6 +12,40 @@
   @include app-table;
 }
 
+/* Importo protagonista - mobile-first */
+.amount-col {
+  width: 1px; /* permette al contenuto di definire la larghezza */
+  white-space: nowrap;
+  vertical-align: middle;
+
+  .amount-value {
+    display: inline-block;
+    font-size: 1.125rem; // mobile default
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &.positive .amount-value {
+    color: $color-primary;
+  }
+
+  &.negative .amount-value {
+    color: #ef4444; // rosso per uscite
+  }
+
+  @include respond(tablet) {
+    .amount-value {
+      font-size: 1.25rem;
+    }
+  }
+
+  @include respond(desktop) {
+    .amount-value {
+      font-size: 1.35rem;
+    }
+  }
+}
+
 .filter-toolbar {
   // Sfondo leggero e prominente
   margin-bottom: 16px;
