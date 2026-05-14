@@ -49,13 +49,6 @@
     </div>
 
     <div class="form-actions feature-form__actions">
-      <button type="submit" class="btn btn-primary icon-start">
-        <mat-icon aria-hidden="true">{{
-          editingId ? icons.actions.save : icons.actions.add
-        }}</mat-icon>
-        <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
-      </button>
-
       <button
         type="button"
         class="btn btn-secondary icon-start"
@@ -64,6 +57,13 @@
       >
         <mat-icon aria-hidden="true">{{ icons.actions.close }}</mat-icon>
         <span>Annulla</span>
+      </button>
+
+      <button type="submit" class="btn btn-primary icon-start">
+        <mat-icon aria-hidden="true">{{
+          editingId ? icons.actions.save : icons.actions.add
+        }}</mat-icon>
+        <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
       </button>
     </div>
   </form>
