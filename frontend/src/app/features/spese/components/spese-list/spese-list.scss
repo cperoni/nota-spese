@@ -51,14 +51,19 @@
   margin-bottom: 20px;
   width: 100%;
   box-sizing: border-box;
-  padding: 0; /* `.card` già fornisce padding */
+  padding: $spacing-md; /* mobile: spazio interno base */
+
+  .toolbar-header {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 
   .filter-main {
     width: 100%;
   }
 
   @include respond(tablet) {
-    padding: 0;
+    padding: $spacing-lg; /* tablet: più spazio */
   }
 
   @include respond(desktop) {
@@ -67,20 +72,24 @@
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 20px;
+    padding: 32px; /* desktop: padding maggiore */
   }
 }
 
-.filter-main {
+/* Force vertical stacking for filters */
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.filter-item {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex: 1 1 auto;
-
-  @include respond(tablet) {
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 20px;
-  }
+  gap: 6px; /* same as .feature-form__field */
+  width: 100%;
+  min-width: 0;
 }
 
 .toolbar-label {
@@ -108,55 +117,33 @@
 }
 
 /* Layout dei singoli filtri: mobile-first, grid su desktop */
-.filter-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-
-  @include respond(tablet) {
-    flex-direction: row;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  @include respond(desktop) {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px 20px;
-    align-items: center;
-    width: 100%;
+/* keep responsiveness but default to stacked fields */
+@include respond(tablet) {
+  .filter-grid {
+    flex-direction: column; /* keep stacked on tablet as requested */
   }
 }
 
 
+
 /* Assicura che gli elementi non escano dal contenitore */
 .filter-item {
+  display: block;
+  width: 100%;
+}
+
+.filter-actions {
+  @extend .feature-form__actions !optional;
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   gap: 12px;
-  flex: 1 1 auto;
-  align-items: center; /* centra i controlli */
+  margin-top: 12px;
+  width: 100%;
 
-  @include respond(tablet) {
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-    justify-content: center;
-  }
-  gap: 12px;
-  justify-self: end; /* utile quando il padre è grid */
-
-  /* Assicura che il reset sia sempre a destra */
-  margin-left: auto;
-
-  button {
-    margin: 0;
-    padding: 6px;
-  }
-
-  @include respond(mobile) {
-    justify-self: end;
+  @include respond(desktop) {
+    grid-column: 2;
+    align-self: center;
+    margin-top: 0;
   }
 }
 

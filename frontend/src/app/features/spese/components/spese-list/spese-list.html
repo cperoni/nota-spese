@@ -1,56 +1,44 @@
 <section class="spese-section">
   <div class="card filter-toolbar">
-    <div class="filter-main">
+    <div class="toolbar-header">
       <div class="toolbar-label">
         <mat-icon>filter_alt</mat-icon>
         <span>Filtri</span>
       </div>
+    </div>
 
-      <div class="filter-grid">
-        <div class="filter-item search">
-          <app-ui-text-field
-            placeholder="Cerca spesa..."
-            [value]="filters.search"
-            (valueChange)="onSearch($event)"
-          >
-          </app-ui-text-field>
-        </div>
+    <div class="filter-grid">
+      <div class="filter-item search">
+        <app-ui-text-field
+          placeholder="Cerca spesa..."
+          label="Cerca Spesa"
+          [value]="filters.search"
+          (valueChange)="onSearch($event)"
+        ></app-ui-text-field>
+      </div>
 
-        <div class="filter-item category">
-          <mat-form-field appearance="outline" class="toolbar-select">
-            <mat-label>Categoria</mat-label>
-            <mat-select [(ngModel)]="filters.categoriaId" (selectionChange)="applyFilters()">
-              <mat-option [value]="null">Tutte le categorie</mat-option>
-              @for (c of categorie; track c.id) {
-                <mat-option [value]="c.id">
-                  <div class="category-cell-inline">
-                    <span class="color-dot" [style.backgroundColor]="c.colore"></span>
-                    <span>{{ c.nome }}</span>
-                  </div>
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
+      <div class="filter-item category">
+        <app-ui-select-field
+          label="Categoria"
+          [options]="categoriaOptions"
+          [value]="filters.categoriaId || ''"
+          (valueChange)="onCategoriaChange($event)"
+        ></app-ui-select-field>
+      </div>
 
-        <div class="filter-item date">
-          <mat-form-field appearance="outline" class="toolbar-select">
-            <mat-label>Periodo</mat-label>
-            <mat-select [(ngModel)]="filters.periodo" (selectionChange)="onPeriodoChange()">
-              <mat-option value="ultimi_7_giorni">Ultimi 7 giorni</mat-option>
-              <mat-option value="mese_corrente">Mese corrente</mat-option>
-              <mat-option value="ultimi_6_mesi">Ultimi 6 mesi</mat-option>
-              <mat-option value="anno_corrente">Anno corrente</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+      <div class="filter-item date">
+        <app-ui-select-field
+          label="Periodo"
+          [options]="periodoOptions"
+          [value]="filters.periodo"
+          (valueChange)="onPeriodoChange($event)"
+        ></app-ui-select-field>
       </div>
     </div>
 
-    <div class="toolbar-actions">
-      <button mat-icon-button (click)="resetFilters()" title="Reset filtri">
-        <mat-icon>restart_alt</mat-icon>
-      </button>
+    <div class="form-actions filter-actions">
+      <button type="button" class="btn btn-secondary" (click)="resetFilters()">Reset</button>
+      <button type="button" class="btn btn-primary" (click)="applyFilters()">Applica</button>
     </div>
   </div>
 
