@@ -89,17 +89,21 @@
   gap: 8px;
   color: var(--mat-sys-on-surface-variant);
   font-weight: 700;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
+  font-size: 1rem;
+  text-transform: none;
+  letter-spacing: 0.2px;
   white-space: nowrap;
+
   mat-icon {
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
-  }
-  @include respond(mobile) {
-    display: none;
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--mat-sys-on-surface) 6%, transparent);
+    padding: 6px;
   }
 }
 
@@ -128,18 +132,23 @@
 
 /* Assicura che gli elementi non escano dal contenitore */
 .filter-item {
-  min-width: 0;
-  width: 100%;
-  overflow: hidden;
-}
-
-
-/* Allineamento e spacing per le azioni (reset) */
-.toolbar-actions {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1 1 auto;
+  align-items: center; /* centra i controlli */
+
+  @include respond(tablet) {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+  }
   gap: 12px;
   justify-self: end; /* utile quando il padre è grid */
+
+  /* Assicura che il reset sia sempre a destra */
+  margin-left: auto;
 
   button {
     margin: 0;

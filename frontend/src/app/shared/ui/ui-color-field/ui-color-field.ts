@@ -50,5 +50,11 @@ export class UiColorField {
 
   onChange(hex: string): void {
     this.valueChange.emit(hex);
+    // Chiude automaticamente il menu palette dopo la scelta
+    try {
+      this.menuTrigger?.closeMenu();
+    } catch (e) {
+      // ignore
+    }
   }
 }

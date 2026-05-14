@@ -25,6 +25,22 @@ mat-sidenav-container {
   border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
 }
 
+.left-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-logout {
+  color: var(--mat-sys-on-surface);
+  margin-left: 6px; /* spazio tra tema e logout */
+}
+
+.theme-toggle {
+  margin-right: 6px; /* posizionato a sinistra del logout */
+  color: var(--mat-sys-on-surface);
+}
+
 .app-title {
   margin-left: 4px;
   color: var(--mat-sys-on-surface);

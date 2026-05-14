@@ -32,19 +32,25 @@
 
   <mat-sidenav-content>
     <mat-toolbar class="topbar">
-      <button mat-icon-button *ngIf="isMobile" (click)="sidenav.toggle()" aria-label="Apri menu">
-        <mat-icon>{{ icons.actions.menu }}</mat-icon>
-      </button>
+      <div class="left-controls">
+        <button mat-icon-button *ngIf="isMobile" (click)="sidenav.toggle()" aria-label="Apri menu">
+          <mat-icon>{{ icons.actions.menu }}</mat-icon>
+        </button>
 
-      <div class="app-title icon-start">
-        <mat-icon aria-hidden="true">account_balance_wallet</mat-icon>
-        <span>Nota Spese</span>
+        <div class="app-title icon-start">
+          <mat-icon aria-hidden="true">account_balance_wallet</mat-icon>
+          <span>Nota Spese</span>
+        </div>
       </div>
 
       <span class="spacer"></span>
 
-      <button mat-icon-button (click)="toggleTheme()" aria-label="Cambia tema">
+      <button mat-icon-button class="theme-toggle" (click)="toggleTheme()" aria-label="Cambia tema">
         <mat-icon>{{ isDarkTheme ? icons.theme.light : icons.theme.dark }}</mat-icon>
+      </button>
+
+      <button mat-icon-button class="top-logout" (click)="eseguiLogout()" title="Logout">
+        <mat-icon aria-hidden="true">logout</mat-icon>
       </button>
     </mat-toolbar>
 
