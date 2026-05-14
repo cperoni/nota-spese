@@ -9,6 +9,8 @@ export const UI_ICONS = {
   
     actions: {
       add: 'add',
+      reset: 'restart_alt',
+      apply: 'check',
       save: 'save',
       edit: 'edit',
       delete: 'delete',

@@ -37,8 +37,15 @@
     </div>
 
     <div class="form-actions filter-actions">
-      <button type="button" class="btn btn-secondary" (click)="resetFilters()">Reset</button>
-      <button type="button" class="btn btn-primary" (click)="applyFilters()">Applica</button>
+      <button type="button" class="btn btn-secondary icon-start" (click)="resetFilters()">
+        <mat-icon aria-hidden="true">{{ icons.actions.reset }}</mat-icon>
+        <span>Reset</span>
+      </button>
+
+      <button type="button" class="btn btn-primary icon-start" (click)="applyFilters()">
+        <mat-icon aria-hidden="true">{{ icons.actions.apply }}</mat-icon>
+        <span>Applica</span>
+      </button>
     </div>
   </div>
 
