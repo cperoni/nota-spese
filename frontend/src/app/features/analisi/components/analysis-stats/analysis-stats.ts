@@ -20,31 +20,55 @@ import { AbsPipe } from '../../../../shared/pipes/abs.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalysisStatsComponent {
-  @Input() total = 0;
+  @Input() totalSpese = 0;
 
-  @Input() previousTotal = 0;
+  @Input() previousTotalSpese = 0;
+
+  @Input() totalEntrate = 0;
+
+  @Input() previousTotalEntrate = 0;
 
   @Input() categoriesCount = 0;
 
   @Input() topCategory = '';
 
-  get trendPercentage(): number {
-    if (!this.previousTotal) {
+  get speseTrendPercentage(): number {
+    if (!this.previousTotalSpese) {
       return 0;
     }
 
     return Math.round(
-      ((this.total - this.previousTotal) /
-        this.previousTotal) *
+      ((this.totalSpese - this.previousTotalSpese) /
+        this.previousTotalSpese) *
         100
     );
   }
 
-  get isPositiveTrend(): boolean {
-    return this.trendPercentage > 0;
+  get entrateTrendPercentage(): number {
+    if (!this.previousTotalEntrate) {
+      return 0;
+    }
+
+    return Math.round(
+      ((this.totalEntrate - this.previousTotalEntrate) /
+        this.previousTotalEntrate) *
+        100
+    );
   }
 
-  get hasTrend(): boolean {
-    return this.previousTotal > 0;
+  get isPositiveSpeseTrend(): boolean {
+    return this.speseTrendPercentage > 0;
+  }
+
+  get isPositiveEntrateTrend(): boolean {
+    return this.entrateTrendPercentage > 0;
+  }
+
+  get hasSpeseTrend(): boolean {
+    return this.previousTotalSpese > 0;
+  }
+
+  get hasEntrateTrend(): boolean {
+    return this.previousTotalEntrate > 0;
   }
 }

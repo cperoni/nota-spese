@@ -3,22 +3,47 @@
     <span class="label">Spesa totale</span>
 
     <strong class="value">
-      {{ total | currency : 'EUR' }}
+      {{ totalSpese | currency : 'EUR' }}
     </strong>
 
-    @if (hasTrend) {
+    @if (hasSpeseTrend) {
       <span
         class="trend"
-        [class.positive]="isPositiveTrend"
-        [class.negative]="!isPositiveTrend"
+        [class.positive]="isPositiveSpeseTrend"
+        [class.negative]="!isPositiveSpeseTrend"
       >
-        @if (isPositiveTrend) {
+        @if (isPositiveSpeseTrend) {
           ↑
         } @else {
           ↓
         }
 
-        {{ trendPercentage | abs }}%
+        {{ speseTrendPercentage | abs }}%
+        rispetto al periodo precedente
+      </span>
+    }
+  </article>
+
+  <article class="card stat-card">
+    <span class="label">Entrate totali</span>
+
+    <strong class="value">
+      {{ totalEntrate | currency : 'EUR' }}
+    </strong>
+
+    @if (hasEntrateTrend) {
+      <span
+        class="trend"
+        [class.positive]="isPositiveEntrateTrend"
+        [class.negative]="!isPositiveEntrateTrend"
+      >
+        @if (isPositiveEntrateTrend) {
+          ↑
+        } @else {
+          ↓
+        }
+
+        {{ entrateTrendPercentage | abs }}%
         rispetto al periodo precedente
       </span>
     }

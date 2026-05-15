@@ -78,6 +78,49 @@ export class SpeseService {
     };
   }
 
+  async getTotalsByTipo(fromDate?: string) {
+    let query = supabase.from('spese').select(`
+      importo,
+      categorie (
+        nome
+      )
+    `);
+
+    if (fromDate) {
+      query = query.gte('data', fromDate);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return {
+        data: { entrate: 0, spese: 0 },
+        error,
+      };
+    }
+
+    const totals = (data || []).reduce(
+      (acc, item: any) => {
+        const categoryName = item.categorie?.nome || '';
+        const isEntrata = categoryName.toLowerCase() === 'stipendio';
+
+        if (isEntrata) {
+          acc.entrate += Number(item.importo);
+        } else {
+          acc.spese += Number(item.importo);
+        }
+
+        return acc;
+      },
+      { entrate: 0, spese: 0 }
+    );
+
+    return {
+      data: totals,
+      error: null,
+    };
+  }
+
   async getTotalsByCategoryBetweenDates(fromDate: string, toDate: string) {
     let query = supabase
       .from('spese')

@@ -43,7 +43,11 @@ export class Analisi implements OnInit {
 
   loading = signal(false);
 
-  previousTotal = signal(0);
+  totalSpese = signal(0);
+  totalEntrate = signal(0);
+
+  previousTotalSpese = signal(0);
+  previousTotalEntrate = signal(0);
 
   selectedPeriod = signal(30);
 
@@ -92,6 +96,10 @@ export class Analisi implements OnInit {
       currentFrom.toISOString().split('T')[0],
     );
 
+    const currentTipoRes = await this.speseService.getTotalsByTipo(
+      currentFrom.toISOString().split('T')[0],
+    );
+
     if (!trendRes.error) {
       this.trendItems.set(trendRes.data || []);
     }
@@ -101,17 +109,22 @@ export class Analisi implements OnInit {
       previousTo.toISOString().split('T')[0],
     );
 
+    const previousTipoRes = await this.speseService.getTotalsByTipo(
+      previousFrom.toISOString().split('T')[0],
+    );
+
     if (!currentRes.error) {
       this.items.set((currentRes.data || []).filter((r: any) => Number(r.total) > 0));
     }
 
-    if (!previousRes.error) {
-      const previousTotal = (previousRes.data || []).reduce(
-        (acc: number, item: any) => acc + Number(item.total || 0),
-        0,
-      );
+    if (!currentTipoRes.error) {
+      this.totalSpese.set(currentTipoRes.data.spese);
+      this.totalEntrate.set(currentTipoRes.data.entrate);
+    }
 
-      this.previousTotal.set(previousTotal);
+    if (!previousTipoRes.error) {
+      this.previousTotalSpese.set(previousTipoRes.data.spese);
+      this.previousTotalEntrate.set(previousTipoRes.data.entrate);
     }
 
     this.loading.set(false);

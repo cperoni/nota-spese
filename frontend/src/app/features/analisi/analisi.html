@@ -13,8 +13,10 @@
   <app-expenses-trend-chart [items]="trendItems()" />
 
   <app-analysis-stats
-    [total]="totalAmount()"
-    [previousTotal]="previousTotal()"
+    [totalSpese]="totalSpese()"
+    [previousTotalSpese]="previousTotalSpese()"
+    [totalEntrate]="totalEntrate()"
+    [previousTotalEntrate]="previousTotalEntrate()"
     [categoriesCount]="items().length"
     [topCategory]="topCategory()"
   />
