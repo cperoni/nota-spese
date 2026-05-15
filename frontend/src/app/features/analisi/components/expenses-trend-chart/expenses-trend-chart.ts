@@ -26,7 +26,8 @@ import {
 
 export type TrendChartItem = {
   date: string;
-  total: number;
+  entrate: number;
+  spese: number;
 };
 
 @Component({
@@ -84,13 +85,18 @@ export class ExpensesTrendChartComponent implements OnChanges {
 
     const borderColor = isDark ? '#374151' : '#e2e8f0';
 
-    const lineColor = isDark ? '#60a5fa' : '#2563eb';
+    const entrateColor = isDark ? '#34d399' : '#10b981';
+    const speseColor = isDark ? '#60a5fa' : '#2563eb';
 
     return {
       series: [
         {
+          name: 'Entrate',
+          data: this.items.map((item) => Number(item.entrate)),
+        },
+        {
           name: 'Spese',
-          data: this.items.map((item) => Number(item.total)),
+          data: this.items.map((item) => Number(item.spese)),
         },
       ] as ApexAxisChartSeries,
 
@@ -107,7 +113,7 @@ export class ExpensesTrendChartComponent implements OnChanges {
         foreColor: textColor,
       } as ApexChart,
 
-      colors: [lineColor],
+      colors: [entrateColor, speseColor],
 
       stroke: {
         curve: 'smooth',

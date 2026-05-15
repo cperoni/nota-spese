@@ -36,7 +36,8 @@ export class Analisi implements OnInit {
   trendItems = signal<
     {
       date: string;
-      total: number;
+      entrate: number;
+      spese: number;
     }[]
   >([]);
 

@@ -142,7 +142,13 @@ export class SpeseService {
   }
 
   async getExpensesTrend(fromDate?: string) {
-    let query = supabase.from('spese').select('data, importo').order('data', {
+    let query = supabase.from('spese').select(`
+      data,
+      importo,
+      categorie (
+        nome
+      )
+    `).order('data', {
       ascending: true,
     });
 
@@ -164,20 +170,28 @@ export class SpeseService {
         string,
         {
           date: string;
-          total: number;
+          entrate: number;
+          spese: number;
         }
       >
     >((acc, item: any) => {
       const date = item.data;
+      const categoryName = item.categorie?.nome || '';
+      const isEntrata = categoryName.toLowerCase() === 'stipendio';
 
       if (!acc[date]) {
         acc[date] = {
           date,
-          total: 0,
+          entrate: 0,
+          spese: 0,
         };
       }
 
-      acc[date].total += Number(item.importo);
+      if (isEntrata) {
+        acc[date].entrate += Number(item.importo);
+      } else {
+        acc[date].spese += Number(item.importo);
+      }
 
       return acc;
     }, {});
