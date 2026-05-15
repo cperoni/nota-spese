@@ -1,19 +1,18 @@
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
 } from '@angular/core';
 
-import { AbsPipe } from '../../../../shared/pipes/abs.pipe';
+import { CardAnalysisComponent } from '../card-analysis/card-analysis';
 
 @Component({
   selector: 'app-analysis-stats',
   standalone: true,
   imports: [
     CommonModule,
-    CurrencyPipe,
-    AbsPipe,
+    CardAnalysisComponent,
   ],
   templateUrl: './analysis-stats.html',
   styleUrls: ['./analysis-stats.scss'],

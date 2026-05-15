@@ -1,0 +1,28 @@
+<article class="card stat-card">
+  <span class="label">{{ label }}</span>
+
+  <strong class="value">
+    @if (typeof value === 'number') {
+      {{ value | currency : 'EUR' }}
+    } @else {
+      {{ value }}
+    }
+  </strong>
+
+  @if (hasTrend) {
+    <span
+      class="trend"
+      [class.positive]="isPositiveTrend"
+      [class.negative]="!isPositiveTrend"
+    >
+      @if (isPositiveTrend) {
+        ↑
+      } @else {
+        ↓
+      }
+
+      {{ trendPercentage | abs }}%
+      rispetto al periodo precedente
+    </span>
+  }
+</article>

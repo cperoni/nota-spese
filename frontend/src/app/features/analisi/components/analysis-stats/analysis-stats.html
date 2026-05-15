@@ -1,67 +1,27 @@
 <div class="stats-grid">
-  <article class="card stat-card">
-    <span class="label">Spesa totale</span>
+  <app-card-analysis
+    label="Spesa totale"
+    [value]="totalSpese"
+    [trendPercentage]="speseTrendPercentage"
+    [isPositiveTrend]="isPositiveSpeseTrend"
+    [hasTrend]="hasSpeseTrend"
+  />
 
-    <strong class="value">
-      {{ totalSpese | currency : 'EUR' }}
-    </strong>
+  <app-card-analysis
+    label="Entrate totali"
+    [value]="totalEntrate"
+    [trendPercentage]="entrateTrendPercentage"
+    [isPositiveTrend]="isPositiveEntrateTrend"
+    [hasTrend]="hasEntrateTrend"
+  />
 
-    @if (hasSpeseTrend) {
-      <span
-        class="trend"
-        [class.positive]="isPositiveSpeseTrend"
-        [class.negative]="!isPositiveSpeseTrend"
-      >
-        @if (isPositiveSpeseTrend) {
-          ↑
-        } @else {
-          ↓
-        }
+  <app-card-analysis
+    label="Categorie"
+    [value]="categoriesCount"
+  />
 
-        {{ speseTrendPercentage | abs }}%
-        rispetto al periodo precedente
-      </span>
-    }
-  </article>
-
-  <article class="card stat-card">
-    <span class="label">Entrate totali</span>
-
-    <strong class="value">
-      {{ totalEntrate | currency : 'EUR' }}
-    </strong>
-
-    @if (hasEntrateTrend) {
-      <span
-        class="trend"
-        [class.positive]="isPositiveEntrateTrend"
-        [class.negative]="!isPositiveEntrateTrend"
-      >
-        @if (isPositiveEntrateTrend) {
-          ↑
-        } @else {
-          ↓
-        }
-
-        {{ entrateTrendPercentage | abs }}%
-        rispetto al periodo precedente
-      </span>
-    }
-  </article>
-
-  <article class="card stat-card">
-    <span class="label">Categorie</span>
-
-    <strong class="value">
-      {{ categoriesCount }}
-    </strong>
-  </article>
-
-  <article class="card stat-card">
-    <span class="label">Categoria principale</span>
-
-    <strong class="value">
-      {{ topCategory || '-' }}
-    </strong>
-  </article>
+  <app-card-analysis
+    label="Categoria principale"
+    [value]="topCategory || '-'"
+  />
 </div>
