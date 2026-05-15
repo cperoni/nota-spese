@@ -8,10 +8,11 @@
   <app-analysis-period-filter
     [selected]="selectedPeriod()"
     (selectedChange)="onPeriodChange($event)"
+    class="component-spacing"
   />
 
-  <app-expenses-trend-chart [items]="trendItems()" />
-
+  <app-expenses-trend-chart [items]="trendItems()" class="component-spacing" />
+  <div class="component-spacing"></div>
   <app-analysis-stats
     [totalSpese]="totalSpese()"
     [previousTotalSpese]="previousTotalSpese()"
@@ -19,6 +20,7 @@
     [previousTotalEntrate]="previousTotalEntrate()"
     [categoriesCount]="items().length"
     [topCategory]="topCategory()"
+    class="component-spacing"
   />
   <section class="charts">
     <app-pie-chart [items]="items()" />
