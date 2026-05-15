@@ -14,10 +14,12 @@
 
   <app-analysis-stats
     [total]="totalAmount()"
+    [previousTotal]="previousTotal()"
     [categoriesCount]="items().length"
     [topCategory]="topCategory()"
   />
-
+<p>Current: {{ totalAmount() }}</p>
+<p>Previous: {{ previousTotal() }}</p>
   <section class="charts">
     <app-pie-chart [items]="items()" />
   </section>

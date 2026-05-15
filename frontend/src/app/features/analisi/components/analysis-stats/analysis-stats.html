@@ -5,6 +5,23 @@
     <strong class="value">
       {{ total | currency : 'EUR' }}
     </strong>
+
+    @if (hasTrend) {
+      <span
+        class="trend"
+        [class.positive]="isPositiveTrend"
+        [class.negative]="!isPositiveTrend"
+      >
+        @if (isPositiveTrend) {
+          ↑
+        } @else {
+          ↓
+        }
+
+        {{ trendPercentage | abs }}%
+        rispetto al periodo precedente
+      </span>
+    }
   </article>
 
   <article class="stat-card">

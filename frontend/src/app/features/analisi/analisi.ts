@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 
 import { SpeseService } from '../../core/service/spese.service';
 
@@ -23,12 +17,7 @@ type AnalysisItem = {
 @Component({
   selector: 'app-analisi',
   standalone: true,
-  imports: [
-    CommonModule,
-    PieChartComponent,
-    AnalysisStatsComponent,
-    AnalysisPeriodFilterComponent,
-  ],
+  imports: [CommonModule, PieChartComponent, AnalysisStatsComponent, AnalysisPeriodFilterComponent],
   templateUrl: './analisi.html',
   styleUrls: ['./analisi.scss'],
 })
@@ -39,16 +28,16 @@ export class Analisi implements OnInit {
 
   loading = signal(false);
 
+  previousTotal = signal(0);
+
   selectedPeriod = signal(30);
 
   totalAmount = computed(() =>
-    this.items().reduce((acc, item) => acc + Number(item.total || 0), 0)
+    this.items().reduce((acc, item) => acc + Number(item.total || 0), 0),
   );
 
   topCategory = computed(() => {
-    const sorted = [...this.items()].sort(
-      (a, b) => Number(b.total) - Number(a.total)
-    );
+    const sorted = [...this.items()].sort((a, b) => Number(b.total) - Number(a.total));
 
     return sorted[0]?.nome || '';
   });
@@ -66,22 +55,38 @@ export class Analisi implements OnInit {
   private async loadData() {
     this.loading.set(true);
 
-    const fromDate = new Date();
+    const days = this.selectedPeriod();
 
-    fromDate.setDate(
-      fromDate.getDate() - this.selectedPeriod()
+    const currentFrom = new Date();
+
+    currentFrom.setDate(currentFrom.getDate() - days);
+
+    const previousFrom = new Date();
+
+    previousFrom.setDate(previousFrom.getDate() - days * 2);
+
+    const previousTo = new Date();
+
+    previousTo.setDate(previousTo.getDate() - days);
+
+    const currentRes = await this.speseService.getTotalsByCategory(currentFrom.toISOString().split('T')[0]);
+
+    const previousRes = await this.speseService.getTotalsByCategoryBetweenDates(
+      previousFrom.toISOString().split('T')[0],
+      previousTo.toISOString().split('T')[0],
     );
 
-    const res = await this.speseService.getTotalsByCategory(
-      fromDate.toISOString()
-    );
+    if (!currentRes.error) {
+      this.items.set((currentRes.data || []).filter((r: any) => Number(r.total) > 0));
+    }
 
-    if (!res.error) {
-      this.items.set(
-        (res.data || []).filter(
-          (r: any) => Number(r.total) > 0
-        )
+    if (!previousRes.error) {
+      const previousTotal = (previousRes.data || []).reduce(
+        (acc: number, item: any) => acc + Number(item.total || 0),
+        0,
       );
+
+      this.previousTotal.set(previousTotal);
     }
 
     this.loading.set(false);

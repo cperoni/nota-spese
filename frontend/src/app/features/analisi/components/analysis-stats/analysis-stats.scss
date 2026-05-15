@@ -32,3 +32,26 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.trend {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.trend.positive {
+  color: #dc2626;
+}
+
+.trend.negative {
+  color: #16a34a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .trend.positive {
+    color: #f87171;
+  }
+
+  .trend.negative {
+    color: #4ade80;
+  }
+}

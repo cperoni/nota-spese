@@ -77,4 +77,67 @@ export class SpeseService {
       error: null,
     };
   }
+
+  async getTotalsByCategoryBetweenDates(fromDate: string, toDate: string) {
+    let query = supabase
+      .from('spese')
+      .select(
+        `
+      categoria_id,
+      importo,
+      categorie (
+        id,
+        nome,
+        colore
+      )
+    `,
+      )
+      .gte('data', fromDate)
+      .lt('data', toDate);
+
+    const { data, error } = await query;
+
+    if (error) {
+      return {
+        data: [],
+        error,
+      };
+    }
+
+    const grouped = (data || []).reduce<
+      Record<
+        string,
+        {
+          id?: string;
+          nome: string;
+          colore?: string;
+          total: number;
+        }
+      >
+    >((acc, item: any) => {
+      const category = item.categorie;
+
+      if (!category) {
+        return acc;
+      }
+
+      if (!acc[category.id]) {
+        acc[category.id] = {
+          id: category.id,
+          nome: category.nome,
+          colore: category.colore,
+          total: 0,
+        };
+      }
+
+      acc[category.id].total += Number(item.importo);
+
+      return acc;
+    }, {});
+
+    return {
+      data: Object.values(grouped),
+      error: null,
+    };
+  }
 }
