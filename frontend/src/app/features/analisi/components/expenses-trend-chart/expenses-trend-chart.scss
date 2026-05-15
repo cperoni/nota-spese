@@ -1,0 +1,28 @@
+.chart-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.chart-header {
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .chart-card {
+    background: #111827;
+    border-color: #1f2937;
+  }
+
+  .chart-header h3 {
+    color: #f9fafb;
+  }
+}

@@ -2,9 +2,7 @@
   <header class="page-header">
     <h2>Analisi</h2>
 
-    <p>
-      Grafici riassuntivi delle spese per categoria.
-    </p>
+    <p>Grafici riassuntivi delle spese per categoria.</p>
   </header>
 
   <app-analysis-period-filter
@@ -12,14 +10,16 @@
     (selectedChange)="onPeriodChange($event)"
   />
 
+  <app-expenses-trend-chart [items]="trendItems()" />
+
   <app-analysis-stats
     [total]="totalAmount()"
     [previousTotal]="previousTotal()"
     [categoriesCount]="items().length"
     [topCategory]="topCategory()"
   />
-<p>Current: {{ totalAmount() }}</p>
-<p>Previous: {{ previousTotal() }}</p>
+  <p>Current: {{ totalAmount() }}</p>
+  <p>Previous: {{ previousTotal() }}</p>
   <section class="charts">
     <app-pie-chart [items]="items()" />
   </section>

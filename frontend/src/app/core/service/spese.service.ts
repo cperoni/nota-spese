@@ -140,4 +140,51 @@ export class SpeseService {
       error: null,
     };
   }
+
+  async getExpensesTrend(fromDate?: string) {
+    let query = supabase.from('spese').select('data, importo').order('data', {
+      ascending: true,
+    });
+
+    if (fromDate) {
+      query = query.gte('data', fromDate);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return {
+        data: [],
+        error,
+      };
+    }
+
+    const grouped = (data || []).reduce<
+      Record<
+        string,
+        {
+          date: string;
+          total: number;
+        }
+      >
+    >((acc, item: any) => {
+      const date = item.data;
+
+      if (!acc[date]) {
+        acc[date] = {
+          date,
+          total: 0,
+        };
+      }
+
+      acc[date].total += Number(item.importo);
+
+      return acc;
+    }, {});
+
+    return {
+      data: Object.values(grouped),
+      error: null,
+    };
+  }
 }

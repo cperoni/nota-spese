@@ -6,6 +6,7 @@ import { SpeseService } from '../../core/service/spese.service';
 import { AnalysisPeriodFilterComponent } from './components/analysis-period-filter/analysis-period-filter';
 import { AnalysisStatsComponent } from './components/analysis-stats/analysis-stats';
 import { PieChartComponent } from './components/pie-chart/pie-chart';
+import { ExpensesTrendChartComponent } from './components/expenses-trend-chart/expenses-trend-chart';
 
 type AnalysisItem = {
   id?: string;
@@ -17,7 +18,13 @@ type AnalysisItem = {
 @Component({
   selector: 'app-analisi',
   standalone: true,
-  imports: [CommonModule, PieChartComponent, AnalysisStatsComponent, AnalysisPeriodFilterComponent],
+  imports: [
+    CommonModule,
+    PieChartComponent,
+    AnalysisStatsComponent,
+    AnalysisPeriodFilterComponent,
+    ExpensesTrendChartComponent,
+  ],
   templateUrl: './analisi.html',
   styleUrls: ['./analisi.scss'],
 })
@@ -25,6 +32,13 @@ export class Analisi implements OnInit {
   private speseService = inject(SpeseService);
 
   items = signal<AnalysisItem[]>([]);
+
+  trendItems = signal<
+    {
+      date: string;
+      total: number;
+    }[]
+  >([]);
 
   loading = signal(false);
 
@@ -69,7 +83,17 @@ export class Analisi implements OnInit {
 
     previousTo.setDate(previousTo.getDate() - days);
 
-    const currentRes = await this.speseService.getTotalsByCategory(currentFrom.toISOString().split('T')[0]);
+    const trendRes = await this.speseService.getExpensesTrend(
+      currentFrom.toISOString().split('T')[0],
+    );
+
+    const currentRes = await this.speseService.getTotalsByCategory(
+      currentFrom.toISOString().split('T')[0],
+    );
+
+    if (!trendRes.error) {
+      this.trendItems.set(trendRes.data || []);
+    }
 
     const previousRes = await this.speseService.getTotalsByCategoryBetweenDates(
       previousFrom.toISOString().split('T')[0],
