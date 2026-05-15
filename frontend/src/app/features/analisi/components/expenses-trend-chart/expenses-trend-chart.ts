@@ -4,7 +4,11 @@ import {
   Component,
   Input,
   OnChanges,
+  computed,
+  inject,
+  effect,
 } from '@angular/core';
+import { ThemeService } from '../../../../core/service/theme.service';
 
 import {
   ApexAxisChartSeries,
@@ -14,6 +18,7 @@ import {
   ApexGrid,
   ApexStroke,
   ApexTooltip,
+  ApexTheme,
   ApexXAxis,
   NgApexchartsModule,
 } from 'ng-apexcharts';
@@ -26,19 +31,24 @@ export type TrendChartItem = {
 @Component({
   selector: 'app-expenses-trend-chart',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgApexchartsModule,
-  ],
+  imports: [CommonModule, NgApexchartsModule],
   templateUrl: './expenses-trend-chart.html',
   styleUrls: ['./expenses-trend-chart.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesTrendChartComponent
-  implements OnChanges
-{
+export class ExpensesTrendChartComponent implements OnChanges {
   @Input({ required: true })
   items: TrendChartItem[] = [];
+
+  private readonly themeService = inject(ThemeService);
+
+  readonly isDarkMode = computed(() => this.themeService.theme() === 'dark');
+
+  private readonly themeEffect = effect(() => {
+    this.isDarkMode();
+
+    this.applyTheme();
+  });
 
   chartSeries: ApexAxisChartSeries = [];
 
@@ -99,35 +109,74 @@ export class ExpensesTrendChartComponent
     },
   };
 
+  theme: ApexTheme = {
+    mode: 'light',
+  };
+
+  colors: string[] = ['#2563eb'];
+
   ngOnChanges() {
     this.updateChart();
   }
 
   private updateChart() {
+    this.applyTheme();
     this.chartSeries = [
       {
         name: 'Spese',
-        data: this.items.map((item) =>
-          Number(item.total)
-        ),
+        data: this.items.map((item) => Number(item.total)),
       },
     ];
 
     this.xaxis = {
       ...this.xaxis,
-      categories: this.items.map((item) =>
-        this.formatDate(item.date)
-      ),
+      categories: this.items.map((item) => this.formatDate(item.date)),
+    };
+  }
+
+  private applyTheme() {
+    const isDark = this.isDarkMode();
+
+    const secondaryTextColor = isDark ? '#9ca3af' : '#6b7280';
+
+    const borderColor = isDark ? '#374151' : '#e5e7eb';
+
+    this.theme = {
+      mode: isDark ? 'dark' : 'light',
+    };
+
+    this.colors = [isDark ? '#60a5fa' : '#2563eb'];
+
+    this.grid = {
+      ...this.grid,
+      borderColor,
+    };
+
+    this.xaxis = {
+      ...this.xaxis,
+      labels: {
+        style: {
+          colors: secondaryTextColor,
+        },
+      },
+    };
+
+    this.tooltip = {
+      ...this.tooltip,
+      theme: isDark ? 'dark' : 'light',
+    };
+
+    this.chart = {
+      ...this.chart,
+      foreColor: secondaryTextColor,
+      background: 'transparent',
     };
   }
 
   private formatDate(date: string) {
-    return new Date(date).toLocaleDateString(
-      'it-IT',
-      {
-        day: '2-digit',
-        month: '2-digit',
-      }
-    );
+    return new Date(date).toLocaleDateString('it-IT', {
+      day: '2-digit',
+      month: '2-digit',
+    });
   }
 }
