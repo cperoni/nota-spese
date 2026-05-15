@@ -100,4 +100,20 @@ export class SpeseList implements OnInit {
     };
     this.applyFilters();
   }
+
+  get totaleEntrate(): number {
+    return this.spese
+      .filter(s => s.tipo === 'entrata')
+      .reduce((acc, s) => acc + Number(s.importo), 0);
+  }
+
+  get totaleSpese(): number {
+    return this.spese
+      .filter(s => s.tipo === 'spesa')
+      .reduce((acc, s) => acc + Number(s.importo), 0);
+  }
+
+  get saldo(): number {
+    return this.totaleEntrate - this.totaleSpese;
+  }
 }

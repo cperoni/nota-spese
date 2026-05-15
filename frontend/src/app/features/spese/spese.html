@@ -1,23 +1,25 @@
 <div class="feature-page container">
   <app-spese-header [icons]="icons"></app-spese-header>
 
-  <app-spese-form
-    [icons]="icons"
-    [editingId]="editingId"
-    [categorie]="categorie"
-    [importoStr]="importoStr"
-    [importoError]="importoError"
-    [data]="data"
-    [descrizione]="descrizione"
-    [categoria_id]="categoria_id"
-    (submitClicked)="save()"
-    (cancelClicked)="resetForm()"
-    (importoStrChange)="onImportoChange($event)"
-    (importoBlur)="onImportoBlur()"
-    (dataChange)="data = $event"
-    (descrizioneChange)="descrizione = $event"
-    (categoriaIdChange)="categoria_id = $event"
-  ></app-spese-form>
+<app-spese-form
+  [icons]="icons"
+  [editingId]="editingId"
+  [categorie]="categorie"
+  [importoStr]="importoStr"
+  [importoError]="importoError"
+  [data]="data"
+  [descrizione]="descrizione"
+  [categoria_id]="categoria_id"
+  [tipo]="tipo"
+  (submitClicked)="save()"
+  (cancelClicked)="resetForm()"
+  (importoStrChange)="onImportoChange($event)"
+  (importoBlur)="onImportoBlur()"
+  (dataChange)="data = $event"
+  (descrizioneChange)="descrizione = $event"
+  (categoriaIdChange)="categoria_id = $event"
+  (tipoChange)="tipo = $event"
+></app-spese-form>
 
   <app-spese-list
     [icons]="icons"

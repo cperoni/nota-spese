@@ -49,10 +49,26 @@
     </div>
   </div>
 
+  <!-- Saldo riepilogativo sopra la tabella -->
+  <div class="saldo-bar card" *ngIf="spese.length > 0">
+    <span class="saldo-item entrate">
+      <mat-icon>arrow_downward</mat-icon>
+      Entrate: <strong>{{ totaleEntrate | number: '1.2-2' }}€</strong>
+    </span>
+    <span class="saldo-item spese">
+      <mat-icon>arrow_upward</mat-icon>
+      Spese: <strong>{{ totaleSpese | number: '1.2-2' }}€</strong>
+    </span>
+    <span class="saldo-item saldo" [class.positivo]="saldo >= 0" [class.negativo]="saldo < 0">
+      Saldo: <strong>{{ saldo | number: '1.2-2' }}€</strong>
+    </span>
+  </div>
+
   <div class="table-wrap" *ngIf="spese.length > 0">
     <table class="spese-table">
       <thead>
         <tr>
+          <th>Tipo</th>
           <th>Importo</th>
           <th>Descrizione</th>
           <th>Data</th>
@@ -61,9 +77,19 @@
         </tr>
       </thead>
       <tbody>
+        <td>
+          <span
+            class="tipo-chip"
+            [class.chip-spesa]="s.tipo === 'spesa'"
+            [class.chip-entrata]="s.tipo === 'entrata'"
+          >
+            <mat-icon>{{ s.tipo === 'entrata' ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+            {{ s.tipo === 'entrata' ? 'Entrata' : 'Spesa' }}
+          </span>
+        </td>
         <tr *ngFor="let s of spese" (click)="editClicked.emit(s)" class="spese-row">
           <td class="amount-col" [class.negative]="s.importo < 0" [class.positive]="s.importo >= 0">
-            <span class="amount-value">{{ s.importo | number:'1.2-2' }}€</span>
+            <span class="amount-value">{{ s.importo | number: '1.2-2' }}€</span>
           </td>
           <td>{{ s.descrizione }}</td>
           <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>

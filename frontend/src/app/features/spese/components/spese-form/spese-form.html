@@ -1,6 +1,31 @@
 <section class="form-section">
   <form (ngSubmit)="submitClicked.emit()" class="card form feature-form">
     <div class="feature-form__grid">
+
+      <!-- NUOVO: Toggle tipo movimento -->
+      <div class="feature-form__field feature-form__field--full">
+        <div class="tipo-toggle">
+          <button
+            type="button"
+            class="tipo-btn"
+            [class.active-spesa]="tipo === 'spesa'"
+            (click)="tipoChange.emit('spesa')"
+          >
+            <mat-icon aria-hidden="true">arrow_upward</mat-icon>
+            Spesa
+          </button>
+          <button
+            type="button"
+            class="tipo-btn"
+            [class.active-entrata]="tipo === 'entrata'"
+            (click)="tipoChange.emit('entrata')"
+          >
+            <mat-icon aria-hidden="true">arrow_downward</mat-icon>
+            Entrata
+          </button>
+        </div>
+      </div>
+
       <div class="feature-form__field">
         <app-ui-text-field
           label="Importo"
@@ -59,11 +84,11 @@
         <span>Annulla</span>
       </button>
 
-      <button type="submit" class="btn btn-primary icon-start">
+      <button type="submit" class="btn icon-start" [class.btn-spesa]="tipo === 'spesa'" [class.btn-entrata]="tipo === 'entrata'">
         <mat-icon aria-hidden="true">{{
           editingId ? icons.actions.save : icons.actions.add
         }}</mat-icon>
-        <span>{{ editingId ? 'Aggiorna' : 'Aggiungi' }}</span>
+        <span>{{ editingId ? 'Aggiorna' : (tipo === 'entrata' ? 'Aggiungi entrata' : 'Aggiungi spesa') }}</span>
       </button>
     </div>
   </form>

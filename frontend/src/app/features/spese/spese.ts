@@ -13,7 +13,7 @@ import { SpeseHeader } from './components/spese-header/spese-header';
 import { SpeseForm } from './components/spese-form/spese-form';
 import { SpeseList } from './components/spese-list/spese-list';
 import { UI_ICONS } from '../../shared/config/ui-icons';
-import { PeriodoFiltro, SpesaItem, SpesaPayload } from './spese.types';
+import { PeriodoFiltro, SpesaItem, SpesaPayload, TipoMovimento } from './spese.types';
 import { FeedbackService } from '../../core/service/feedback.service';
 import { CategoriaItem } from '../categorie/categorie.types';
 
@@ -46,6 +46,8 @@ export class Spese implements OnInit {
   categorie: CategoriaItem[] = [];
   filtroPeriodo: PeriodoFiltro = 'mese_corrente';
 
+  // Aggiungi la proprietà
+  tipo: TipoMovimento = 'spesa';
   readonly icons = UI_ICONS;
 
   editingId: string | null = null;
@@ -62,35 +64,35 @@ export class Spese implements OnInit {
   };
 
   async ngOnInit() {
-  this.data = new Date().toISOString().substring(0, 10);
-  await this.loadCategorie();
+    this.data = new Date().toISOString().substring(0, 10);
+    await this.loadCategorie();
 
-  const hasResolved = Object.prototype.hasOwnProperty.call(
-    this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {},
-    'spese',
-  );
+    const hasResolved = Object.prototype.hasOwnProperty.call(
+      this.route.snapshot && this.route.snapshot.data ? this.route.snapshot.data : {},
+      'spese',
+    );
 
-  if (hasResolved) {
-    // Mappa i dati grezzi come in loadSpese()
-    const rawData = this.route.snapshot.data['spese'] || [];
-    console.log('Raw data from resolver:', rawData);  // Debug
-    this.spese = rawData.map((row: any) => {
-      const categoriaRaw = row.categorie;
-      const categoria = Array.isArray(categoriaRaw)
-        ? (categoriaRaw[0] ?? null)
-        : (categoriaRaw ?? null);
+    if (hasResolved) {
+      // Mappa i dati grezzi come in loadSpese()
+      const rawData = this.route.snapshot.data['spese'] || [];
+      console.log('Raw data from resolver:', rawData); // Debug
+      this.spese = rawData.map((row: any) => {
+        const categoriaRaw = row.categorie;
+        const categoria = Array.isArray(categoriaRaw)
+          ? (categoriaRaw[0] ?? null)
+          : (categoriaRaw ?? null);
 
-      return {
-        ...row,
-        categorie: categoria,
-      };
-    });
-    this.applyLocalFilters();
-    this.cdr.detectChanges();
-  } else {
-    await this.loadSpese();
+        return {
+          ...row,
+          categorie: categoria,
+        };
+      });
+      this.applyLocalFilters();
+      this.cdr.detectChanges();
+    } else {
+      await this.loadSpese();
+    }
   }
-}
 
   async loadCategorie() {
     const { data } = await supabase.from('categorie').select('*').order('nome');
@@ -112,6 +114,7 @@ export class Spese implements OnInit {
         importo,
         descrizione,
         data,
+        tipo,
         categoria_id,
         categorie ( nome, colore )
       `,
@@ -155,6 +158,7 @@ export class Spese implements OnInit {
       descrizione: this.descrizione,
       categoria_id: this.categoria_id,
       data: this.data || new Date().toISOString().split('T')[0],
+      tipo: this.tipo,
     };
 
     this.loading.show();
@@ -241,6 +245,7 @@ export class Spese implements OnInit {
     this.descrizione = s.descrizione || '';
     this.categoria_id = s.categoria_id || this.categoria_id;
     this.data = s.data ? s.data.slice(0, 10) : this.formatDate(new Date());
+    this.tipo = s.tipo || 'spesa';
     this.cdr.detectChanges();
   }
 
@@ -288,6 +293,7 @@ export class Spese implements OnInit {
     this.descrizione = '';
     this.categoria_id = this.categorie.length > 0 ? this.categorie[0].id : '';
     this.data = this.formatDate(new Date());
+    this.tipo = 'spesa';
     this.cdr.detectChanges();
   }
 
@@ -302,7 +308,7 @@ export class Spese implements OnInit {
 
       return matchesSearch && matchesCategoria;
     });
-    console.log('applyLocalFilters - speseFiltrate length:', this.speseFiltrate.length);  // Debug
+    console.log('applyLocalFilters - speseFiltrate length:', this.speseFiltrate.length); // Debug
     this.cdr.detectChanges();
   }
 

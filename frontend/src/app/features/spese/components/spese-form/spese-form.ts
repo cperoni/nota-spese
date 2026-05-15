@@ -1,31 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { UI_ICONS } from '../../../../shared/config/ui-icons';
 import { UiDateField } from '../../../../shared/ui/ui-date-field/ui-date-field';
-import {
-  UiSelectField,
-  UiSelectOption,
-} from '../../../../shared/ui/ui-select-field/ui-select-field';
+import { UiSelectField, UiSelectOption } from '../../../../shared/ui/ui-select-field/ui-select-field';
 import { UiTextField } from '../../../../shared/ui/ui-text-field/ui-text-field';
 import { CategoriaItem } from '../../../categorie/categorie.types';
+import { TipoMovimento } from '../../spese.types';
 
 @Component({
   selector: 'app-spese-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatIconModule,
-    UiDateField,
-    UiSelectField,
-    UiTextField
-  ],
+  imports: [CommonModule, FormsModule, MatIconModule, UiDateField, UiSelectField, UiTextField],
   templateUrl: './spese-form.html',
   styleUrls: ['./spese-form.scss'],
 })
-export class SpeseForm {
+export class SpeseForm implements OnChanges {
   @Input({ required: true }) icons!: typeof UI_ICONS;
   @Input() editingId: string | null = null;
   @Input() categorie: CategoriaItem[] = [];
@@ -34,6 +25,7 @@ export class SpeseForm {
   @Input() data = '';
   @Input() descrizione = '';
   @Input() categoria_id = '';
+  @Input() tipo: TipoMovimento = 'spesa';   // NUOVO
 
   @Output() submitClicked = new EventEmitter<void>();
   @Output() cancelClicked = new EventEmitter<void>();
@@ -42,6 +34,7 @@ export class SpeseForm {
   @Output() dataChange = new EventEmitter<string>();
   @Output() descrizioneChange = new EventEmitter<string>();
   @Output() categoriaIdChange = new EventEmitter<string>();
+  @Output() tipoChange = new EventEmitter<TipoMovimento>();  // NUOVO
 
   categoriaOptions: UiSelectOption[] = [];
 

@@ -20,6 +20,7 @@ export class SpeseResolver implements Resolve<any[]> {
         importo,
         descrizione,
         data,
+        tipo,
         categoria_id,
         categorie ( nome, colore )
       `)
