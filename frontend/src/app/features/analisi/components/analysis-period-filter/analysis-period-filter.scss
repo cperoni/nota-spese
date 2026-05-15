@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.filter-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.filter-button {
+  border: none;
+  background: #f3f4f6;
+  color: #111827;
+
+  border-radius: 999px;
+
+  padding: 10px 16px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  transform: translateY(-1px);
+}
+
+.filter-button.active {
+  background: #111827;
+  color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  .filter-button {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+
+  .filter-button.active {
+    background: #f9fafb;
+    color: #111827;
+  }
+}

@@ -1,10 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 
 import { SpeseService } from '../../core/service/spese.service';
 
+import { AnalysisPeriodFilterComponent } from './components/analysis-period-filter/analysis-period-filter';
 import { AnalysisStatsComponent } from './components/analysis-stats/analysis-stats';
 import { PieChartComponent } from './components/pie-chart/pie-chart';
+
+type AnalysisItem = {
+  id?: string;
+  nome: string;
+  colore?: string;
+  total: number;
+};
 
 @Component({
   selector: 'app-analisi',
@@ -13,6 +27,7 @@ import { PieChartComponent } from './components/pie-chart/pie-chart';
     CommonModule,
     PieChartComponent,
     AnalysisStatsComponent,
+    AnalysisPeriodFilterComponent,
   ],
   templateUrl: './analisi.html',
   styleUrls: ['./analisi.scss'],
@@ -20,11 +35,11 @@ import { PieChartComponent } from './components/pie-chart/pie-chart';
 export class Analisi implements OnInit {
   private speseService = inject(SpeseService);
 
-  items = signal<
-    { id?: string; nome: string; colore?: string; total: number }[]
-  >([]);
+  items = signal<AnalysisItem[]>([]);
 
   loading = signal(false);
+
+  selectedPeriod = signal(30);
 
   totalAmount = computed(() =>
     this.items().reduce((acc, item) => acc + Number(item.total || 0), 0)
@@ -39,13 +54,33 @@ export class Analisi implements OnInit {
   });
 
   async ngOnInit() {
+    await this.loadData();
+  }
+
+  async onPeriodChange(days: number) {
+    this.selectedPeriod.set(days);
+
+    await this.loadData();
+  }
+
+  private async loadData() {
     this.loading.set(true);
 
-    const res = await this.speseService.getTotalsByCategory();
+    const fromDate = new Date();
+
+    fromDate.setDate(
+      fromDate.getDate() - this.selectedPeriod()
+    );
+
+    const res = await this.speseService.getTotalsByCategory(
+      fromDate.toISOString()
+    );
 
     if (!res.error) {
       this.items.set(
-        (res.data || []).filter((r: any) => Number(r.total) > 0)
+        (res.data || []).filter(
+          (r: any) => Number(r.total) > 0
+        )
       );
     }
 
