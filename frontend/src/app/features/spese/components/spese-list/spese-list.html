@@ -53,14 +53,14 @@
   <div class="saldo-bar card" *ngIf="spese.length > 0">
     <span class="saldo-item entrate">
       <mat-icon>arrow_downward</mat-icon>
-      Entrate: <strong>{{ totaleEntrate | number: '1.2-2' }}€</strong>
+      Entrate: <strong>{{ totaleEntrate | number: '1.2-2' : 'it-IT' }}€</strong>
     </span>
     <span class="saldo-item spese">
       <mat-icon>arrow_upward</mat-icon>
-      Spese: <strong>{{ totaleSpese | number: '1.2-2' }}€</strong>
+      Spese: <strong>{{ totaleSpese | number: '1.2-2' : 'it-IT' }}€</strong>
     </span>
     <span class="saldo-item saldo" [class.positivo]="saldo >= 0" [class.negativo]="saldo < 0">
-      Saldo: <strong>{{ saldo | number: '1.2-2' }}€</strong>
+      Saldo: <strong>{{ saldo | number: '1.2-2' : 'it-IT' }}€</strong>
     </span>
   </div>
 
@@ -89,7 +89,7 @@
           </span>
         </td>
           <td class="amount-col" [class.negative]="s.importo < 0" [class.positive]="s.importo >= 0">
-            <span class="amount-value">{{ s.importo | number: '1.2-2' }}€</span>
+            <span class="amount-value">{{ s.importo | number: '1.2-2' : 'it-IT' }}€</span>
           </td>
           <td>{{ s.descrizione }}</td>
           <td>{{ s.data | date: 'dd/MM/yyyy' }}</td>

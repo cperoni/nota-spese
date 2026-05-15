@@ -3,7 +3,7 @@
 
   <strong class="value">
     @if (typeof value === 'number' && label !== 'Categorie') {
-      {{ value | currency : 'EUR' }}
+      {{ value | currency : 'EUR' : 'symbol' : '1.2-2' : 'it-IT' }}
     } @else {
       {{ value }}
     }
