@@ -11,7 +11,7 @@ L'applicazione dovrà:
 - poter mostrare dei grafici riassuntivi
 - poter gestire le categorie di spesa con la possibilità di inserire, modificare o eliminare.
 - poter fare login e logout.
-- Dal punto di vista tecnico l'applicazione usa Angular 22 con Material sul Frontend. Come backend utilizzo Supabase che gestisce le chiamate e dove ho già creato il database che si chiama spese.
+- Dal punto di vista tecnico l'applicazione usa Angular 21 con Material sul Frontend (verificato in `frontend/package.json`). Come backend utilizzo Supabase che gestisce le chiamate e dove ho già creato il database che si chiama spese.
 - L'applicazione viene poi deploiata su netlify.
 - Il repository è github.
 
@@ -220,4 +220,19 @@ Se vuoi fare un ulteriore upgrade, il prossimo passo è:
 👉 aggiungere esempi reali del tuo codice (es. shell, una feature)
 
 Così Copilot smette completamente di “inventare”.
+
+---
+
+## Risultato scansione progetto
+
+- **Angular:** rilevata versione `^21.x` (confermata in `frontend/package.json`).
+- **Standalone components:** presenti e usati diffusamente (`standalone: true`).
+- **NgModule:** non rilevati nel codice (coerente con l'uso di componenti standalone).
+- **SCSS:** i componenti usano `styleUrls` con file `.scss`; non sono stati trovati file `.css` nelle sorgenti.
+- **`inject()` vs constructor:** uso di `inject()` in più punti (es. `auth.guard.ts`, `shell.ts`).
+- **Signals:** usati in alcuni servizi/componenti (`signal(...)`).
+- **`ElementRef`:** non rilevato (buona pratica rispettata).
+- **`OnPush`:** trovata almeno una occorrenza; valutare di applicarlo dove possibile per performance.
+
+**Raccomandazioni rapide:** aggiungere un breve checklist CI/linter che verifichi `style` `.scss`, assenza di `NgModule`, e l'uso di `inject()`/`signals` quando appropriato.
 
