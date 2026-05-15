@@ -4,6 +4,12 @@
     <p>Grafici riassuntivi delle spese per categoria.</p>
   </header>
 
+  <app-analysis-stats
+    [total]="totalAmount()"
+    [categoriesCount]="items().length"
+    [topCategory]="topCategory()"
+  />
+
   <section class="charts">
     <app-pie-chart [items]="items()"></app-pie-chart>
   </section>

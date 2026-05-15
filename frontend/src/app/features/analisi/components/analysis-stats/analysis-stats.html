@@ -1,0 +1,25 @@
+<div class="stats-grid">
+  <article class="stat-card">
+    <span class="label">Spesa totale</span>
+
+    <strong class="value">
+      {{ total | currency : 'EUR' }}
+    </strong>
+  </article>
+
+  <article class="stat-card">
+    <span class="label">Categorie</span>
+
+    <strong class="value">
+      {{ categoriesCount }}
+    </strong>
+  </article>
+
+  <article class="stat-card">
+    <span class="label">Categoria principale</span>
+
+    <strong class="value">
+      {{ topCategory || '-' }}
+    </strong>
+  </article>
+</div>
