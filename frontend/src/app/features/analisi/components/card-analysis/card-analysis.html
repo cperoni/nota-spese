@@ -2,7 +2,7 @@
   <span class="label">{{ label }}</span>
 
   <strong class="value">
-    @if (typeof value === 'number') {
+    @if (typeof value === 'number' && label !== 'Categorie') {
       {{ value | currency : 'EUR' }}
     } @else {
       {{ value }}
