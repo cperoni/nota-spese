@@ -77,7 +77,8 @@
         </tr>
       </thead>
       <tbody>
-        <td>
+        <tr *ngFor="let s of spese" (click)="editClicked.emit(s)" class="spese-row">
+          <td>
           <span
             class="tipo-chip"
             [class.chip-spesa]="s.tipo === 'spesa'"
@@ -87,7 +88,6 @@
             {{ s.tipo === 'entrata' ? 'Entrata' : 'Spesa' }}
           </span>
         </td>
-        <tr *ngFor="let s of spese" (click)="editClicked.emit(s)" class="spese-row">
           <td class="amount-col" [class.negative]="s.importo < 0" [class.positive]="s.importo >= 0">
             <span class="amount-value">{{ s.importo | number: '1.2-2' }}€</span>
           </td>
