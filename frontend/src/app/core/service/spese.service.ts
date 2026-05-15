@@ -78,7 +78,7 @@ export class SpeseService {
     };
   }
 
-  async getTotalsByTipo(fromDate?: string) {
+  async getTotalsByTipo(fromDate?: string, toDate?: string) {
     let query = supabase.from('spese').select(`
       importo,
       categorie (
@@ -88,6 +88,10 @@ export class SpeseService {
 
     if (fromDate) {
       query = query.gte('data', fromDate);
+    }
+
+    if (toDate) {
+      query = query.lt('data', toDate);
     }
 
     const { data, error } = await query;

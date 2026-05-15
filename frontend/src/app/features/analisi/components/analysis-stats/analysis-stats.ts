@@ -56,7 +56,7 @@ export class AnalysisStatsComponent {
   }
 
   get isPositiveSpeseTrend(): boolean {
-    return this.speseTrendPercentage > 0;
+    return this.speseTrendPercentage < 0;
   }
 
   get isPositiveEntrateTrend(): boolean {

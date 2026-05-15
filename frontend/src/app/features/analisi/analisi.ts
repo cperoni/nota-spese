@@ -111,10 +111,11 @@ export class Analisi implements OnInit {
 
     const previousTipoRes = await this.speseService.getTotalsByTipo(
       previousFrom.toISOString().split('T')[0],
+      previousTo.toISOString().split('T')[0],
     );
 
     if (!currentRes.error) {
-      this.items.set((currentRes.data || []).filter((r: any) => Number(r.total) > 0));
+      this.items.set((currentRes.data || []).filter((r: any) => Number(r.total) > 0 && r.nome !== 'Stipendio'));
     }
 
     if (!currentTipoRes.error) {
