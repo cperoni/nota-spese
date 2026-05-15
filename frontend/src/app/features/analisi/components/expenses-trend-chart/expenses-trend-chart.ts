@@ -19,8 +19,9 @@ import {
   ApexStroke,
   ApexTooltip,
   ApexTheme,
-  ApexXAxis,
   NgApexchartsModule,
+  ApexNonAxisChartSeries,
+  ApexXAxis,
 } from 'ng-apexcharts';
 
 export type TrendChartItem = {
@@ -39,6 +40,7 @@ export type TrendChartItem = {
 export class ExpensesTrendChartComponent implements OnChanges {
   @Input({ required: true })
   items: TrendChartItem[] = [];
+  readonly chartKey = computed(() => this.themeService.theme());
 
   private readonly themeService = inject(ThemeService);
 
@@ -47,91 +49,17 @@ export class ExpensesTrendChartComponent implements OnChanges {
   private readonly themeEffect = effect(() => {
     this.isDarkMode();
 
-    this.applyTheme();
+    this.updateChart();
   });
 
-  chartSeries: ApexAxisChartSeries = [];
-
-  chart: ApexChart = {
-    type: 'area',
-    height: 320,
-    toolbar: {
-      show: false,
-    },
-    zoom: {
-      enabled: false,
-    },
-  };
-
-  stroke: ApexStroke = {
-    curve: 'smooth',
-    width: 3,
-  };
-
-  fill: ApexFill = {
-    type: 'gradient',
-    gradient: {
-      shadeIntensity: 1,
-      opacityFrom: 0.3,
-      opacityTo: 0.05,
-      stops: [0, 100],
-    },
-  };
-
-  dataLabels: ApexDataLabels = {
-    enabled: false,
-  };
-
-  grid: ApexGrid = {
-    borderColor: '#e5e7eb',
-    strokeDashArray: 4,
-  };
-
-  xaxis: ApexXAxis = {
-    categories: [],
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    labels: {
-      style: {
-        colors: '#6b7280',
-      },
-    },
-  };
-
-  tooltip: ApexTooltip = {
-    theme: 'dark',
-    y: {
-      formatter: (value) => `€ ${value}`,
-    },
-  };
-
-  theme: ApexTheme = {
-    mode: 'light',
-  };
-
-  colors: string[] = ['#2563eb'];
+  chartOptions = this.buildChartOptions();
 
   ngOnChanges() {
     this.updateChart();
   }
 
   private updateChart() {
-    this.applyTheme();
-    this.chartSeries = [
-      {
-        name: 'Spese',
-        data: this.items.map((item) => Number(item.total)),
-      },
-    ];
-
-    this.xaxis = {
-      ...this.xaxis,
-      categories: this.items.map((item) => this.formatDate(item.date)),
-    };
+    this.chartOptions = this.buildChartOptions();
   }
 
   private applyTheme() {
@@ -140,37 +68,6 @@ export class ExpensesTrendChartComponent implements OnChanges {
     const secondaryTextColor = isDark ? '#9ca3af' : '#6b7280';
 
     const borderColor = isDark ? '#374151' : '#e5e7eb';
-
-    this.theme = {
-      mode: isDark ? 'dark' : 'light',
-    };
-
-    this.colors = [isDark ? '#60a5fa' : '#2563eb'];
-
-    this.grid = {
-      ...this.grid,
-      borderColor,
-    };
-
-    this.xaxis = {
-      ...this.xaxis,
-      labels: {
-        style: {
-          colors: secondaryTextColor,
-        },
-      },
-    };
-
-    this.tooltip = {
-      ...this.tooltip,
-      theme: isDark ? 'dark' : 'light',
-    };
-
-    this.chart = {
-      ...this.chart,
-      foreColor: secondaryTextColor,
-      background: 'transparent',
-    };
   }
 
   private formatDate(date: string) {
@@ -178,5 +75,94 @@ export class ExpensesTrendChartComponent implements OnChanges {
       day: '2-digit',
       month: '2-digit',
     });
+  }
+
+  private buildChartOptions() {
+    const isDark = this.isDarkMode();
+
+    const textColor = isDark ? '#e5e7eb' : '#475569';
+
+    const borderColor = isDark ? '#374151' : '#e2e8f0';
+
+    const lineColor = isDark ? '#60a5fa' : '#2563eb';
+
+    return {
+      series: [
+        {
+          name: 'Spese',
+          data: this.items.map((item) => Number(item.total)),
+        },
+      ] as ApexAxisChartSeries,
+
+      chart: {
+        type: 'area',
+        height: 320,
+        background: isDark ? '#1f2937' : '#ffffff',
+        toolbar: {
+          show: false,
+        },
+        zoom: {
+          enabled: false,
+        },
+        foreColor: textColor,
+      } as ApexChart,
+
+      colors: [lineColor],
+
+      stroke: {
+        curve: 'smooth',
+        width: 3,
+      } as ApexStroke,
+
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: isDark ? 0.35 : 0.2,
+          opacityTo: 0.03,
+          stops: [0, 100],
+        },
+      } as ApexFill,
+
+      dataLabels: {
+        enabled: false,
+      } as ApexDataLabels,
+
+      grid: {
+        borderColor,
+        strokeDashArray: 4,
+      } as ApexGrid,
+
+      xaxis: {
+        categories: this.items.map((item) => this.formatDate(item.date)),
+
+        axisBorder: {
+          show: false,
+        },
+
+        axisTicks: {
+          show: false,
+        },
+
+        labels: {
+          style: {
+            colors: textColor,
+          },
+        },
+      } as ApexXAxis,
+
+      tooltip: {
+        theme: isDark ? 'dark' : 'light',
+        shared: true,
+        intersect: false,
+        y: {
+          formatter: (value: number) => `€ ${value}`,
+        },
+      } as ApexTooltip,
+
+      theme: {
+        mode: isDark ? 'dark' : 'light',
+      } as ApexTheme,
+    };
   }
 }

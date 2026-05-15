@@ -4,15 +4,16 @@
   </div>
 
   <apx-chart
-    [series]="chartSeries"
-    [chart]="chart"
-    [stroke]="stroke"
-    [fill]="fill"
-    [grid]="grid"
-    [xaxis]="xaxis"
-    [tooltip]="tooltip"
-    [theme]="theme"
-    [colors]="colors"
-    [dataLabels]="dataLabels"
+    [attr.key]="chartKey()"
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [stroke]="chartOptions.stroke"
+    [fill]="chartOptions.fill"
+    [grid]="chartOptions.grid"
+    [xaxis]="chartOptions.xaxis"
+    [tooltip]="chartOptions.tooltip"
+    [dataLabels]="chartOptions.dataLabels"
+    [theme]="chartOptions.theme"
+    [colors]="chartOptions.colors"
   />
 </div>
